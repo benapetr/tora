@@ -45,10 +45,10 @@ namespace ToConfiguration
 {
 	class Oracle : public ConfigContext
 	{
-		Q_OBJECT;
-		Q_ENUMS(OptionTypeEnum);
+        Q_OBJECT
+        Q_ENUMS(OptionTypeEnum)
 	public:
-		Oracle() : ConfigContext("Oracle", ENUM_REF(Oracle,OptionTypeEnum)) {};
+        Oracle() : ConfigContext("Oracle", ENUM_REF(Oracle,OptionTypeEnum)) {}
 		enum OptionTypeEnum {
 			ConfDateFormat = 5000 // #define CONF_DATE_FORMAT
 			, ConfTimestampFormat // #define CONF_TIMESTAMP_FORMAT
@@ -72,7 +72,7 @@ namespace ToConfiguration
 		virtual QVariant defaultValue(int option) const;
 		static QString planTable(QString const& schema);
 	};
-};
+}
 
 /** Instance of this class is returned by dll class toOracleProvider.
   * But even though this class is part of the main program
@@ -86,7 +86,7 @@ class TORA_EXPORT toOracleSetting
     , public Ui::toOracleSettingUI
     , public toSettingTab
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
     toOracleSetting(QWidget *parent);
