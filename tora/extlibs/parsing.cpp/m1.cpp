@@ -15,133 +15,135 @@ using namespace std;
 // The lexer is supplied with a pANTLR3_INPUT_STREAM from whence it consumes its
 // input and generates a token stream as output.
 //
-static    MySQLLexer*		    lxr;
+static    MySQLLexer*           lxr;
 
 // Main entry point for this example
 //
-int 
-main	(int argc, char *argv[])
+int
+main    (int argc, char *argv[])
 {
     // Create the input stream based upon the argument supplied to us on the command line
     // for this example, the input will always default to ./input if there is no explicit
     // argument, otherwise we are expecting potentially a whole list of 'em.
     //
-	if (argc < 2 || argv[1] == NULL)
-	{
-		Utils::processDir("./input"); // Note in VS2005 debug, working directory must be configured
-	}
-	else
-	{
-		int i;
+    if (argc < 2 || argv[1] == NULL)
+    {
+        Utils::processDir("./input"); // Note in VS2005 debug, working directory must be configured
+    }
+    else
+    {
+        int i;
 
-		for (i = 1; i < argc; i++)
-		{
-			Utils::processDir(argv[i]);
-		}
-	}
+        for (i = 1; i < argc; i++)
+        {
+            Utils::processDir(argv[i]);
+        }
+    }
 
-	printf("finished parsing OK\n");	// Finnish parking is pretty good - I think it is all the snow
+    printf("finished parsing OK\n");    // Finnish parking is pretty good - I think it is all the snow
 
-	return 0;
+    return 0;
 }
 
 void parseFile(const char* fName, int fd)
 {
-	// Now we declare the ANTLR related local variables we need.
-	// Note that unless you are convinced you will never need thread safe
-	// versions for your project, then you should always create such things
-	// as instance variables for each invocation.
-	// -------------------
+    // Now we declare the ANTLR related local variables we need.
+    // Note that unless you are convinced you will never need thread safe
+    // versions for your project, then you should always create such things
+    // as instance variables for each invocation.
+    // -------------------
 
-	// The ANTLR3 character input stream, which abstracts the input source such that
-	// it is easy to privide inpput from different sources such as files, or 
-	// memory strings.
-	//
-	// For an ASCII/latin-1 memory string use:
-	//	    input = antlr3NewAsciiStringInPlaceStream (stringtouse, (ANTLR3_UINT64) length, NULL);
-	//
-	// For a UCS2 (16 bit) memory string use:
-	//	    input = antlr3NewUCS2StringInPlaceStream (stringtouse, (ANTLR3_UINT64) length, NULL);
-	//
-	// For input from a file, see code below
-	//
-	// Note that this is essentially a pointer to a structure containing pointers to functions.
-	// You can create your own input stream type (copy one of the existing ones) and override any
-	// individual function by installing your own pointer after you have created the standard 
-	// version.
-	//
-	MySQLLexerTraits::InputStreamType*    input;
+    // The ANTLR3 character input stream, which abstracts the input source such that
+    // it is easy to privide inpput from different sources such as files, or
+    // memory strings.
+    //
+    // For an ASCII/latin-1 memory string use:
+    //      input = antlr3NewAsciiStringInPlaceStream (stringtouse, (ANTLR3_UINT64) length, NULL);
+    //
+    // For a UCS2 (16 bit) memory string use:
+    //      input = antlr3NewUCS2StringInPlaceStream (stringtouse, (ANTLR3_UINT64) length, NULL);
+    //
+    // For input from a file, see code below
+    //
+    // Note that this is essentially a pointer to a structure containing pointers to functions.
+    // You can create your own input stream type (copy one of the existing ones) and override any
+    // individual function by installing your own pointer after you have created the standard
+    // version.
+    //
+    MySQLLexerTraits::InputStreamType*    input;
 
 
-	// The token stream is produced by the ANTLR3 generated lexer. Again it is a structure based
-	// API/Object, which you can customise and override methods of as you wish. a Token stream is
-	// supplied to the generated parser, and you can write your own token stream and pass this in
-	// if you wish.
-	//
-	MySQLLexerTraits::TokenStreamType*	tstream;
+    // The token stream is produced by the ANTLR3 generated lexer. Again it is a structure based
+    // API/Object, which you can customise and override methods of as you wish. a Token stream is
+    // supplied to the generated parser, and you can write your own token stream and pass this in
+    // if you wish.
+    //
+    MySQLLexerTraits::TokenStreamType*  tstream;
 
-	// Create the input stream using the supplied file name
-	// (Use antlr3AsciiFileStreamNew for UCS2/16bit input).
-	//
-	///byIvan input	= new MySQLTraits::InputStreamType(fName, ANTLR_ENC_8BIT);
+    // Create the input stream using the supplied file name
+    // (Use antlr3AsciiFileStreamNew for UCS2/16bit input).
+    //
+    ///byIvan input = new MySQLTraits::InputStreamType(fName, ANTLR_ENC_8BIT);
 #if defined __linux
-	string data = Utils::slurp(fd);
+    string data = Utils::slurp(fd);
 #else
-	string data = Utils::slurp(fName);
+    string data = Utils::slurp(fName);
 #endif
-	input	= new MySQLLexerTraits::InputStreamType((const ANTLR_UINT8 *)data.c_str(),
-						   ANTLR_ENC_8BIT,
-						   data.length(), //strlen(data.c_str()),
-						   (ANTLR_UINT8*)fName);
+    input   = new MySQLLexerTraits::InputStreamType((const ANTLR_UINT8 *)data.c_str(),
+            ANTLR_ENC_8BIT,
+            data.length(), //strlen(data.c_str()),
+            (ANTLR_UINT8*)fName);
 
-	input->setUcaseLA(true);
-    
-	// Our input stream is now open and all set to go, so we can create a new instance of our
-	// lexer and set the lexer input to our input stream:
-	//  (file | memory | ?) --> inputstream -> lexer --> tokenstream --> parser ( --> treeparser )?
-	//
-	if (lxr == NULL)
-	{
-		lxr	    = new MySQLLexer(input);	    // javaLexerNew is generated by ANTLR
-	}
-	else
-	{
-		lxr->setCharStream(input);
-	}
+    input->setUcaseLA(true);
 
-	// Our lexer is in place, so we can create the token stream from it
-	// NB: Nothing happens yet other than the file has been read. We are just 
-	// connecting all these things together and they will be invoked when we
-	// call the parser rule. ANTLR3_SIZE_HINT can be left at the default usually
-	// unless you have a very large token stream/input. Each generated lexer
-	// provides a token source interface, which is the second argument to the
-	// token stream creator.
-	// Note tha even if you implement your own token structure, it will always
-	// contain a standard common token within it and this is the pointer that
-	// you pass around to everything else. A common token as a pointer within
-	// it that should point to your own outer token structure.
-	//
-	tstream = new MySQLLexerTraits::TokenStreamType(ANTLR_SIZE_HINT, lxr->get_tokSource());
+    // Our input stream is now open and all set to go, so we can create a new instance of our
+    // lexer and set the lexer input to our input stream:
+    //  (file | memory | ?) --> inputstream -> lexer --> tokenstream --> parser ( --> treeparser )?
+    //
+    if (lxr == NULL)
+    {
+        lxr     = new MySQLLexer(input);        // javaLexerNew is generated by ANTLR
+    }
+    else
+    {
+        lxr->setCharStream(input);
+    }
 
-	// Note that this means only that the methods are always called via the object
-	// pointer and the first argument to any method, is a pointer to the structure itself.
-	// It also has the side advantage, if you are using an IDE such as VS2005 that can do it
-	// that when you type ->, you will see a list of tall the methods the object supports.
-	//
-	putc('L', stdout); fflush(stdout);
-	{
-		ANTLR_INT32 T = 0;
-		while	(T != MySQLLexer::EOF_TOKEN)
-		{
-			T = tstream->_LA(1);
-			printf("%d %s\n", T,  tstream->_LT(1)->getText().c_str());
-			tstream->consume();
-		}
-	}
+    // Our lexer is in place, so we can create the token stream from it
+    // NB: Nothing happens yet other than the file has been read. We are just
+    // connecting all these things together and they will be invoked when we
+    // call the parser rule. ANTLR3_SIZE_HINT can be left at the default usually
+    // unless you have a very large token stream/input. Each generated lexer
+    // provides a token source interface, which is the second argument to the
+    // token stream creator.
+    // Note tha even if you implement your own token structure, it will always
+    // contain a standard common token within it and this is the pointer that
+    // you pass around to everything else. A common token as a pointer within
+    // it that should point to your own outer token structure.
+    //
+    tstream = new MySQLLexerTraits::TokenStreamType(ANTLR_SIZE_HINT, lxr->get_tokSource());
 
-	tstream->_LT(1);	// Don't do this mormally, just causes lexer to run for timings here
+    // Note that this means only that the methods are always called via the object
+    // pointer and the first argument to any method, is a pointer to the structure itself.
+    // It also has the side advantage, if you are using an IDE such as VS2005 that can do it
+    // that when you type ->, you will see a list of tall the methods the object supports.
+    //
+    putc('L', stdout);
+    fflush(stdout);
+    {
+        ANTLR_INT32 T = 0;
+        while   (T != MySQLLexer::EOF_TOKEN)
+        {
+            T = tstream->_LA(1);
+            printf("%d %s\n", T,  tstream->_LT(1)->getText().c_str());
+            tstream->consume();
+        }
+    }
 
-	delete tstream; 
-	delete lxr; lxr = NULL;
-	delete input; 
+    tstream->_LT(1);    // Don't do this mormally, just causes lexer to run for timings here
+
+    delete tstream;
+    delete lxr;
+    lxr = NULL;
+    delete input;
 }

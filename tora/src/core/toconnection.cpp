@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -66,7 +66,7 @@ toConnection::toConnection(const QString &provider,
     , pTrait(NULL)
     , Abort(false)
     , LoanCnt(0)
-	, ConnectionOptions(provider, host, database, user, password, schema, color , 0, options)
+    , ConnectionOptions(provider, host, database, user, password, schema, color , 0, options)
 {
     pConnectionImpl = toConnectionProviderRegistrySing::Instance().get(provider).createConnectionImpl(*this);
     pTrait = toConnectionProviderRegistrySing::Instance().get(provider).createConnectionTrait();
@@ -83,7 +83,7 @@ toConnection::toConnection(const QString &provider,
     {
         QMutexLocker clock(&ConnectionLock);
         if (toConfigurationNewSingle::Instance().option(ToConfiguration::Database::ObjectCacheInt).toInt() == toCache::ON_CONNECT)
-        	pCache->readCache();
+            pCache->readCache();
 
     }
 }
@@ -101,7 +101,7 @@ toConnection::toConnection(const toConnectionOptions &opts)
     , pTrait(NULL)
     , Abort(false)
     , LoanCnt(0)
-	, ConnectionOptions(opts)
+    , ConnectionOptions(opts)
 {
     pConnectionImpl = toConnectionProviderRegistrySing::Instance().get(Provider).createConnectionImpl(*this);
     pTrait = toConnectionProviderRegistrySing::Instance().get(Provider).createConnectionTrait();
@@ -118,7 +118,7 @@ toConnection::toConnection(const toConnectionOptions &opts)
     {
         QMutexLocker clock(&ConnectionLock);
         if (toConfigurationNewSingle::Instance().option(ToConfiguration::Database::ObjectCacheInt) == toCache::ON_CONNECT)
-        	pCache->readCache();
+            pCache->readCache();
 
     }
 }
@@ -129,7 +129,7 @@ toConnection::toConnection(const toConnection &other)
     , Password(other.Password)
     , Host(other.Host)
     , Database(other.Database)
-	, Version(other.Version)
+    , Version(other.Version)
     , Schema(other.Schema)
     , Color(other.Color)
     , Options(other.Options)
@@ -138,7 +138,7 @@ toConnection::toConnection(const toConnection &other)
     , pTrait(other.pTrait)
     , Abort(other.Abort)
     , LoanCnt(0)
-	, ConnectionOptions(other.ConnectionOptions)
+    , ConnectionOptions(other.ConnectionOptions)
 {
     //tool Connection = toConnectionProvider::connection(Provider, this);
     //ConnectionPool = new toConnectionPool(this);
@@ -149,7 +149,7 @@ toConnection::toConnection(const toConnection &other)
     setDefaultSchema(other.Schema);
 
     {
-    	QWriteLocker lock(&pCache->cacheLock);
+        QWriteLocker lock(&pCache->cacheLock);
         pCache->refCount.fetchAndAddAcquire(1);
     }
 }
@@ -169,9 +169,9 @@ void toConnection::closeConnection(toConnectionSub *sub)
         sub->close();
         Connections.remove(sub);
 //    } else if (LentConnections.contains(sub)) {
-//    	sub->cancel();
+//      sub->cancel();
     } else
-    	throw exception("Can not close non-existing toConnectionSub");
+        throw exception("Can not close non-existing toConnectionSub");
 }
 
 QList<QString> toConnection::running(void) const
@@ -181,9 +181,9 @@ QList<QString> toConnection::running(void) const
     QList<QString> ret;
     Q_FOREACH(toConnectionSub *conn, LentConnections)
     {
-    	static QString sql("Session: %1\n%2\n");
-    	toQuery *query = conn->query();
-    	ret << sql.arg(conn->sessionId()).arg(query ? query->sql() : QString("None"));
+        static QString sql("Session: %1\n%2\n");
+        toQuery *query = conn->query();
+        ret << sql.arg(conn->sessionId()).arg(query ? query->sql() : QString("None"));
     }
     return ret;
 }
@@ -207,12 +207,12 @@ toConnection::~toConnection()
 
     unsigned cacheNewRefCnt;
     {
-    	QWriteLocker clock(&getCache().cacheLock);
+        QWriteLocker clock(&getCache().cacheLock);
         cacheNewRefCnt = getCache().refCount.deref();
     }
     if(cacheNewRefCnt == 0)
     {
-		getCache().writeDiskCache();
+        getCache().writeDiskCache();
         delete this->pCache;
     }
 
@@ -238,11 +238,11 @@ void toConnection::commit(void)
 {
     QMutexLocker clock(&ConnectionLock);
     if((int)LoanCnt)
-    	throw qApp->translate("toConnection::commit", "Couldn't commit, while connection is active");
+        throw qApp->translate("toConnection::commit", "Couldn't commit, while connection is active");
 
     Q_FOREACH(toConnectionSub *conn, Connections)
     {
-    	conn->commit();
+        conn->commit();
     }
 }
 
@@ -254,7 +254,7 @@ void toConnection::rollback(toConnectionSub *sub)
 
 void toConnection::delWidget(QWidget *widget)
 {
-	Widgets.remove(widget);
+    Widgets.remove(widget);
 
 #ifdef QT_DEBUG
     // Cross check tools connections against connections widgets
@@ -263,8 +263,8 @@ void toConnection::delWidget(QWidget *widget)
     QList<toToolWidget*> tools = toWorkSpaceSingle::Instance().toolWindowList();
     Q_FOREACH(toToolWidget *tool, tools)
     {
-    	if (this->ConnectionOptions == tool->connection().connectionOptions())
-    		toolCnt++;
+        if (this->ConnectionOptions == tool->connection().connectionOptions())
+            toolCnt++;
     }
     Q_ASSERT_X(toolCnt == Widgets.size(), qPrintable(__QHERE__), "Widgets.size() != toolCnt");
 #endif
@@ -281,12 +281,12 @@ void toConnection::addWidget(QWidget *widget)
     QList<toToolWidget*> tools = toWorkSpaceSingle::Instance().toolWindowList();
     Q_FOREACH(toToolWidget *tool, tools)
     {
-    	if (this->ConnectionOptions == tool->connection().connectionOptions())
-    		toolCnt++;
+        if (this->ConnectionOptions == tool->connection().connectionOptions())
+            toolCnt++;
     }
-	// +1:  This widget was not yet regitered with toWorkSpaceSingle(has no parent). (See: toTool::createWindow())
-	if (widget->parent() == NULL)
-		toolCnt++;
+    // +1:  This widget was not yet regitered with toWorkSpaceSingle(has no parent). (See: toTool::createWindow())
+    if (widget->parent() == NULL)
+        toolCnt++;
     Q_ASSERT_X(toolCnt == Widgets.size(), qPrintable(__QHERE__), "Widgets.size() != toolCnt");
 #endif
 }
@@ -294,73 +294,73 @@ void toConnection::addWidget(QWidget *widget)
 bool toConnection::closeWidgets(void)
 {
     //for (QList<QPointer<QWidget> >::iterator i = Widgets.begin(); i != Widgets.end();  i++)
-	Q_FOREACH(QWidget* widget, Widgets)
+    Q_FOREACH(QWidget* widget, Widgets)
     {
-    	if (toToolWidget *toolWidget = dynamic_cast<toToolWidget*>(widget))
-    	{
-        	bool retval = toWorkSpaceSingle::Instance().closeToolWidget(toolWidget);
-        	if (retval)
-        	{
-        		bool removed = Widgets.remove(widget); // TODO: check if QT containers support modification while being iterated
-        		continue;
-        	}
-        	else
-        		return false;
-    	}
-    	Q_ASSERT_X(false, qPrintable(__QHERE__), qPrintable(QString("Unknown toConnectionWidget: %1").arg(widget->metaObject()->className())));
+        if (toToolWidget *toolWidget = dynamic_cast<toToolWidget*>(widget))
+        {
+            bool retval = toWorkSpaceSingle::Instance().closeToolWidget(toolWidget);
+            if (retval)
+            {
+                bool removed = Widgets.remove(widget); // TODO: check if QT containers support modification while being iterated
+                continue;
+            }
+            else
+                return false;
+        }
+        Q_ASSERT_X(false, qPrintable(__QHERE__), qPrintable(QString("Unknown toConnectionWidget: %1").arg(widget->metaObject()->className())));
     }
-	Q_ASSERT_X(Widgets.isEmpty(), qPrintable(__QHERE__), "toConnection::Widgets is not empty");
+    Q_ASSERT_X(Widgets.isEmpty(), qPrintable(__QHERE__), "toConnection::Widgets is not empty");
     return true;
 }
 
 void toConnection::connectionsMenu(QMenu *menu)
 {
-	menu->clear();
-	//menu->disconnect(this);
-	Q_FOREACH(QAction *a, ConnectionActions)
-	{
-		bool removed = ConnectionActions.remove(a);
-		delete a;
-	}
+    menu->clear();
+    //menu->disconnect(this);
+    Q_FOREACH(QAction *a, ConnectionActions)
+    {
+        bool removed = ConnectionActions.remove(a);
+        delete a;
+    }
 
-	QMutexLocker clock(&ConnectionLock);
-	Q_FOREACH(toConnectionSub* conn, LentConnections)
-	{
-		QMenu *sess = menu->addMenu(conn->sessionId());
-		QAction *cancel = new QAction("Cancel", this);
-		QAction *close = new QAction("Close", this);
-		cancel->setData(VPtr<toConnectionSub>::asQVariant(conn));
-		close->setData(VPtr<toConnectionSub>::asQVariant(conn));
-		sess->addAction(cancel);
-		sess->addAction(close);
-		ConnectionActions.insert(cancel);
-		ConnectionActions.insert(close);
-		connect(sess, SIGNAL(triggered(QAction *)), this, SLOT(commandCallback(QAction *)));
-	}
-	menu->addSeparator();
-	Q_FOREACH(toConnectionSub* conn, Connections)
-	{
-		QMenu *sess = menu->addMenu(conn->sessionId());
-		QAction *close = new QAction("Close", this);
-		close->setData(VPtr<toConnectionSub>::asQVariant(conn));
-		sess->addAction(close);
-		ConnectionActions.insert(close);
-		connect(sess, SIGNAL(triggered(QAction *)), this, SLOT(commandCallback(QAction *)));
-	}
+    QMutexLocker clock(&ConnectionLock);
+    Q_FOREACH(toConnectionSub* conn, LentConnections)
+    {
+        QMenu *sess = menu->addMenu(conn->sessionId());
+        QAction *cancel = new QAction("Cancel", this);
+        QAction *close = new QAction("Close", this);
+        cancel->setData(VPtr<toConnectionSub>::asQVariant(conn));
+        close->setData(VPtr<toConnectionSub>::asQVariant(conn));
+        sess->addAction(cancel);
+        sess->addAction(close);
+        ConnectionActions.insert(cancel);
+        ConnectionActions.insert(close);
+        connect(sess, SIGNAL(triggered(QAction *)), this, SLOT(commandCallback(QAction *)));
+    }
+    menu->addSeparator();
+    Q_FOREACH(toConnectionSub* conn, Connections)
+    {
+        QMenu *sess = menu->addMenu(conn->sessionId());
+        QAction *close = new QAction("Close", this);
+        close->setData(VPtr<toConnectionSub>::asQVariant(conn));
+        sess->addAction(close);
+        ConnectionActions.insert(close);
+        connect(sess, SIGNAL(triggered(QAction *)), this, SLOT(commandCallback(QAction *)));
+    }
 }
 
 void toConnection::commandCallback(QAction *act)
 {
-	QString actionStr = act->text();
-	toConnectionSub *conn = VPtr<toConnectionSub>::asPtr(act->data());
-	if ( LentConnections.contains(conn))
-	{
+    QString actionStr = act->text();
+    toConnectionSub *conn = VPtr<toConnectionSub>::asPtr(act->data());
+    if ( LentConnections.contains(conn))
+    {
 
-	} else if ( Connections.contains(conn)) {
+    } else if ( Connections.contains(conn)) {
 
-	} else {
-		Q_ASSERT_X(false, qPrintable(__QHERE__), "Invalid QAction pointing onto unknown toConnectionSub");
-	}
+    } else {
+        Q_ASSERT_X(false, qPrintable(__QHERE__), "Invalid QAction pointing onto unknown toConnectionSub");
+    }
 
 }
 
@@ -394,7 +394,7 @@ QString toConnection::description(bool version) const
 /** Set connection's current schema. */
 void toConnection::setDefaultSchema(QString const & schema)
 {
-	Schema = schema;
+    Schema = schema;
 }
 
 void toConnection::setInit(const QString &key, const QString &sql)
@@ -433,15 +433,15 @@ toConnectionSub* toConnection::borrowSub()
         Connections.remove(retval);
         LentConnections.insert(retval);
         LoanCnt.fetchAndAddAcquire(1);
-		Q_ASSERT_X((int)LoanCnt == LentConnections.size(), qPrintable(__QHERE__), "Invalid number of lent toConnectionSub(s)");
+        Q_ASSERT_X((int)LoanCnt == LentConnections.size(), qPrintable(__QHERE__), "Invalid number of lent toConnectionSub(s)");
         return retval;
     }
     else
     {
-		toConnectionSub* retval = addConnection();
-		LoanCnt.fetchAndAddAcquire(1);
-		LentConnections.insert(retval);
-		Q_ASSERT_X((int)LoanCnt == LentConnections.size(), qPrintable(__QHERE__), "Invalid number of lent toConnectionSub(s)");
+        toConnectionSub* retval = addConnection();
+        LoanCnt.fetchAndAddAcquire(1);
+        LentConnections.insert(retval);
+        Q_ASSERT_X((int)LoanCnt == LentConnections.size(), qPrintable(__QHERE__), "Invalid number of lent toConnectionSub(s)");
         return retval;
     }
 }
@@ -454,34 +454,34 @@ void toConnection::putBackSub(toConnectionSub *conn)
 
     try
     {
-    	if(conn->hasTransaction())
-    		conn->rollback();
+        if(conn->hasTransaction())
+            conn->rollback();
     }
     TOCATCH
 
     if(conn->isBroken())
     {
-    	delete conn;
+        delete conn;
     } else if(Connections.size() >= toConfigurationNewSingle::Instance().option(ToConfiguration::Database::CachedConnectionsInt).toInt()) {
-    	delete conn;
+        delete conn;
     }
     else
-    	Connections.insert(conn);
+        Connections.insert(conn);
     bool removed = LentConnections.remove(conn);
-	Q_ASSERT_X(removed, qPrintable(__QHERE__), "Lent connection not found");
-	Q_ASSERT_X((int)LoanCnt == LentConnections.size(), qPrintable(__QHERE__), "Invalid number of lent toConnectionSub(s)");
+    Q_ASSERT_X(removed, qPrintable(__QHERE__), "Lent connection not found");
+    Q_ASSERT_X((int)LoanCnt == LentConnections.size(), qPrintable(__QHERE__), "Invalid number of lent toConnectionSub(s)");
 }
 
 void toConnection::allExecute(QString const& sql)
 {
-	try
-	{
-		Q_FOREACH(toConnectionSub *con, Connections)
-		{
-			//TODO
-			//toQuery q(*con, sql, toQueryParams());
-			//q.eof();
-		}
-	}
-	TOCATCH
+    try
+    {
+        Q_FOREACH(toConnectionSub *con, Connections)
+        {
+            //TODO
+            //toQuery q(*con, sql, toQueryParams());
+            //q.eof();
+        }
+    }
+    TOCATCH
 }

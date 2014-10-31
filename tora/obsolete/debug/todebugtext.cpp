@@ -124,9 +124,9 @@ void toBreakpointItem::setBreakpoint(void)
         toConnection &conn = toConnection::currentConnection(listView());
         toQueryParams args;
         args << toQValue(Namespace)
-        		<< toQValue(text(0))
-        		<< toQValue(text(2))
-        		<< toQValue(Line + 1);
+             << toQValue(text(0))
+             << toQValue(text(2))
+             << toQValue(Line + 1);
         toQuery query(conn, SQLBreakpoint, args);
         int ret = query.readValue().toInt();
         if (ret == TO_SUCCESS)

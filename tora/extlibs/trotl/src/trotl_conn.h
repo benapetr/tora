@@ -174,9 +174,9 @@ struct TROTL_EXPORT OciLogin : public OciHandle<OCISvcCtx>
 		: super(env)
 		, _server(env)
 		, _session(env)
-		, _connected(false)
 		, _sid(0)
 		, _serial(0)
+        , _connected(false)
 
 	{
 		connect(login_para._username, login_para._password, login_para._tnsname, mode);

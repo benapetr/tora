@@ -1,9 +1,9 @@
 // This module implements the QsciLexerCustom class.
 //
 // Copyright (c) 2012 Riverbank Computing Limited <info@riverbankcomputing.com>
-// 
+//
 // This file is part of QScintilla.
-// 
+//
 // This file may be used under the terms of the GNU General Public
 // License versions 2.0 or 3.0 as published by the Free Software
 // Foundation and appearing in the files LICENSE.GPL2 and LICENSE.GPL3
@@ -15,10 +15,10 @@
 // certain additional rights. These rights are described in the Riverbank
 // GPL Exception version 1.1, which can be found in the file
 // GPL_EXCEPTION.txt in this package.
-// 
+//
 // If you are unsure which license is appropriate for your use, please
 // contact the sales department at sales@riverbankcomputing.com.
-// 
+//
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -53,7 +53,7 @@ void QsciLexerCustom::startStyling(int start, int styleBits)
         styleBits = (1 << styleBitsNeeded()) - 1;
 
     editor()->SendScintilla(QsciScintillaBase::SCI_STARTSTYLING, start,
-            styleBits);
+                            styleBits);
 }
 
 
@@ -79,7 +79,7 @@ void QsciLexerCustom::setEditor(QsciScintilla *new_editor)
 {
     if (editor())
         disconnect(editor(), SIGNAL(SCN_STYLENEEDED(int)), this,
-                SLOT(handleStyleNeeded(int)));
+                   SLOT(handleStyleNeeded(int)));
 
     QsciLexer::setEditor(new_editor);
 
@@ -101,9 +101,9 @@ void QsciLexerCustom::handleStyleNeeded(int pos)
 {
     int start = editor()->SendScintilla(QsciScintillaBase::SCI_GETENDSTYLED);
     int line = editor()->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION,
-            start);
+                                       start);
     start = editor()->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
-            line);
+                                    line);
 
     if (start != pos)
         styleText(start, pos);

@@ -11,11 +11,11 @@
   modification, are permitted provided that the following conditions are met:
 
   * Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+    notice, this list of conditions and the following disclaimer.
   * Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in
-	the documentation and/or other materials provided with the
-	distribution.
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the
+    distribution.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -54,115 +54,115 @@ Util::RegisterInFactory<BindParDate, DefineParFactTwoParmSing, int> regDefineTim
 
 BindParDate::BindParDate(unsigned int pos, SqlStatement &stmt, DescribeColumn* ct) : BindPar(pos, stmt, ct)
 {
-	valuep = (void**) calloc(_cnt, sizeof(OCIDate));
+    valuep = (void**) calloc(_cnt, sizeof(OCIDate));
 
-	dty = SQLT_ODT;
-	value_sz = sizeof(OCIDate);
-	for(unsigned i = 0; i < _cnt; ++i)
-	{
-		((ub2*)rlenp)[i] = (ub2) value_sz;
-	}
-	_type_name = ct->typeName();
-	
+    dty = SQLT_ODT;
+    value_sz = sizeof(OCIDate);
+    for(unsigned i = 0; i < _cnt; ++i)
+    {
+        ((ub2*)rlenp)[i] = (ub2) value_sz;
+    }
+    _type_name = ct->typeName();
+
 }
 
 BindParDate::BindParDate(unsigned int pos, SqlStatement &stmt, BindVarDecl &decl): BindPar(pos, stmt, decl)
 {
-	valuep = (void**) calloc(_cnt, sizeof(OCIDate));
+    valuep = (void**) calloc(_cnt, sizeof(OCIDate));
 
-	dty = SQLT_ODT;
-	value_sz = sizeof(OCIDate);
-	for(unsigned i = 0; i < _cnt; ++i)
-	{
-		((ub4*)rlenp)[i] = (ub4) value_sz;
-	}
-	_type_name = "DATE";
+    dty = SQLT_ODT;
+    value_sz = sizeof(OCIDate);
+    for(unsigned i = 0; i < _cnt; ++i)
+    {
+        ((ub4*)rlenp)[i] = (ub4) value_sz;
+    }
+    _type_name = "DATE";
 }
 
 tstring BindParDate::get_string(unsigned int row) const
 {
 
-	if(!indp[row])
-	{
-		text str_buf[200];
-		ub4 str_len = sizeof(str_buf) / sizeof( *str_buf);
+    if(!indp[row])
+    {
+        text str_buf[200];
+        ub4 str_len = sizeof(str_buf) / sizeof( *str_buf);
 
-		//const char fmt[] = "YYYY:MM:DD HH24:MI:SS";
-		const char lang_fmt[] = "American";
+        //const char fmt[] = "YYYY:MM:DD HH24:MI:SS";
+        const char lang_fmt[] = "American";
 
-		sword res = OCICALL(OCIDateToText(_env._errh,
-		                                  &(((OCIDate*)valuep)[row]),
-		                                  (CONST text*) g_TROTL_DEFAULT_DATE_FTM,
-		                                  (ub4)strlen(g_TROTL_DEFAULT_DATE_FTM),
-		                                  (CONST text*) lang_fmt,
-		                                  (ub4) sizeof(lang_fmt)-1,
-		                                  (ub4 *)&str_len,
-		                                  str_buf
-		                                 ));
-		oci_check_error(__TROTL_HERE__, _env._errh, res);
+        sword res = OCICALL(OCIDateToText(_env._errh,
+                                          &(((OCIDate*)valuep)[row]),
+                                          (CONST text*) g_TROTL_DEFAULT_DATE_FTM,
+                                          (ub4)strlen(g_TROTL_DEFAULT_DATE_FTM),
+                                          (CONST text*) lang_fmt,
+                                          (ub4) sizeof(lang_fmt)-1,
+                                          (ub4 *)&str_len,
+                                          str_buf
+                                         ));
+        oci_check_error(__TROTL_HERE__, _env._errh, res);
 
-		str_buf[ min( (str_len+1) , (unsigned)sizeof(str_buf) ) ] = '\0';
+        str_buf[ min( (str_len+1) , (unsigned)sizeof(str_buf) ) ] = '\0';
 
-		return (const char*)str_buf;
-	}
-	else
-	{
-		return "";
-	}
+        return (const char*)str_buf;
+    }
+    else
+    {
+        return "";
+    }
 }
 
 tstring SqlDateTime::ocidatetime_to_string() const
 {
-	char buffer[40];
+    char buffer[40];
 
-	snprintf(buffer, sizeof(buffer),
-	         "%04d.%02d.%02d %02d:%02d:%02d",
-	         _date.year, _date.month, _date.day,
-	         _date.hour, _date.minute, _date.second);
+    snprintf(buffer, sizeof(buffer),
+             "%04d.%02d.%02d %02d:%02d:%02d",
+             _date.year, _date.month, _date.day,
+             _date.hour, _date.minute, _date.second);
 
-	return buffer;
+    return buffer;
 }
 
 struct tm* SqlDateTime::to_gmt(void) const
 {
-	struct tm ltime =
-	{
-		_date.second,
-		_date.minute,
-		_date.hour,
-		_date.day,
-		_date.month,
-		_date.year,
-		-1,
-		-1,
-		-1
-	};
+    struct tm ltime =
+    {
+        _date.second,
+        _date.minute,
+        _date.hour,
+        _date.day,
+        _date.month,
+        _date.year,
+        -1,
+        -1,
+        -1
+    };
 
-	time_t time = mktime(&ltime);
+    time_t time = mktime(&ltime);
 
-	struct tm* gmt = gmtime(&time);
-	return gmt;
+    struct tm* gmt = gmtime(&time);
+    return gmt;
 }
 
 struct tm* SqlDateTime::to_lctime(void) const
 {
-	struct tm ltime =
-	{
-		_date.second,
-		_date.minute,
-		_date.hour,
-		_date.day,
-		_date.month,
-		_date.year,
-		-1,
-		-1,
-		-1
-	};
+    struct tm ltime =
+    {
+        _date.second,
+        _date.minute,
+        _date.hour,
+        _date.day,
+        _date.month,
+        _date.year,
+        -1,
+        -1,
+        -1
+    };
 
-	time_t time = mktime(&ltime);
+    time_t time = mktime(&ltime);
 
-	struct tm* lct = localtime(&time);
-	return lct;
+    struct tm* lct = localtime(&time);
+    return lct;
 }
 
 
@@ -173,9 +173,9 @@ struct tm* SqlDateTime::to_lctime(void) const
 //    char buffer[40];
 //
 //    snprintf(buffer, sizeof(buffer),
-//	     "%02d.%02d.%04d %02d:%02d:%02d",
-//	     OCIDateDD, OCIDateMM, OCIDateYYYY,
-//	     OCIDateTime.OCITimeHH, OCIDateTime.OCITimeMI, OCIDateTime.OCITimeSS);
+//       "%02d.%02d.%04d %02d:%02d:%02d",
+//       OCIDateDD, OCIDateMM, OCIDateYYYY,
+//       OCIDateTime.OCITimeHH, OCIDateTime.OCITimeMI, OCIDateTime.OCITimeSS);
 //    return buffer;
 //    //return ocidate_to_string(static_cast<OCIdate>(this);
 //  }
@@ -184,9 +184,9 @@ struct tm* SqlDateTime::to_lctime(void) const
 //  {
 //    char buffer[40];
 //    snprintf(buffer, sizeof(buffer),
-//	     "%02d.%02d.%04d %02d:%02d:%02d",
-//	     date.OCIDateDD, date.OCIDateMM, date.OCIDateYYYY,
-//	     date.OCIDateTime.OCITimeHH, date.OCIDateTime.OCITimeMI, date.OCIDateTime.OCITimeSS);
+//       "%02d.%02d.%04d %02d:%02d:%02d",
+//       date.OCIDateDD, date.OCIDateMM, date.OCIDateYYYY,
+//       date.OCIDateTime.OCITimeHH, date.OCIDateTime.OCITimeMI, date.OCIDateTime.OCITimeSS);
 //    return buffer;
 //  }
 //
@@ -353,9 +353,9 @@ struct tm* SqlDateTime::to_lctime(void) const
 //    char buffer[40];
 //
 //    snprintf(buffer, sizeof(buffer),
-//	     "%02d.%02d.%04d %02d:%02d:%02d",
-//	     _date.day, _date.month, (_date.century-100)*100+(_date.year-100),
-//	     _date.hour-1, _date.minute-1, _date.second-1);
+//       "%02d.%02d.%04d %02d:%02d:%02d",
+//       _date.day, _date.month, (_date.century-100)*100+(_date.year-100),
+//       _date.hour-1, _date.minute-1, _date.second-1);
 //
 //    return buffer;
 //  }

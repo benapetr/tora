@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -462,25 +462,25 @@ QString toResultViewCheck::firstText(int col) const
 toListView::toListView(QWidget *parent, const char *name, Qt::WFlags f)
     : toTreeWidget(parent, name, f)
     , toEditWidget()
-	, AllTip(NULL)
-	, MenuItem(NULL)
-	, Menu(NULL)
-	, displayAct(NULL)
-	, leftAct(NULL)
-	, rightAct(NULL)
-	, centerAct(NULL)
-	, copyAct(NULL)
-	, copyFormatAct(NULL)
-        ///, copyTransAct(NULL)
-	, selectAllAct(NULL)
-	, exportAct(NULL)
-	, editAct(NULL)
-	, MenuColumn(0)
+    , AllTip(NULL)
+    , MenuItem(NULL)
+    , Menu(NULL)
+    , displayAct(NULL)
+    , leftAct(NULL)
+    , rightAct(NULL)
+    , centerAct(NULL)
+    , copyAct(NULL)
+    , copyFormatAct(NULL)
+    ///, copyTransAct(NULL)
+    , selectAllAct(NULL)
+    , exportAct(NULL)
+    , editAct(NULL)
+    , MenuColumn(0)
 {
-	toEditWidget::FlagSet.Save = true;
-	toEditWidget::FlagSet.Print = true;
-	toEditWidget::FlagSet.Search = true;
-	toEditWidget::FlagSet.SelectAll = true;
+    toEditWidget::FlagSet.Save = true;
+    toEditWidget::FlagSet.Print = true;
+    toEditWidget::FlagSet.Search = true;
+    toEditWidget::FlagSet.SelectAll = true;
 
     setTreeStepSize(15);
     setSelectionMode(Extended);
@@ -540,7 +540,7 @@ void toListView::contentsMouseDoubleClickEvent(QMouseEvent *e)
         }
         catch (...)
         {
-            TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+            TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
         }
     }
     toTreeWidget::contentsMouseDoubleClickEvent(e);
@@ -895,7 +895,7 @@ void toListView::menuCallback(QAction *action)
     ///     copyTransposed();
     else if (action == editAct)
         //toMainWindow::lookup()->editSQL(Name);
-    	Utils::toStatusMessage("Not yet implemented editSQL(Name).");
+        Utils::toStatusMessage("Not yet implemented editSQL(Name).");
     else if (action == exportAct)
         editSave(false);
     else
@@ -927,7 +927,7 @@ toListView *toListView::copyTransposed(void)
     QMdiSubWindow * w = new QMdiSubWindow(toMainWidget()->workspace());
 
     toListView *lst = new toListView(toMainWidget()->workspace());
-  
+
     w->setAttribute(Qt::WA_DeleteOnClose);
     w->setWidget(lst);
     toMainWidget()->workspace()->addSubWindow(w);
@@ -939,8 +939,8 @@ toListView *toListView::copyTransposed(void)
     toTreeWidgetItem *next = NULL;
     for (int i = 1; i < columns(); i++)
     {
-      next = new toResultViewItem(lst, next);
-      next->setText(0, headerItem()->text(i));
+        next = new toResultViewItem(lst, next);
+        next->setText(0, headerItem()->text(i));
     }
 
     next = NULL;
@@ -1196,7 +1196,7 @@ void toResultView::setup(bool readable, bool dispCol)
         setColumnAlignment(0, Qt::AlignRight);
     }
     Filter = NULL;
-	toEditWidget::FlagSet.ReadAll = true;
+    toEditWidget::FlagSet.ReadAll = true;
     ReadAll = false;
     SortColumn = -2;
     SortAscending = true;
@@ -1351,7 +1351,7 @@ toResultView::~toResultView()
 {
     if (Query)
         //HUH?WHY?Query->deleteLater();
-		delete Query;
+        delete Query;
     delete Filter;
 }
 

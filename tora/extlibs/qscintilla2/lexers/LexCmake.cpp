@@ -86,8 +86,8 @@ static int calculateFoldCmake(unsigned int start, unsigned int end, int foldleve
     }
 
     if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "WHILE") == 0
-         || CompareCaseInsensitive(s, "MACRO") == 0 || CompareCaseInsensitive(s, "FOREACH") == 0
-         || CompareCaseInsensitive(s, "ELSEIF") == 0 )
+            || CompareCaseInsensitive(s, "MACRO") == 0 || CompareCaseInsensitive(s, "FOREACH") == 0
+            || CompareCaseInsensitive(s, "ELSEIF") == 0 )
         newFoldlevel++;
     else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
               || CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0)
@@ -456,6 +456,7 @@ static const char * const cmakeWordLists[] = {
     "Parameters",
     "UserDefined",
     0,
-    0,};
+    0,
+};
 
 LexerModule lmCmake(SCLEX_CMAKE, ColouriseCmakeDoc, "cmake", FoldCmakeDoc, cmakeWordLists);

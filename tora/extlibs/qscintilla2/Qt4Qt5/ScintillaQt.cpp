@@ -1,9 +1,9 @@
 // The implementation of the Qt specific subclass of ScintillaBase.
 //
 // Copyright (c) 2012 Riverbank Computing Limited <info@riverbankcomputing.com>
-// 
+//
 // This file is part of QScintilla.
-// 
+//
 // This file may be used under the terms of the GNU General Public
 // License versions 2.0 or 3.0 as published by the Free Software
 // Foundation and appearing in the files LICENSE.GPL2 and LICENSE.GPL3
@@ -15,10 +15,10 @@
 // certain additional rights. These rights are described in the Riverbank
 // GPL Exception version 1.1, which can be found in the file
 // GPL_EXCEPTION.txt in this package.
-// 
+//
 // If you are unsure which license is appropriate for your use, please
 // contact the sales department at sales@riverbankcomputing.com.
-// 
+//
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -112,14 +112,14 @@ QsciScintillaQt::QsciScintillaQt(QsciScintillaBase *qsb_)
     // We aren't a QObject so we use the API class to do QObject related things
     // for us.
     qsb->connect(&qtimer, SIGNAL(timeout()), SLOT(handleTimer()));
-    
+
     Initialise();
 }
 
 
 // The dtor.
 QsciScintillaQt::~QsciScintillaQt()
-{ 
+{
     Finalise();
 }
 
@@ -165,13 +165,13 @@ void QsciScintillaQt::StartDrag()
 
 // Re-implement to trap certain messages.
 sptr_t QsciScintillaQt::WndProc(unsigned int iMessage, uptr_t wParam,
-        sptr_t lParam)
+                                sptr_t lParam)
 {
     switch (iMessage)
     {
     case SCI_GETDIRECTFUNCTION:
         return reinterpret_cast<sptr_t>(DirectFunction);
-    
+
     case SCI_GETDIRECTPOINTER:
         return reinterpret_cast<sptr_t>(this);
     }
@@ -343,7 +343,7 @@ void QsciScintillaQt::NotifyParent(QSCI_SCI_NAMESPACE(SCNotification) scn)
 
     case SCN_MACRORECORD:
         emit qsb->SCN_MACRORECORD(scn.message, scn.wParam,
-                reinterpret_cast<void *>(scn.lParam));
+                                  reinterpret_cast<void *>(scn.lParam));
         break;
 
     case SCN_MARGINCLICK:
@@ -351,30 +351,30 @@ void QsciScintillaQt::NotifyParent(QSCI_SCI_NAMESPACE(SCNotification) scn)
         break;
 
     case SCN_MODIFIED:
+    {
+        char *text;
+
+        // Give some protection to the Python bindings.
+        if (scn.text && (scn.modificationType & (SC_MOD_INSERTTEXT|SC_MOD_DELETETEXT) != 0))
         {
-            char *text;
-
-            // Give some protection to the Python bindings.
-            if (scn.text && (scn.modificationType & (SC_MOD_INSERTTEXT|SC_MOD_DELETETEXT) != 0))
-            {
-                text = new char[scn.length + 1];
-                memcpy(text, scn.text, scn.length);
-                text[scn.length] = '\0';
-            }
-            else
-            {
-                text = 0;
-            }
-
-            emit qsb->SCN_MODIFIED(scn.position, scn.modificationType, text,
-                    scn.length, scn.linesAdded, scn.line, scn.foldLevelNow,
-                    scn.foldLevelPrev, scn.token, scn.annotationLinesAdded);
-
-            if (text)
-                delete[] text;
-
-            break;
+            text = new char[scn.length + 1];
+            memcpy(text, scn.text, scn.length);
+            text[scn.length] = '\0';
         }
+        else
+        {
+            text = 0;
+        }
+
+        emit qsb->SCN_MODIFIED(scn.position, scn.modificationType, text,
+                               scn.length, scn.linesAdded, scn.line, scn.foldLevelNow,
+                               scn.foldLevelPrev, scn.token, scn.annotationLinesAdded);
+
+        if (text)
+            delete[] text;
+
+        break;
+    }
 
     case SCN_MODIFYATTEMPTRO:
         emit qsb->SCN_MODIFYATTEMPTRO();
@@ -421,7 +421,7 @@ void QsciScintillaQt::NotifyParent(QSCI_SCI_NAMESPACE(SCNotification) scn)
 
 // Convert a selection to mime data.
 QMimeData *QsciScintillaQt::mimeSelection(
-        const QSCI_SCI_NAMESPACE(SelectionText) &text) const
+    const QSCI_SCI_NAMESPACE(SelectionText) &text) const
 {
     return qsb->toMimeData(QByteArray(text.Data()), text.rectangular);
 }
@@ -430,7 +430,7 @@ QMimeData *QsciScintillaQt::mimeSelection(
 
 // Copy the selected text to the clipboard.
 void QsciScintillaQt::CopyToClipboard(
-        const QSCI_SCI_NAMESPACE(SelectionText) &selectedText)
+    const QSCI_SCI_NAMESPACE(SelectionText) &selectedText)
 {
     QApplication::clipboard()->setMimeData(mimeSelection(selectedText));
 }
@@ -473,11 +473,11 @@ void QsciScintillaQt::pasteFromClipboard(QClipboard::Mode mode)
     s = text.data();
 
     std::string dest = QSCI_SCI_NAMESPACE(Document)::TransformLineEnds(s, len,
-            pdoc->eolMode);
+                       pdoc->eolMode);
 
     QSCI_SCI_NAMESPACE(SelectionText) selText;
     selText.Copy(dest, (IsUnicodeMode() ? SC_CP_UTF8 : 0),
-            vs.styles[STYLE_DEFAULT].characterSet, rectangular, false);
+                 vs.styles[STYLE_DEFAULT].characterSet, rectangular, false);
 
     QSCI_SCI_NAMESPACE(UndoGroup) ug(pdoc);
 
@@ -563,7 +563,7 @@ void QsciScintillaQt::UnclaimSelection()
 
 // Implemented to provide compatibility with the Windows version.
 sptr_t QsciScintillaQt::DirectFunction(QsciScintillaQt *sciThis, unsigned int iMessage,
-        uptr_t wParam, sptr_t lParam)
+                                       uptr_t wParam, sptr_t lParam)
 {
     return sciThis->WndProc(iMessage,wParam,lParam);
 }

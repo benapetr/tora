@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -79,17 +79,17 @@ static TemplatesMap DefaultText(void)
 
 QVariant ToConfiguration::Template::defaultValue(int option) const
 {
-	switch(option)
-	{
-	case TemplateMap:
-	{
-		QMap <QString, QVariant> retval;
-		return QVariant(retval);
-	}
-	default:
-		Q_ASSERT_X( false, qPrintable(__QHERE__), qPrintable(QString("Context Template un-registered enum value: %1").arg(option)));
-		return QVariant();
-	}
+    switch(option)
+    {
+    case TemplateMap:
+    {
+        QMap <QString, QVariant> retval;
+        return QVariant(retval);
+    }
+    default:
+        Q_ASSERT_X( false, qPrintable(__QHERE__), qPrintable(QString("Context Template un-registered enum value: %1").arg(option)));
+        return QVariant();
+    }
 };
 
 toTemplateEdit::toTemplateEdit(std::map<QString, QString> &pairs,
@@ -358,8 +358,8 @@ void toTemplateAddFile::valid()
 
 toTemplateSetting::toTemplateSetting(toTool *tool, QWidget *parent, const char *name)
     : QWidget(parent)
-	, toSettingTab("template.html#setup")
-	, Tool(tool)
+    , toSettingTab("template.html#setup")
+    , Tool(tool)
 {
 
     setupUi(this);
@@ -604,8 +604,8 @@ toTemplate::toTemplate(TODock *parent)
     List->setSelectionMode(toTreeWidget::Single);
     List->setResizeMode(toTreeWidget::AllColumns);
     Result = Utils::toAllocDock(tr("Template result"),
-                         QString::null,
-                         *TemplateTool.toolbarImage());
+                                QString::null,
+                                *TemplateTool.toolbarImage());
     // fixes warning from QMainWindow::saveState
     Result->setObjectName("templateResult");
     vbox->addWidget(List);
@@ -678,7 +678,7 @@ void toTemplate::expand(toTreeWidgetItem *item)
     }
     catch (...)
     {
-        TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+        TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
     }
 }
 
@@ -695,7 +695,7 @@ void toTemplate::selected(toTreeWidgetItem *item)
     }
     catch (...)
     {
-        TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+        TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
     }
 }
 
@@ -872,11 +872,11 @@ void toTemplateSQLObject::expand(void)
         delete Query;
         Query = NULL;
         Query = new toEventQuery(this
-        		, Parent->connection()
-        		, Parent->SQL
-        		, toQueryParams()
-        		, toEventQuery::READ_ALL
-        		);
+                                 , Parent->connection()
+                                 , Parent->SQL
+                                 , toQueryParams()
+                                 , toEventQuery::READ_ALL
+                                );
         connect(Query, SIGNAL(dataAvailable()), this, SLOT(poll()));
         connect(Query, SIGNAL(done()), this, SLOT(queryDone()));
         Query->start();

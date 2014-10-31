@@ -1774,7 +1774,7 @@ void toDebug::updateState(int reason)
             qDebug() << "target THREAD has been STOPPED";
             manualStopping = false;
         }
-        // Intentionally no break here
+    // Intentionally no break here
     case TO_REASON_NO_SESSION:
         stopAct->setEnabled(false);
         stepAct->setEnabled(false);
@@ -2117,8 +2117,8 @@ int toDebug::continueExecution(int stopon)
                 // When stopping target session we have to cancel corresponding query rather
                 // than sending a ABORT_EXECUTION signal (which apparently kills whole target
                 // session
-            	if( TargetQuery)
-            		TargetQuery->cancel();
+                if( TargetQuery)
+                    TargetQuery->cancel();
                 debugSession->execute(SQLDetach);
                 reason = TO_REASON_KNL_EXIT;
             } // if stopon != TO_ABORT_EXECUTION
@@ -2673,8 +2673,8 @@ void toDebug::changeSchema(int)
 {
     try
     {
-                Schema->update();
-                CodeModel->refresh(connection(), Schema->selected());
+        Schema->update();
+        CodeModel->refresh(connection(), Schema->selected());
     }
     TOCATCH
 }
@@ -2693,7 +2693,7 @@ void toDebug::refresh(void)
 //     qDebug() << "toDebug::refresh 1";
     try
     {
-                Schema->refresh();
+        Schema->refresh();
         QString selected = Schema->selected();
         CodeModel->refresh(connection(), selected);
     }
@@ -2987,7 +2987,7 @@ void toDebug::compile(void)
         {
             if (editor == currentEditor() && lastSchema != currentEditor()->schema())
             {
-                                Schema->update(lastSchema);
+                Schema->update(lastSchema);
             }
             if (editor->hasErrors())
                 Editors->setTabIcon(Editors->indexOf(editor),
@@ -3364,7 +3364,7 @@ void toDebug::exportData(std::map<QString, QString> &data, const QString &prefix
 void toDebug::importData(std::map<QString, QString> &data, const QString &prefix)
 {
     QString str = data[prefix + ":Schema"];
-        Schema->update(str);
+    Schema->update(str);
     changeSchema(-1);  // NOTE: int argument -1 is required for a slot, but it is not used anyway
 
     int count = data[prefix + ":Editors"].toInt();

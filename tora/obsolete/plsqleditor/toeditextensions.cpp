@@ -106,8 +106,8 @@ QAction *GotoLine     = NULL;
 QAction *AutoComplete = NULL;
 
 toEditExtensions::toEditExtensions()
-	: toEditWidget::editHandler()
-	, Current(NULL)
+    : toEditWidget::editHandler()
+    , Current(NULL)
 {
 }
 
@@ -304,7 +304,7 @@ void toEditExtensions::autoIndentBlock(void)
                 }
                 catch (...)
                 {
-                    TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+                    TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
                     res = toSQLParse::indent(ind + mrk);
                 }
                 t = Current->text(line2);
@@ -338,7 +338,7 @@ void toEditExtensions::autoIndentBuffer(void)
             }
             catch (...)
             {
-                TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+                TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
                 Current->insert(toSQLParse::indent(text.mid(pos)));
             }
         }

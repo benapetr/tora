@@ -450,12 +450,12 @@ void OracleSQLStatement::disambiguate()
         Token const &node = *i;
         switch( node.getTokenType())
         {
-            /*
-                TABLE ALIAS was found:
-                - loop over left brothers until you find TABLE_REF or SUBQUERY_NESTED
-                - update brothers alias attribute
-                - find parent of type SUBQUERY(or X_ROOT) and insert translation ALIAS => BROTHER
-            */
+        /*
+            TABLE ALIAS was found:
+            - loop over left brothers until you find TABLE_REF or SUBQUERY_NESTED
+            - update brothers alias attribute
+            - find parent of type SUBQUERY(or X_ROOT) and insert translation ALIAS => BROTHER
+        */
         case Token::L_TABLEALIAS:
         {
             if( node.getTokenUsageType() != Token::Declaration )

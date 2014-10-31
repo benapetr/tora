@@ -49,116 +49,116 @@ GraphExporter::~GraphExporter()
 
 QString GraphExporter::writeDot(const DotGraph* graph, const QString& fileName)
 {
-  ///kDebug() << fileName;
+    ///kDebug() << fileName;
 
-  QString actualFileName = fileName;
+    QString actualFileName = fileName;
 
-  if (fileName.isEmpty())
-  {
-    QTemporaryFile tempFile;
-    ///tempFile.setSuffix(".dot");
-    if (!tempFile.open()) 
+    if (fileName.isEmpty())
     {
-      ///kError() << "Unable to open for temp file for writing " << tempFile.name() << endl;
-      exit(2);
+        QTemporaryFile tempFile;
+        ///tempFile.setSuffix(".dot");
+        if (!tempFile.open())
+        {
+            ///kError() << "Unable to open for temp file for writing " << tempFile.name() << endl;
+            exit(2);
+        }
+        actualFileName = tempFile.fileName();
+        ///kDebug() << "using " << actualFileName;
     }
-    actualFileName = tempFile.fileName();
-    ///kDebug() << "using " << actualFileName;
-  }
-  
-  QFile f(actualFileName);
-  if (!f.open(QIODevice::WriteOnly | QIODevice::Text))
-  {
-    ///kError() << "Unable to open file for writing " << fileName << endl;
-    exit(2);
-  }
-  
-  QTextStream stream(&f);
 
-  stream << "digraph \"";
-  if (graph->id()!="\"\"")
-  {
-    stream <<graph->id();
-  }
-  stream <<"\" {\n";
+    QFile f(actualFileName);
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        ///kError() << "Unable to open file for writing " << fileName << endl;
+        exit(2);
+    }
 
-  stream << "graph [" << *graph <<"]" << endl;
+    QTextStream stream(&f);
 
-  /// @TODO Subgraph are not represented as needed in DotGraph, so it is not
-  /// possible to save them back : to be changed !
+    stream << "digraph \"";
+    if (graph->id()!="\"\"")
+    {
+        stream <<graph->id();
+    }
+    stream <<"\" {\n";
+
+    stream << "graph [" << *graph <<"]" << endl;
+
+    /// @TODO Subgraph are not represented as needed in DotGraph, so it is not
+    /// possible to save them back : to be changed !
 //   kDebug() << "writing subgraphs";
-  GraphSubgraphMap::const_iterator sit;
-  for ( sit = graph->subgraphs().begin();
-  sit != graph->subgraphs().end(); ++sit )
-  {
-    const GraphSubgraph& s = **sit;
-    (stream) << s;
-  }
+    GraphSubgraphMap::const_iterator sit;
+    for ( sit = graph->subgraphs().begin();
+            sit != graph->subgraphs().end(); ++sit )
+    {
+        const GraphSubgraph& s = **sit;
+        (stream) << s;
+    }
 
 //   kDebug() << "writing nodes";
-  GraphNodeMap::const_iterator nit;
-  for ( nit = graph->nodes().begin();
-        nit != graph->nodes().end(); ++nit )
-  {
-    (stream) << **nit;
-  }
+    GraphNodeMap::const_iterator nit;
+    for ( nit = graph->nodes().begin();
+            nit != graph->nodes().end(); ++nit )
+    {
+        (stream) << **nit;
+    }
 
-  ///kDebug() << "writing edges";
-  GraphEdgeMap::const_iterator eit;
-  for ( eit = graph->edges().begin();
-        eit != graph->edges().end(); ++eit )
-  {
-    ///kDebug() << "writing edge" << (*eit)->id();
-    stream << **eit;
-  }
+    ///kDebug() << "writing edges";
+    GraphEdgeMap::const_iterator eit;
+    for ( eit = graph->edges().begin();
+            eit != graph->edges().end(); ++eit )
+    {
+        ///kDebug() << "writing edge" << (*eit)->id();
+        stream << **eit;
+    }
 
-  stream << "}\n";
+    stream << "}\n";
 
-  f.close();
-  return actualFileName;
+    f.close();
+    return actualFileName;
 }
 
 #ifdef GV_LIB
 graph_t* GraphExporter::exportToGraphviz(const DotGraph* graph)
 {
-  Agdesc_t type = Agstrictundirected;
-  type.directed = graph->directed();
-  type.strict = graph->strict();
-  
-  graph_t* agraph = agopen((graph->id()!="\"\"")?graph->id().toUtf8().data():QString("unnamed").toUtf8().data(), type, NULL);
+    Agdesc_t type = Agstrictundirected;
+    type.directed = graph->directed();
+    type.strict = graph->strict();
 
-  QTextStream stream;
-  graph->exportToGraphviz(agraph);
-  /// @TODO Subgraph are not represented as needed in DotGraph, so it is not
-  /// possible to save them back : to be changed !
-  //   kDebug() << "writing subgraphs";
-  GraphSubgraphMap::const_iterator sit;
-  for ( sit = graph->subgraphs().begin();
-  sit != graph->subgraphs().end(); ++sit )
-  {
-    const GraphSubgraph& s = **sit;
-    graph_t* subgraph = agsubg(agraph, s.id().toUtf8().data(), 1);
-    s.exportToGraphviz(subgraph);
-  }
-  
-  //   kDebug() << "writing nodes";
-  GraphNodeMap::const_iterator nit;
-  foreach (GraphNode* n, graph->nodes())
-  {
-    node_t* node = agnode(agraph, n->id().toUtf8().data(), 1);
-    n->exportToGraphviz(node);
-  }
-  
-  ///kDebug() << "writing edges";
-  GraphEdgeMap::const_iterator eit;
-  foreach (GraphEdge* e, graph->edges())
-  {
-    ///kDebug() << "writing edge" << e->id();
-    edge_t* edge = agedge(agraph, agnode(agraph, e->fromNode()->id().toUtf8().data(), 0),
-                          agnode(agraph, e->toNode()->id().toUtf8().data(), 0), NULL, 1);
-    e->exportToGraphviz(edge);
-  }
-  
-  return agraph;
+    graph_t* agraph = agopen((graph->id()!="\"\"")?graph->id().toUtf8().data():QString("unnamed").toUtf8().data(), type, NULL);
+
+    QTextStream stream;
+    graph->exportToGraphviz(agraph);
+    /// @TODO Subgraph are not represented as needed in DotGraph, so it is not
+    /// possible to save them back : to be changed !
+    //   kDebug() << "writing subgraphs";
+    GraphSubgraphMap::const_iterator sit;
+    for ( sit = graph->subgraphs().begin();
+            sit != graph->subgraphs().end(); ++sit )
+    {
+        const GraphSubgraph& s = **sit;
+        graph_t* subgraph = agsubg(agraph, s.id().toUtf8().data(), 1);
+        s.exportToGraphviz(subgraph);
+    }
+
+    //   kDebug() << "writing nodes";
+    GraphNodeMap::const_iterator nit;
+    foreach (GraphNode* n, graph->nodes())
+    {
+        node_t* node = agnode(agraph, n->id().toUtf8().data(), 1);
+        n->exportToGraphviz(node);
+    }
+
+    ///kDebug() << "writing edges";
+    GraphEdgeMap::const_iterator eit;
+    foreach (GraphEdge* e, graph->edges())
+    {
+        ///kDebug() << "writing edge" << e->id();
+        edge_t* edge = agedge(agraph, agnode(agraph, e->fromNode()->id().toUtf8().data(), 0),
+                              agnode(agraph, e->toNode()->id().toUtf8().data(), 0), NULL, 1);
+        e->exportToGraphviz(edge);
+    }
+
+    return agraph;
 }
 #endif

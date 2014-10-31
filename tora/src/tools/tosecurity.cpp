@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -201,7 +201,7 @@ void toSecurityQuota::update(void)
     Tablespaces->clear();
     try
     {
-    	toConnectionSubLoan conn(toConnection::currentConnection(this));
+        toConnectionSubLoan conn(toConnection::currentConnection(this));
         toQuery tablespaces(conn, SQLTablespace, toQueryParams() << QString::fromLatin1("PERMANENT"));
         toTreeWidgetItem *item = NULL;
         while (!tablespaces.eof())
@@ -239,7 +239,7 @@ void toSecurityQuota::changeUser(const QString &user)
     {
         try
         {
-        	toConnectionSubLoan conn(toConnection::currentConnection(this));
+            toConnectionSubLoan conn(toConnection::currentConnection(this));
             toQuery quota(conn, SQLQuota, toQueryParams() << user);
             while (!quota.eof())
             {
@@ -474,7 +474,7 @@ void toSecurityUser::update()
 {
     try
     {
-    	toConnectionSubLoan conn(Connection);
+        toConnectionSubLoan conn(Connection);
         toQuery profiles(conn, SQLProfiles, toQueryParams());
         while (!profiles.eof())
             Profile->addItem(profiles.readValue());
@@ -527,7 +527,7 @@ void toSecurityUser::changeUser(const QString &user)
     clear();
     try
     {
-    	toConnectionSubLoan conn(Connection);
+        toConnectionSubLoan conn(Connection);
         toQuery query(conn, SQLUserInfo, toQueryParams() << user);
         if (!query.eof())
         {
@@ -627,8 +627,8 @@ class toSecurityRole : public QWidget, public Ui::toSecurityRoleUI
 public:
     toSecurityRole(toSecurityQuota *quota, toConnection &conn, QWidget *parent)
         : QWidget(parent), Connection(conn)
-    	, Quota(quota)
-    	, AuthType(password)
+        , Quota(quota)
+        , AuthType(password)
     {
         setupUi(this);
         Name->setValidator(new toSecurityUpper(Name));
@@ -706,7 +706,7 @@ void toSecurityRole::changeRole(const QString &role)
 {
     try
     {
-    	toConnectionSubLoan conn(Connection);
+        toConnectionSubLoan conn(Connection);
         toQuery query(conn, SQLRoleInfo, toQueryParams() << role);
         Password->setText(QString::null);
         Password2->setText(QString::null);
@@ -866,7 +866,7 @@ void toSecuritySystem::update(void)
     clear();
     try
     {
-    	toConnectionSubLoan conn(toConnection::currentConnection(this));
+        toConnectionSubLoan conn(toConnection::currentConnection(this));
         toQuery priv(conn, SQLListSystem, toQueryParams());
         while (!priv.eof())
         {
@@ -977,7 +977,7 @@ void toSecuritySystem::changeUser(const QString &user)
     eraseUser();
     try
     {
-    	toConnectionSubLoan conn(toConnection::currentConnection(this));
+        toConnectionSubLoan conn(toConnection::currentConnection(this));
         toQuery query(conn, SQLSystemGrant, toQueryParams() << user);
         while (!query.eof())
         {
@@ -1023,7 +1023,7 @@ void toSecurityRoleGrant::update(void)
     clear();
     try
     {
-    	toConnectionSubLoan conn(toConnection::currentConnection(this));
+        toConnectionSubLoan conn(toConnection::currentConnection(this));
         toQuery priv(conn, SQLRoles, toQueryParams());
         while (!priv.eof())
         {
@@ -1210,7 +1210,7 @@ void toSecurityRoleGrant::changeUser(bool user, const QString &username)
     eraseUser(user);
     try
     {
-    	toConnectionSubLoan conn(toConnection::currentConnection(this));
+        toConnectionSubLoan conn(toConnection::currentConnection(this));
         toQuery query(conn, SQLRoleGrant, toQueryParams() << username);
         while (!query.eof())
         {
@@ -1368,7 +1368,7 @@ void toSecurity::slotWindowActivated(toToolWidget *widget)
 
             ToolMenu->addAction(DisplaySQLAct);
 
-	    toGlobalEventSingle::Instance().addCustomMenu(ToolMenu);
+            toGlobalEventSingle::Instance().addCustomMenu(ToolMenu);
         }
     }
     else
@@ -1564,7 +1564,7 @@ void toSecurity::drop()
         str += QString::fromLatin1("\"");
         try
         {
-        	toConnectionSubLoan conn(connection());
+            toConnectionSubLoan conn(connection());
             conn->execute(str);
             refresh();
             changeUser(false);
@@ -1580,7 +1580,7 @@ void toSecurity::drop()
                 str += QString::fromLatin1(" CASCADE");
                 try
                 {
-                	toConnectionSubLoan conn(connection());
+                    toConnectionSubLoan conn(connection());
                     conn->execute(str);
                     refresh();
                     changeUser(false);

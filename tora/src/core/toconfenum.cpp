@@ -38,15 +38,15 @@
 namespace ToConfiguration {
 
 ConfigContext::ConfigContext(QString const& context, QMetaEnum const& e)
-	: m_configEnum(e)
-	, m_contextName(context)
+    : m_configEnum(e)
+    , m_contextName(context)
 {
-	toConfigurationNewSingle::Instance().registerConfigContext(m_contextName, m_configEnum, this);
+    toConfigurationNewSingle::Instance().registerConfigContext(m_contextName, m_configEnum, this);
 }
 
-ConfigContext::ConfigContext(ConfigContext const& other) 
-	: m_configEnum(other.m_configEnum)
-	, m_contextName(other.m_contextName)
+ConfigContext::ConfigContext(ConfigContext const& other)
+    : m_configEnum(other.m_configEnum)
+    , m_contextName(other.m_contextName)
 {
 }
 

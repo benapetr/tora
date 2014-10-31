@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // The Loki Library
 // Copyright (c) 2006 Rich Sposato
-// Permission to use, copy, modify, distribute and sell this software for any 
-//     purpose is hereby granted without fee, provided that the above copyright 
-//     notice appear in all copies and that both that copyright notice and this 
+// Permission to use, copy, modify, distribute and sell this software for any
+//     purpose is hereby granted without fee, provided that the above copyright
+//     notice appear in all copies and that both that copyright notice and this
 //     permission notice appear in supporting documentation.
-// The author makes no representations about the 
-//     suitability of this software for any purpose. It is provided "as is" 
+// The author makes no representations about the
+//     suitability of this software for any purpose. It is provided "as is"
 //     without express or implied warranty.
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@
 
 #include <memory.h>
 #ifdef DO_EXTRA_LOKI_TESTS
-    #include <cassert>
+#include <cassert>
 #endif
 
 #include <loki/SmallObj.h>
@@ -34,7 +34,7 @@ TwoRefCounts::TwoRefCounts( bool strong )
     : m_counts( NULL )
 {
     void * temp = SmallObject<>::operator new(
-        sizeof(Loki::Private::TwoRefCountInfo) );
+                      sizeof(Loki::Private::TwoRefCountInfo) );
 #ifdef DO_EXTRA_LOKI_TESTS
     assert( temp != 0 );
 #endif
@@ -47,7 +47,7 @@ TwoRefCounts::TwoRefCounts( const void * p, bool strong )
     : m_counts( NULL )
 {
     void * temp = SmallObject<>::operator new(
-        sizeof(Loki::Private::TwoRefCountInfo) );
+                      sizeof(Loki::Private::TwoRefCountInfo) );
 #ifdef DO_EXTRA_LOKI_TESTS
     assert( temp != 0 );
 #endif
@@ -105,7 +105,7 @@ void TwoRefCounts::ZapPointer( void )
     else
     {
         SmallObject<>::operator delete ( m_counts,
-            sizeof(Loki::Private::TwoRefCountInfo) );
+                                         sizeof(Loki::Private::TwoRefCountInfo) );
         m_counts = NULL;
     }
 }
@@ -199,7 +199,7 @@ bool TwoRefLinks::Release( bool strong )
         return false;
     }
     else if (m_next == this)
-    {   
+    {
 #ifdef DO_EXTRA_LOKI_TESTS
         assert(m_prev == this);
 #endif

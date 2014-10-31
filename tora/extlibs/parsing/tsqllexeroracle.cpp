@@ -23,7 +23,7 @@ public:
 
 protected:
     virtual int size() const;
-	virtual const Token& LA(int pos) const;
+    virtual const Token& LA(int pos) const;
 
 private:
     void init();
@@ -43,16 +43,16 @@ OracleLexer::OracleLexer(const QString &statement, const QString &name)
     : Lexer(statement, name)
     , QBAinput(statement.toUtf8())
     , QBAname(name.toUtf8())
-	, lastLine(1)
-	, lastColumn(0)
-	, lastIndex(0)
+    , lastLine(1)
+    , lastColumn(0)
+    , lastIndex(0)
 {
-	init();
+    init();
 }
 
 OracleLexer::~OracleLexer()
 {
-	clean();
+    clean();
 }
 
 void OracleLexer::init()
@@ -96,73 +96,76 @@ void OracleLexer::init()
 
 void OracleLexer::setStatement(const char *s, unsigned len)
 {
-	clean();
-	QBAinput.clear();
-	QBAinput.append(s, len);
-	lastLine = 1;
-	lastColumn = 0;
-	lastIndex = 0;
-	init();
+    clean();
+    QBAinput.clear();
+    QBAinput.append(s, len);
+    lastLine = 1;
+    lastColumn = 0;
+    lastIndex = 0;
+    init();
 }
 
 void OracleLexer::setStatement(const QString &statement)
 {
-	clean();
-	QBAinput.clear();
-	QBAinput.append(statement.toUtf8());
-	lastLine = 1;
-	lastColumn = 0;
-	lastIndex = 0;
-	init();
+    clean();
+    QBAinput.clear();
+    QBAinput.append(statement.toUtf8());
+    lastLine = 1;
+    lastColumn = 0;
+    lastIndex = 0;
+    init();
 }
 
 void OracleLexer::clean()
 {
-	if( tstream)
-		tstream->free(tstream);
-	if( lxr)
-		lxr->free(lxr);
-	if( input)
-		input->free(input);
+    if( tstream)
+        tstream->free(tstream);
+    if( lxr)
+        lxr->free(lxr);
+    if( input)
+        input->free(input);
 }
 
 int OracleLexer::size() const
 {
-	if(tstream)
-		return this->lexerTokenVector->size(lexerTokenVector);
-	else
-		return 0;
+    if(tstream)
+        return this->lexerTokenVector->size(lexerTokenVector);
+    else
+        return 0;
 }
 const Token& OracleLexer::LA(int pos) const
 {
-	pANTLR3_COMMON_TOKEN token = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, pos);
-	if(token)
-	{
-		// ANTLR3 starts with 1st while QScintilla starts with 0th
-		int line = token->getLine(token) - 1;
-		int column = token->getCharPositionInLine(token);
-		unsigned length = token->getStopIndex(token) - token->getStartIndex(token) + 1;
-		int offset = token->getStartIndex(token);
-		Token::TokenType type = Token::X_UNASSIGNED;
+    pANTLR3_COMMON_TOKEN token = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, pos);
+    if(token)
+    {
+        // ANTLR3 starts with 1st while QScintilla starts with 0th
+        int line = token->getLine(token) - 1;
+        int column = token->getCharPositionInLine(token);
+        unsigned length = token->getStopIndex(token) - token->getStartIndex(token) + 1;
+        int offset = token->getStartIndex(token);
+        Token::TokenType type = Token::X_UNASSIGNED;
 
-		int t = token->getType(token);
-		if( t == SL_COMMENT )
-		  type = Token::X_COMMENT;
-		else if( t == ML_COMMENT)
-		  type = Token::X_COMMENT_ML;
-		else if( token->getChannel(token) == HIDDEN)
-		  type = Token::X_WHITE;
-		else
-		  switch(token->getType(token))
-		  {
-		  case T__200:
-		  case T_RESERVED: type = Token::L_RESERVED; break;
-		  default: type = Token::X_UNASSIGNED;
-		  }
-		
-		return Token(Position(line, column), length, type);
-	} else
-		throw SQLParser::ParseException();
+        int t = token->getType(token);
+        if( t == SL_COMMENT )
+            type = Token::X_COMMENT;
+        else if( t == ML_COMMENT)
+            type = Token::X_COMMENT_ML;
+        else if( token->getChannel(token) == HIDDEN)
+            type = Token::X_WHITE;
+        else
+            switch(token->getType(token))
+            {
+            case T__200:
+            case T_RESERVED:
+                type = Token::L_RESERVED;
+                break;
+            default:
+                type = Token::X_UNASSIGNED;
+            }
+
+        return Token(Position(line, column), length, type);
+    } else
+        throw SQLParser::ParseException();
 }
 
 QString OracleLexer::firstWord()
@@ -193,32 +196,32 @@ QString OracleLexer::currentWord(unsigned line, unsigned column)
 
     if( lastLine > line || (lastLine == line && lastColumn > column))
     {
-    	pANTLR3_COMMON_TOKEN tokenZero = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, 0);
-    	retval = QString::fromUtf8((const char*)(tokenZero->getText(tokenZero)->chars));
-    	startIndex = 1;
+        pANTLR3_COMMON_TOKEN tokenZero = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, 0);
+        retval = QString::fromUtf8((const char*)(tokenZero->getText(tokenZero)->chars));
+        startIndex = 1;
     } else {
-    	pANTLR3_COMMON_TOKEN tokenZero = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, lastIndex);
-    	retval = QString::fromUtf8((const char*)(tokenZero->getText(tokenZero)->chars));
-    	startIndex = lastIndex;
+        pANTLR3_COMMON_TOKEN tokenZero = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, lastIndex);
+        retval = QString::fromUtf8((const char*)(tokenZero->getText(tokenZero)->chars));
+        startIndex = lastIndex;
     }
 
     for (i = startIndex; i <= size; i++)
     {
         token = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, i);
         if( token == NULL)
-        	break;
+            break;
 
         if ( token->getChannel(token) != HIDDEN)
         {
             lastIndex  = i;
             lastLine   = token->getLine(token);
             lastColumn = token->getCharPositionInLine(token);
-        	retval = QString::fromUtf8((const char*)(token->getText(token)->chars));
+            retval = QString::fromUtf8((const char*)(token->getText(token)->chars));
         }
 
         if( token->getLine(token) > line
-        		|| ( token->getLine(token) == line && token->getCharPositionInLine(token) > column ))
-        	break;	
+                || ( token->getLine(token) == line && token->getCharPositionInLine(token) > column ))
+            break;
     }
 
     return retval;

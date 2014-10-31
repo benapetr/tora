@@ -24,19 +24,19 @@
 #ifdef GV_LiB
 void LayoutAGraphThread::run()
 {
-  ///kDebug();
-  m_gvc = gvContext();
-  gvLayout(m_gvc, m_g, m_layoutCommand.toUtf8().data());
-  gvRender (m_gvc, m_g, "xdot", NULL);
+    ///kDebug();
+    m_gvc = gvContext();
+    gvLayout(m_gvc, m_g, m_layoutCommand.toUtf8().data());
+    gvRender (m_gvc, m_g, "xdot", NULL);
 }
 
 void LayoutAGraphThread::layoutGraph(graph_t* graph, const QString& layoutCommand)
 {
-  ///kDebug();
-  if (isRunning())
-    return;
-  m_g = graph;
-  m_layoutCommand = layoutCommand;
-  start();
+    ///kDebug();
+    if (isRunning())
+        return;
+    m_g = graph;
+    m_layoutCommand = layoutCommand;
+    start();
 }
 #endif

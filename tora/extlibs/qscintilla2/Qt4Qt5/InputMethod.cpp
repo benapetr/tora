@@ -114,61 +114,61 @@ QVariant QsciScintillaBase::inputMethodQuery(Qt::InputMethodQuery query) const
     int line = SendScintilla(SCI_LINEFROMPOSITION, pos);
 
     switch (query) {
-        case Qt::ImMicroFocus:
-        {
-            int startPos = (preeditPos >= 0) ? preeditPos : pos;
-            Point pt = sci->LocationFromPosition(startPos);
-            int width = SendScintilla(SCI_GETCARETWIDTH);
-            int height = SendScintilla(SCI_TEXTHEIGHT, line);
-            return QRect(pt.x, pt.y, width, height);
-        }
+    case Qt::ImMicroFocus:
+    {
+        int startPos = (preeditPos >= 0) ? preeditPos : pos;
+        Point pt = sci->LocationFromPosition(startPos);
+        int width = SendScintilla(SCI_GETCARETWIDTH);
+        int height = SendScintilla(SCI_TEXTHEIGHT, line);
+        return QRect(pt.x, pt.y, width, height);
+    }
 
-        case Qt::ImFont:
-        {
-            char fontName[64];
-            int style = SendScintilla(SCI_GETSTYLEAT, pos);
-            int len = SendScintilla(SCI_STYLEGETFONT, style, (sptr_t)fontName);
-            int size = SendScintilla(SCI_STYLEGETSIZE, style);
-            bool italic = SendScintilla(SCI_STYLEGETITALIC, style);
-            int weight = SendScintilla(SCI_STYLEGETBOLD, style) ? QFont::Bold : -1;
-            return QFont(QString::fromUtf8(fontName, len), size, weight, italic);
-        }
+    case Qt::ImFont:
+    {
+        char fontName[64];
+        int style = SendScintilla(SCI_GETSTYLEAT, pos);
+        int len = SendScintilla(SCI_STYLEGETFONT, style, (sptr_t)fontName);
+        int size = SendScintilla(SCI_STYLEGETSIZE, style);
+        bool italic = SendScintilla(SCI_STYLEGETITALIC, style);
+        int weight = SendScintilla(SCI_STYLEGETBOLD, style) ? QFont::Bold : -1;
+        return QFont(QString::fromUtf8(fontName, len), size, weight, italic);
+    }
 
-        case Qt::ImCursorPosition:
-        {
-            int paraStart = sci->pdoc->ParaUp(pos);
-            return pos - paraStart;
-        }
+    case Qt::ImCursorPosition:
+    {
+        int paraStart = sci->pdoc->ParaUp(pos);
+        return pos - paraStart;
+    }
 
-        case Qt::ImSurroundingText:
-        {
-            int paraStart = sci->pdoc->ParaUp(pos);
-            int paraEnd = sci->pdoc->ParaDown(pos);
-            QVarLengthArray<char,1024> buffer(paraEnd - paraStart + 1);
+    case Qt::ImSurroundingText:
+    {
+        int paraStart = sci->pdoc->ParaUp(pos);
+        int paraEnd = sci->pdoc->ParaDown(pos);
+        QVarLengthArray<char,1024> buffer(paraEnd - paraStart + 1);
 
-            Sci_CharacterRange charRange;
-            charRange.cpMin = paraStart;
-            charRange.cpMax = paraEnd;
+        Sci_CharacterRange charRange;
+        charRange.cpMin = paraStart;
+        charRange.cpMax = paraEnd;
 
-            Sci_TextRange textRange;
-            textRange.chrg = charRange;
-            textRange.lpstrText = buffer.data();
+        Sci_TextRange textRange;
+        textRange.chrg = charRange;
+        textRange.lpstrText = buffer.data();
 
-            SendScintilla(SCI_GETTEXTRANGE, 0, (sptr_t)&textRange);
+        SendScintilla(SCI_GETTEXTRANGE, 0, (sptr_t)&textRange);
 
-            return bytesAsText(buffer.constData());
-        }
+        return bytesAsText(buffer.constData());
+    }
 
-        case Qt::ImCurrentSelection:
-        {
-            QVarLengthArray<char,1024> buffer(SendScintilla(SCI_GETSELTEXT));
-            SendScintilla(SCI_GETSELTEXT, 0, (sptr_t)buffer.data());
+    case Qt::ImCurrentSelection:
+    {
+        QVarLengthArray<char,1024> buffer(SendScintilla(SCI_GETSELTEXT));
+        SendScintilla(SCI_GETSELTEXT, 0, (sptr_t)buffer.data());
 
-            return bytesAsText(buffer.constData());
-        }
+        return bytesAsText(buffer.constData());
+    }
 
-        default:
-            return QVariant();
+    default:
+        return QVariant();
     }
 }
 

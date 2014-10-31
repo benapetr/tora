@@ -149,24 +149,24 @@ struct After {
     After(int line_) : line(line_) {}
 };
 
-static bool isLowerLetter(int ch){
+static bool isLowerLetter(int ch) {
     return ccLl == CategoriseCharacter(ch);
 }
 
-static bool isUpperLetter(int ch){
+static bool isUpperLetter(int ch) {
     return ccLu == CategoriseCharacter(ch);
 }
 
-static bool isAlphaNum(int ch){
+static bool isAlphaNum(int ch) {
     CharacterCategory cc = CategoriseCharacter(ch);
     return (ccLu == cc || ccLl == cc || ccLt == cc || ccLm == cc || ccLo == cc || ccNd == cc || ccNl == cc || ccNo == cc);
 }
 
-static bool isIdChar(int ch){
+static bool isIdChar(int ch) {
     return ('_') == ch || isAlphaNum(ch);
 }
 
-static bool isOpenStringVerbatim(int next, int &closingQuote){
+static bool isOpenStringVerbatim(int next, int &closingQuote) {
     switch (next) {
     case L'<':
         closingQuote = L'>';
@@ -215,7 +215,7 @@ static void endLookAhead(char s[], LexAccessor &styler, int start) {
         ch = styler.SafeGetCharAt(start, '\n');
     }
     int i = 0;
-    while (i < 100 && isLowerLetter(ch)){
+    while (i < 100 && isLowerLetter(ch)) {
         s[i] = ch;
         i++;
         ch = styler.SafeGetCharAt(start + i, '\n');
@@ -396,7 +396,7 @@ void SCI_METHOD LexerVisualProlog::Lex(unsigned int startPos, int length, int in
         if (sc.atLineEnd) {
             // Update the line state, so it can be seen by next line
             int lineState = 0;
-            if (SCE_VISUALPROLOG_STRING_VERBATIM_EOL == sc.state) { 
+            if (SCE_VISUALPROLOG_STRING_VERBATIM_EOL == sc.state) {
                 lineState = closingQuote;
             } else if (SCE_VISUALPROLOG_COMMENT_BLOCK == sc.state) {
                 lineState = nestLevel;
@@ -421,7 +421,7 @@ void SCI_METHOD LexerVisualProlog::Lex(unsigned int startPos, int length, int in
             } else if (sc.Match('/', '*')) {
                 sc.SetState(SCE_VISUALPROLOG_COMMENT_BLOCK);
                 nestLevel = 1;
-                sc.Forward();	// Eat the * so it isn't used for the end of the comment
+                sc.Forward();   // Eat the * so it isn't used for the end of the comment
             } else if (sc.Match('%')) {
                 sc.SetState(SCE_VISUALPROLOG_COMMENT_LINE);
             } else if (sc.Match('\'')) {

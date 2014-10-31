@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -36,10 +36,10 @@
 
 oracleQuery::oracleQuery(toQuery *query, toOracleConnectionSub *) : queryImpl(query)
 {
-	TLOG(6, toDecorator, __HERE__) << std::endl;
-	Running = Cancel = false;
-	SaveInPool = false;
-	Query = NULL;
+    TLOG(6, toDecorator, __HERE__) << std::endl;
+    Running = Cancel = false;
+    SaveInPool = false;
+    Query = NULL;
 }
 
 oracleQuery::~oracleQuery()
@@ -53,7 +53,7 @@ oracleQuery::~oracleQuery()
 
 void oracleQuery::execute(void)
 {
-	toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub*>(query()->connectionSubPtr());
+    toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub*>(query()->connectionSubPtr());
     if (!conn)
         throw QString::fromLatin1("Internal error, not an Oracle sub connection");
     try
@@ -80,8 +80,8 @@ void oracleQuery::execute(void)
         delete Query;
         Query = NULL;
         Running = false;
-		if(exc.is_critical())
-			conn->Broken = true;
+        if(exc.is_critical())
+            conn->Broken = true;
         ReThrowException(exc);
     }
     try
@@ -169,15 +169,15 @@ void oracleQuery::execute(void)
         delete Query;
         Query = NULL;
         Running = false;
-		if(exc.is_critical())
-			conn->Broken = true;
+        if(exc.is_critical())
+            conn->Broken = true;
         ReThrowException(exc);
     }
 }
 
 void oracleQuery::execute(QString const& sql)
 {
-	toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub*>(query()->connectionSubPtr());
+    toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub*>(query()->connectionSubPtr());
     if (!conn)
         throw QString::fromLatin1("Internal error, not an Oracle sub connection");
     try
@@ -201,34 +201,34 @@ void oracleQuery::execute(QString const& sql)
         delete Query;
         Query = NULL;
         Running = false;
-		if(exc.is_critical())
-			conn->Broken = true;
+        if(exc.is_critical())
+            conn->Broken = true;
         ReThrowException(exc);
     }
 }
 
 toQValue oracleQuery::readValue(void)
 {
-	toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub*>(query()->connectionSubPtr());
-	try
-	{
-		toQValue retval;
-		Query->readValue(retval);
-		return retval;
-	}
-	catch (const ::trotl::OciException &exc) {
-		delete Query;
-		Query = NULL;
-		Running = false;
-		if(exc.is_critical())
-			conn->Broken = true;
-		ReThrowException(exc);
-	}
+    toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub*>(query()->connectionSubPtr());
+    try
+    {
+        toQValue retval;
+        Query->readValue(retval);
+        return retval;
+    }
+    catch (const ::trotl::OciException &exc) {
+        delete Query;
+        Query = NULL;
+        Running = false;
+        if(exc.is_critical())
+            conn->Broken = true;
+        ReThrowException(exc);
+    }
 }
 
 void oracleQuery::cancel(void)
 {
-	toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub*>(query()->connectionSubPtr());
+    toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub*>(query()->connectionSubPtr());
     if(!Running || Cancel)
     {
         TLOG(0, toDecorator, __HERE__) << ":oracleQuery::cancel(conn=" << conn->_conn << ", this=" << Query << ") on non-running query" << std::endl;
@@ -264,18 +264,18 @@ bool oracleQuery::eof(void)
     }
     catch (const ::trotl::OciException &exc)
     {
-    	TLOG(6, toDecorator, __HERE__) << "eof(e) - " << exc.what() << std::endl;
-    	if(query())
-    	{
-        	toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub *>(query()->connectionSubPtr());
-    		if(conn)
-    		{
-    			if(exc.is_critical())
-    				conn->Broken = true;
-    			ReThrowException(exc);
-    		}
-    	}
-    	return true;
+        TLOG(6, toDecorator, __HERE__) << "eof(e) - " << exc.what() << std::endl;
+        if(query())
+        {
+            toOracleConnectionSub *conn = dynamic_cast<toOracleConnectionSub *>(query()->connectionSubPtr());
+            if(conn)
+            {
+                if(exc.is_critical())
+                    conn->Broken = true;
+                ReThrowException(exc);
+            }
+        }
+        return true;
     }
     return true; // never reached
 }
@@ -288,16 +288,16 @@ oracleQuery::trotlQuery::trotlQuery(::trotl::OciConnection &conn,
     : ::trotl::SqlStatement(conn, stmt, lang, bulk_rows)
 {
     // Be compatible with otl, execute some statements immediately
-		    if( get_stmt_type() == STMT_ALTER
-		    		|| get_stmt_type() == STMT_OTHER // ANALYZE
-		            // _in_cnt == 0
-		            )
-		        execute_internal(::trotl::g_OCIPL_BULK_ROWS, OCI_DEFAULT);
+    if( get_stmt_type() == STMT_ALTER
+            || get_stmt_type() == STMT_OTHER // ANALYZE
+            // _in_cnt == 0
+      )
+        execute_internal(::trotl::g_OCIPL_BULK_ROWS, OCI_DEFAULT);
 };
 
 void oracleQuery::trotlQuery::readValue(toQValue &value)
 {
-	pre_read_value();
+    pre_read_value();
     trotl::BindPar const &BP(get_stmt_type() == STMT_SELECT ?
                              get_next_column() :
                              get_next_out_bindpar());

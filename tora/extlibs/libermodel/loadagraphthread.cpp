@@ -24,20 +24,20 @@
 #ifdef GV_LiB
 void LoadAGraphThread::run()
 {
-  ///kDebug() << m_dotFileName;
-  GVC_t *gvc;
-  FILE* fp;
-  gvc = gvContext();
-  fp = fopen(m_dotFileName.toUtf8().data(), "r");
-  m_g = agread(fp, NULL);
+    ///kDebug() << m_dotFileName;
+    GVC_t *gvc;
+    FILE* fp;
+    gvc = gvContext();
+    fp = fopen(m_dotFileName.toUtf8().data(), "r");
+    m_g = agread(fp, NULL);
 }
 
 void LoadAGraphThread::loadFile(const QString& dotFileName)
 {
-  ///kDebug();
-  if (isRunning())
-    return;
-  m_dotFileName = dotFileName;
-  start();
+    ///kDebug();
+    if (isRunning())
+        return;
+    m_dotFileName = dotFileName;
+    start();
 }
 #endif

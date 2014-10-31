@@ -160,16 +160,16 @@ static void ColouriseDocument(
         // Comments
         if ((sc.Match('*') && sc.atLineStart) || sc.Match('*','~')) {
             ColouriseComment(sc, apostropheStartsAttribute);
-        // Whitespace
+            // Whitespace
         } else if (IsASpace(sc.ch)) {
             ColouriseWhiteSpace(sc, apostropheStartsAttribute);
-        // Delimiters
+            // Delimiters
         } else if (IsDelimiterCharacter(sc.ch)) {
             ColouriseDelimiter(sc, apostropheStartsAttribute);
-        // Numbers
+            // Numbers
         } else if (IsADigit(sc.ch) || sc.ch == '#') {
             ColouriseNumber(sc, apostropheStartsAttribute);
-        // Keywords or identifiers
+            // Keywords or identifiers
         } else {
             ColouriseWord(sc, keywords, keywords2, keywords3, apostropheStartsAttribute);
         }

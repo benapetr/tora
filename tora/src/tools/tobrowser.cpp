@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -90,17 +90,22 @@
 
 QVariant ToConfiguration::Browser::defaultValue(int option) const
 {
-	switch(option)
-	{
-	case FilterIgnoreCase:       return QVariant((bool)false);
-	case FilterInvert:           return QVariant((bool)false);
-	case FilterType:             return QVariant((int)0);
-	case FilterTablespaceType:   return QVariant((int)0);
-	case FilterText:             return QVariant(QString(""));
-	default:
-		Q_ASSERT_X( false, qPrintable(__QHERE__), qPrintable(QString("Context Browser un-registered enum value: %1").arg(option)));
-		return QVariant();
-	}
+    switch(option)
+    {
+    case FilterIgnoreCase:
+        return QVariant((bool)false);
+    case FilterInvert:
+        return QVariant((bool)false);
+    case FilterType:
+        return QVariant((int)0);
+    case FilterTablespaceType:
+        return QVariant((int)0);
+    case FilterText:
+        return QVariant(QString(""));
+    default:
+        Q_ASSERT_X( false, qPrintable(__QHERE__), qPrintable(QString("Context Browser un-registered enum value: %1").arg(option)));
+        return QVariant();
+    }
 }
 
 const char **toBrowserTool::pictureXPM(void)
@@ -166,7 +171,7 @@ void toBrowserTool::addIndex(void)
     //                                 toMainWidget());
     // }
     // TOCATCH
-    throw tr("toBrowserTool::addIndex(void) not implement yet");  
+    throw tr("toBrowserTool::addIndex(void) not implement yet");
 }
 
 void toBrowserTool::addConstraint(void)
@@ -194,18 +199,18 @@ static toSQL SQLListTablespaces("toBrowser:ListTablespaces",
                                 "List the available tablespaces in a database.");
 
 class toBrowserFilter
-	: public toViewFilter
+    : public toViewFilter
 {
-	enum FilterType // see toBrowserFilterSetup::ButtonsGroup
-	{
+    enum FilterType // see toBrowserFilterSetup::ButtonsGroup
+    {
         FilterNone = 0,
         FilterStartsWith,
         FilterEndsWith,
         FilterContains,
         FilterCommaSeparated,
         FilterRegExp,
-	};
-	FilterType         Type;
+    };
+    FilterType         Type;
     bool               IgnoreCase;
     bool               Invert;
     QString            Text;
@@ -268,7 +273,7 @@ public:
 
     virtual void storeFilterSettings(void)
     {
-    	using namespace ToConfiguration;
+        using namespace ToConfiguration;
         toConfigurationNewSingle::Instance().setOption(Browser::FilterIgnoreCase, IgnoreCase);
         toConfigurationNewSingle::Instance().setOption(Browser::FilterInvert, Invert);
         toConfigurationNewSingle::Instance().setOption(Browser::FilterType, Type);
@@ -279,7 +284,7 @@ public:
 
     virtual void readFilterSettings(void)
     {
-    	using namespace ToConfiguration;
+        using namespace ToConfiguration;
         QString t;
         Text = toConfigurationNewSingle::Instance().option(Browser::FilterText).toString();
         IgnoreCase = toConfigurationNewSingle::Instance().option(ToConfiguration::Browser::FilterIgnoreCase).toBool();
@@ -350,8 +355,8 @@ public:
         case FilterCommaSeparated:
         case FilterRegExp:
             return QString::fromLatin1("%");
-		default:
-			throw QString("Unknown filter type: %1").arg((int)Type);
+        default:
+            throw QString("Unknown filter type: %1").arg((int)Type);
         }
     }
 
@@ -469,8 +474,8 @@ public:
 };
 
 class toBrowserFilterSetup
-	: public QDialog
-	, public Ui::toBrowserFilterUI
+    : public QDialog
+    , public Ui::toBrowserFilterUI
 {
 private:
     QButtonGroup *ButtonsGroup;
@@ -504,16 +509,16 @@ public:
             Tablespaces->setSQL(SQLListTablespaces);
             try
             {
-				// TODO: WTF is this? the query is executed twice?
+                // TODO: WTF is this? the query is executed twice?
                 //toConnection &conn = toConnection::currentConnection(this);
                 //toQuery query(conn, toSQL::string(SQLListTablespaces, conn), toQueryParams());
                 //Tablespaces->query(SQLListTablespaces);
 
-            	Tablespaces->refresh();
+                Tablespaces->refresh();
             }
             catch (...)
             {
-                TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+                TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
             }
             Tablespaces->setSelectionMode(toTreeWidget::Multi);
         }
@@ -876,7 +881,7 @@ static toSQL SQLDropUser("toBrowser:DropUser",
 
 toBrowser::toBrowser(QWidget *parent, toConnection &connection)
     : toToolWidget(BrowserTool, "browser.html", parent, connection, "toBrowser")
-	, Filter(new toBrowserFilter(false))
+    , Filter(new toBrowserFilter(false))
 {
     // man toolbar of the tool
     QToolBar *toolbar = Utils::toAllocBar(this, tr("DB Browser"));
@@ -1337,31 +1342,31 @@ void toBrowser::slotSelected(const QString& object)
     QSplitter * ix = qobject_cast<QSplitter*>(m_mainTab->currentWidget());
     if (m_objectsMap.contains(ix) && m_browsersMap.contains(ix))
     {
-    	toBrowserSchemaBase *b = m_objectsMap[ix];
-    	if (QTableView *tv = dynamic_cast<QTableView*>(b))
-    	{
-    		QAbstractItemModel *model = tv->model();
+        toBrowserSchemaBase *b = m_objectsMap[ix];
+        if (QTableView *tv = dynamic_cast<QTableView*>(b))
+        {
+            QAbstractItemModel *model = tv->model();
 
-//    		QSortFilterProxyModel proxy;
-//    		proxy.setSourceModel(model);
-//    		proxy.setFilterFixedString(object);
-//    		int num_rows = model->rowCount();
-//    		int num_cols = model->columnCount();
-//    		QModelIndex matchingIndex = proxy.mapFromSource(proxy.index(num_rows,1/*num_cols*/));
-//    		if(matchingIndex.isValid())
-//    		{
-//    			tv->setCurrentIndex(matchingIndex);
-//    		}
+//          QSortFilterProxyModel proxy;
+//          proxy.setSourceModel(model);
+//          proxy.setFilterFixedString(object);
+//          int num_rows = model->rowCount();
+//          int num_cols = model->columnCount();
+//          QModelIndex matchingIndex = proxy.mapFromSource(proxy.index(num_rows,1/*num_cols*/));
+//          if(matchingIndex.isValid())
+//          {
+//              tv->setCurrentIndex(matchingIndex);
+//          }
 
-    		QModelIndexList matches = model->match(model->index(0,1), Qt::DisplayRole, object, 1, Qt::MatchExactly);
-    		if (!matches.isEmpty() && matches.first().isValid())
-    		{
-    			//tv->setCurrentIndex(matches.first());
-    			//tv->selectRow(matches.first().row());
-    			tv->selectionModel()->setCurrentIndex(matches.first(), QItemSelectionModel::ClearAndSelect|QItemSelectionModel::Current);
-    			tv->selectionModel()->select(matches.first(), QItemSelectionModel::ClearAndSelect|QItemSelectionModel::Current);
-    		}
-    	}
+            QModelIndexList matches = model->match(model->index(0,1), Qt::DisplayRole, object, 1, Qt::MatchExactly);
+            if (!matches.isEmpty() && matches.first().isValid())
+            {
+                //tv->setCurrentIndex(matches.first());
+                //tv->selectRow(matches.first().row());
+                tv->selectionModel()->setCurrentIndex(matches.first(), QItemSelectionModel::ClearAndSelect|QItemSelectionModel::Current);
+                tv->selectionModel()->select(matches.first(), QItemSelectionModel::ClearAndSelect|QItemSelectionModel::Current);
+            }
+        }
     }
 
 }
@@ -1383,7 +1388,7 @@ void toBrowser::slotWindowActivated(toToolWidget* widget)
             ToolMenu->addAction(FilterButton);
             ToolMenu->addAction(clearFilterAct);
 
-	    toGlobalEventSingle::Instance().addCustomMenu(ToolMenu);
+            toGlobalEventSingle::Instance().addCustomMenu(ToolMenu);
         }
     }
     else
@@ -1404,7 +1409,7 @@ QString toBrowser::schema(void)
     }
     catch (...)
     {
-        TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+        TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
         return QString::null;
     }
 }
@@ -1477,42 +1482,42 @@ void toBrowser::refresh(void)
 
 void toBrowser::changeConnection(void)
 {
-	try
-	{
-		m_mainTab->blockSignals(true);
+    try
+    {
+        m_mainTab->blockSignals(true);
 
-		// enable/disable main tabs depending on DB
-		m_mainTab->clear();
-		addTab(tableSplitter, tr("T&ables"), true);
-		addTab(viewSplitter, tr("&Views"), !connection().providerIs("QMYSQL"));
-		addTab(indexSplitter, tr("Inde&xes"), true);
-		addTab(sequenceSplitter, tr("Se&quences"), connection().providerIs("Oracle") || connection().providerIs("QPSQL"));
-		addTab(synonymSplitter, tr("S&ynonyms"), connection().providerIs("Oracle"));
+        // enable/disable main tabs depending on DB
+        m_mainTab->clear();
+        addTab(tableSplitter, tr("T&ables"), true);
+        addTab(viewSplitter, tr("&Views"), !connection().providerIs("QMYSQL"));
+        addTab(indexSplitter, tr("Inde&xes"), true);
+        addTab(sequenceSplitter, tr("Se&quences"), connection().providerIs("Oracle") || connection().providerIs("QPSQL"));
+        addTab(synonymSplitter, tr("S&ynonyms"), connection().providerIs("Oracle"));
 
-		// 2010-03-31
-		// Starting with version 5.0 MySQL supports stored functions/procedures
-		// If TOra is used a lot with older versions of MySQL the "true" parameter
-		// should be enhanced with a check for MySQL version
-		addTab(codeSplitter, tr("Cod&e"), true);
-		addTab(triggerSplitter, tr("Tri&ggers"), !connection().providerIs("QMYSQL") && !connection().providerIs("QPSQL"));
-		addTab(dblinkSplitter, tr("DBLinks"), connection().providerIs("Oracle"));
-		addTab(directoriesSplitter, tr("Directories"), connection().providerIs("Oracle"));
-		addTab(accessSplitter, tr("Access"), connection().providerIs("QMYSQL"));
+        // 2010-03-31
+        // Starting with version 5.0 MySQL supports stored functions/procedures
+        // If TOra is used a lot with older versions of MySQL the "true" parameter
+        // should be enhanced with a check for MySQL version
+        addTab(codeSplitter, tr("Cod&e"), true);
+        addTab(triggerSplitter, tr("Tri&ggers"), !connection().providerIs("QMYSQL") && !connection().providerIs("QPSQL"));
+        addTab(dblinkSplitter, tr("DBLinks"), connection().providerIs("Oracle"));
+        addTab(directoriesSplitter, tr("Directories"), connection().providerIs("Oracle"));
+        addTab(accessSplitter, tr("Access"), connection().providerIs("QMYSQL"));
 
-		foreach (toBrowserBaseWidget * w, m_browsersMap.values())
-			w->changeConnection();
+        foreach (toBrowserBaseWidget * w, m_browsersMap.values())
+        w->changeConnection();
 
-		toToolWidget::setCaption(QString());
+        toToolWidget::setCaption(QString());
 
-		m_mainTab->setCurrentIndex(0);
+        m_mainTab->setCurrentIndex(0);
 
-		m_mainTab->blockSignals(false);
-	}
-	catch(...)
-	{
-		m_mainTab->blockSignals(false);
-		throw;
-	}
+        m_mainTab->blockSignals(false);
+    }
+    catch(...)
+    {
+        m_mainTab->blockSignals(false);
+        throw;
+    }
 
     refresh();
 }
@@ -1633,12 +1638,12 @@ bool toBrowser::canHandle(const toConnection &conn)
 
 void toBrowser::commitChanges()
 {
-	//TODO
+    //TODO
 }
 
 void toBrowser::rollbackChanges()
 {
-	//TODO
+    //TODO
 }
 
 #if TORA3_BROWSER_TOOLS
@@ -1673,7 +1678,7 @@ void toBrowser::modifyConstraint(void)
     //                                       tableBrowserWidget->object(),
     //                                       this);
     // refresh();
-    throw tr("toBrowser::modifyConstraint(void) not implement yet");  
+    throw tr("toBrowser::modifyConstraint(void) not implement yet");
 }
 
 void toBrowser::modifyIndex(void)
@@ -1694,7 +1699,7 @@ void toBrowser::addIndex(void)
     //                          tableBrowserWidget->object(),
     //                          this);
     // refresh();
-    throw tr("toBrowser::addIndex(void) not implement yet");  
+    throw tr("toBrowser::addIndex(void) not implement yet");
 }
 
 void toBrowser::displayTableMenu(QMenu *menu)
@@ -1813,8 +1818,8 @@ void toBrowser::dropSomething(const QString &type, const QString &what)
     //     }
     //     TOCATCH
     // }
-  throw tr("toBrowser::dropSomething(const QString &type, const QString &what)");
-  
+    throw tr("toBrowser::dropSomething(const QString &type, const QString &what)");
+
 //     refresh(); no refresh goes here as it can be called from loop
 }
 
@@ -1862,7 +1867,7 @@ void toBrowser::truncateTable(void)
             {
             case 1 :
                 force = true;
-                // Intentionally no break here.
+            // Intentionally no break here.
             case 0:
             {
                 toConnectionSubLoan connSub(connection());

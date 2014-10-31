@@ -94,87 +94,125 @@ static void ColourisePBDoc(unsigned int startPos, int length, int initStyle,Word
     for (; sc.More(); sc.Forward()) {
         switch (sc.state)
         {
-            case SCE_B_OPERATOR:
+        case SCE_B_OPERATOR:
+        {
+            sc.SetState(SCE_B_DEFAULT);
+            break;
+        }
+        case SCE_B_KEYWORD:
+        {
+            if (!IsAWordChar(sc.ch))
             {
-                sc.SetState(SCE_B_DEFAULT);
-                break;
-            }
-            case SCE_B_KEYWORD:
-            {
-                if (!IsAWordChar(sc.ch))
+                if (!IsTypeCharacter(sc.ch))
                 {
-                    if (!IsTypeCharacter(sc.ch))
+                    char s[100];
+                    sc.GetCurrentLowered(s, sizeof(s));
+                    if (keywords.InList(s))
                     {
-                        char s[100];
-                        sc.GetCurrentLowered(s, sizeof(s));
-                        if (keywords.InList(s))
+                        if (strcmp(s, "rem") == 0)
                         {
-                            if (strcmp(s, "rem") == 0)
-                            {
-                                sc.ChangeState(SCE_B_COMMENT);
-                                if (sc.atLineEnd) {sc.SetState(SCE_B_DEFAULT);}
+                            sc.ChangeState(SCE_B_COMMENT);
+                            if (sc.atLineEnd) {
+                                sc.SetState(SCE_B_DEFAULT);
                             }
-                            else if (strcmp(s, "asm") == 0)
-                            {
-                                sc.ChangeState(SCE_B_ASM);
-                                if (sc.atLineEnd) {sc.SetState(SCE_B_DEFAULT);}
-                            }
-                            else
-                            {
+                        }
+                        else if (strcmp(s, "asm") == 0)
+                        {
+                            sc.ChangeState(SCE_B_ASM);
+                            if (sc.atLineEnd) {
                                 sc.SetState(SCE_B_DEFAULT);
                             }
                         }
                         else
                         {
-                            sc.ChangeState(SCE_B_IDENTIFIER);
                             sc.SetState(SCE_B_DEFAULT);
                         }
                     }
+                    else
+                    {
+                        sc.ChangeState(SCE_B_IDENTIFIER);
+                        sc.SetState(SCE_B_DEFAULT);
+                    }
                 }
-                break;
             }
-            case SCE_B_NUMBER:
-            {
-                if (!IsAWordChar(sc.ch)) {sc.SetState(SCE_B_DEFAULT);}
-                break;
+            break;
+        }
+        case SCE_B_NUMBER:
+        {
+            if (!IsAWordChar(sc.ch)) {
+                sc.SetState(SCE_B_DEFAULT);
             }
-            case SCE_B_STRING:
-            {
-                if (sc.ch == '\"'){sc.ForwardSetState(SCE_B_DEFAULT);}
-                break;
+            break;
+        }
+        case SCE_B_STRING:
+        {
+            if (sc.ch == '\"') {
+                sc.ForwardSetState(SCE_B_DEFAULT);
             }
-            case SCE_B_CONSTANT:
-            {
-                if (!IsAWordChar(sc.ch)) {sc.SetState(SCE_B_DEFAULT);}
-                break;
+            break;
+        }
+        case SCE_B_CONSTANT:
+        {
+            if (!IsAWordChar(sc.ch)) {
+                sc.SetState(SCE_B_DEFAULT);
             }
-            case SCE_B_COMMENT:
-            {
-                if (sc.atLineEnd) {sc.SetState(SCE_B_DEFAULT);}
-                break;
+            break;
+        }
+        case SCE_B_COMMENT:
+        {
+            if (sc.atLineEnd) {
+                sc.SetState(SCE_B_DEFAULT);
             }
-            case SCE_B_ASM:
-            {
-                if (sc.atLineEnd) {sc.SetState(SCE_B_DEFAULT);}
-                break;
+            break;
+        }
+        case SCE_B_ASM:
+        {
+            if (sc.atLineEnd) {
+                sc.SetState(SCE_B_DEFAULT);
             }
+            break;
+        }
         }  //switch (sc.state)
 
         // Determine if a new state should be entered:
         if (sc.state == SCE_B_DEFAULT)
         {
-            if (sc.ch == '\'') {sc.SetState(SCE_B_COMMENT);}
-            else if (sc.ch == '\"') {sc.SetState(SCE_B_STRING);}
-            else if (sc.ch == '&' && tolower(sc.chNext) == 'h') {sc.SetState(SCE_B_NUMBER);}
-            else if (sc.ch == '&' && tolower(sc.chNext) == 'b') {sc.SetState(SCE_B_NUMBER);}
-            else if (sc.ch == '&' && tolower(sc.chNext) == 'o') {sc.SetState(SCE_B_NUMBER);}
-            else if (IsADigit(sc.ch) || (sc.ch == '.' && IsADigit(sc.chNext))) {sc.SetState(SCE_B_NUMBER);}
-            else if (IsAWordStart(sc.ch)) {sc.SetState(SCE_B_KEYWORD);}
-            else if (sc.ch == '%') {sc.SetState(SCE_B_CONSTANT);}
-            else if (sc.ch == '$') {sc.SetState(SCE_B_CONSTANT);}
-            else if (sc.ch == '#') {sc.SetState(SCE_B_KEYWORD);}
-            else if (sc.ch == '!') {sc.SetState(SCE_B_ASM);}
-            else if (isoperator(static_cast<char>(sc.ch)) || (sc.ch == '\\')) {sc.SetState(SCE_B_OPERATOR);}
+            if (sc.ch == '\'') {
+                sc.SetState(SCE_B_COMMENT);
+            }
+            else if (sc.ch == '\"') {
+                sc.SetState(SCE_B_STRING);
+            }
+            else if (sc.ch == '&' && tolower(sc.chNext) == 'h') {
+                sc.SetState(SCE_B_NUMBER);
+            }
+            else if (sc.ch == '&' && tolower(sc.chNext) == 'b') {
+                sc.SetState(SCE_B_NUMBER);
+            }
+            else if (sc.ch == '&' && tolower(sc.chNext) == 'o') {
+                sc.SetState(SCE_B_NUMBER);
+            }
+            else if (IsADigit(sc.ch) || (sc.ch == '.' && IsADigit(sc.chNext))) {
+                sc.SetState(SCE_B_NUMBER);
+            }
+            else if (IsAWordStart(sc.ch)) {
+                sc.SetState(SCE_B_KEYWORD);
+            }
+            else if (sc.ch == '%') {
+                sc.SetState(SCE_B_CONSTANT);
+            }
+            else if (sc.ch == '$') {
+                sc.SetState(SCE_B_CONSTANT);
+            }
+            else if (sc.ch == '#') {
+                sc.SetState(SCE_B_KEYWORD);
+            }
+            else if (sc.ch == '!') {
+                sc.SetState(SCE_B_ASM);
+            }
+            else if (isoperator(static_cast<char>(sc.ch)) || (sc.ch == '\\')) {
+                sc.SetState(SCE_B_OPERATOR);
+            }
         }
     }      //for (; sc.More(); sc.Forward())
     sc.Complete();
@@ -215,144 +253,144 @@ static void FoldPBDoc(unsigned int startPos, int length, int, WordList *[], Acce
             {
             case ' ':      //Most lines start with space - so check this first, the code is the same as for 'default:'
             case '\t':     //Handle tab too
-                {
-                    int levelUse = levelCurrent;
-                    int lev = levelUse | levelNext << 16;
-                    styler.SetLevel(lineCurrent, lev);
-                    break;
-                }
+            {
+                int levelUse = levelCurrent;
+                int lev = levelUse | levelNext << 16;
+                styler.SetLevel(lineCurrent, lev);
+                break;
+            }
             case 'F':
             case 'f':
+            {
+                switch (chNext)
                 {
-					switch (chNext)
-					{
-                    case 'U':
-                    case 'u':
-						{
-							if( MatchUpperCase(styler,i,"FUNCTION") )
-							{
-								styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
-								levelNext=SC_FOLDLEVELBASE+1;
-							}
-							break;
-						}
-					}
-                break;
-                }
-            case 'S':
-            case 's':
+                case 'U':
+                case 'u':
                 {
-					switch (chNext)
-					{
-                    case 'U':
-                    case 'u':
-						{
-							if( MatchUpperCase(styler,i,"SUB") )
-							{
-								styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
-								levelNext=SC_FOLDLEVELBASE+1;
-							}
-							break;
-						}
-                    case 'T':
-                    case 't':
-						{
-							if( MatchUpperCase(styler,i,"STATIC FUNCTION") )
-							{
-								styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
-								levelNext=SC_FOLDLEVELBASE+1;
-							}
-							else if( MatchUpperCase(styler,i,"STATIC SUB") )
-							{
-								styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
-								levelNext=SC_FOLDLEVELBASE+1;
-							}
-							break;
-						}
-					}
-                break;
-                }
-            case 'C':
-            case 'c':
-                {
-					switch (chNext)
-					{
-                    case 'A':
-                    case 'a':
-						{
-							if( MatchUpperCase(styler,i,"CALLBACK FUNCTION") )
-							{
-								styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
-								levelNext=SC_FOLDLEVELBASE+1;
-							}
-							break;
-						}
-					}
-                break;
-                }
-            case 'M':
-            case 'm':
-                {
-					switch (chNext)
-					{
-                    case 'A':
-                    case 'a':
-						{
-							if( MatchUpperCase(styler,i,"MACRO") )
-							{
-								fMightBeMultiLineMacro=true;  //Set folder level at end of line, we have to check for single line macro
-							}
-							break;
-						}
-					}
-                break;
-                }
-            default:
-                {
-                    int levelUse = levelCurrent;
-                    int lev = levelUse | levelNext << 16;
-                    styler.SetLevel(lineCurrent, lev);
+                    if( MatchUpperCase(styler,i,"FUNCTION") )
+                    {
+                        styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
+                        levelNext=SC_FOLDLEVELBASE+1;
+                    }
                     break;
                 }
+                }
+                break;
+            }
+            case 'S':
+            case 's':
+            {
+                switch (chNext)
+                {
+                case 'U':
+                case 'u':
+                {
+                    if( MatchUpperCase(styler,i,"SUB") )
+                    {
+                        styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
+                        levelNext=SC_FOLDLEVELBASE+1;
+                    }
+                    break;
+                }
+                case 'T':
+                case 't':
+                {
+                    if( MatchUpperCase(styler,i,"STATIC FUNCTION") )
+                    {
+                        styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
+                        levelNext=SC_FOLDLEVELBASE+1;
+                    }
+                    else if( MatchUpperCase(styler,i,"STATIC SUB") )
+                    {
+                        styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
+                        levelNext=SC_FOLDLEVELBASE+1;
+                    }
+                    break;
+                }
+                }
+                break;
+            }
+            case 'C':
+            case 'c':
+            {
+                switch (chNext)
+                {
+                case 'A':
+                case 'a':
+                {
+                    if( MatchUpperCase(styler,i,"CALLBACK FUNCTION") )
+                    {
+                        styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
+                        levelNext=SC_FOLDLEVELBASE+1;
+                    }
+                    break;
+                }
+                }
+                break;
+            }
+            case 'M':
+            case 'm':
+            {
+                switch (chNext)
+                {
+                case 'A':
+                case 'a':
+                {
+                    if( MatchUpperCase(styler,i,"MACRO") )
+                    {
+                        fMightBeMultiLineMacro=true;  //Set folder level at end of line, we have to check for single line macro
+                    }
+                    break;
+                }
+                }
+                break;
+            }
+            default:
+            {
+                int levelUse = levelCurrent;
+                int lev = levelUse | levelNext << 16;
+                styler.SetLevel(lineCurrent, lev);
+                break;
+            }
             }  //switch (ch)
         }  //if( fNewLine )
 
         switch (ch)
         {
-            case '=':                              //To test single line macros
+        case '=':                              //To test single line macros
+        {
+            if (fBeginOfCommentFound==false)
+                fMightBeMultiLineMacro=false;  //The found macro is a single line macro only;
+            break;
+        }
+        case '\'':                             //A comment starts
+        {
+            fBeginOfCommentFound=true;
+            break;
+        }
+        case '\n':
+        {
+            if (fMightBeMultiLineMacro)        //The current line is the begin of a multi line macro
             {
-                if (fBeginOfCommentFound==false)
-                    fMightBeMultiLineMacro=false;  //The found macro is a single line macro only;
-                break;
+                fMightBeMultiLineMacro=false;
+                styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
+                levelNext=SC_FOLDLEVELBASE+1;
             }
-            case '\'':                             //A comment starts
+            lineCurrent++;
+            levelCurrent = levelNext;
+            fNewLine=true;
+            break;
+        }
+        case '\r':
+        {
+            if (chNext != '\n')
             {
-                fBeginOfCommentFound=true;
-                break;
-            }
-            case '\n':
-            {
-                if (fMightBeMultiLineMacro)        //The current line is the begin of a multi line macro
-                {
-                    fMightBeMultiLineMacro=false;
-                    styler.SetLevel(lineCurrent, (SC_FOLDLEVELBASE << 16) | SC_FOLDLEVELHEADERFLAG);
-                    levelNext=SC_FOLDLEVELBASE+1;
-                }
                 lineCurrent++;
                 levelCurrent = levelNext;
                 fNewLine=true;
-                break;
             }
-            case '\r':
-            {
-                if (chNext != '\n')
-                {
-                    lineCurrent++;
-                    levelCurrent = levelNext;
-                    fNewLine=true;
-                }
-                break;
-            }
+            break;
+        }
         }  //switch (ch)
     }  //for (unsigned int i = startPos; i < endPos; i++)
 }

@@ -188,7 +188,7 @@ Token const* Statement::getTableRef(QString const& tableName, Token const *conte
 };
 
 
- void Statement::token_const_iterator::increment()
+void Statement::token_const_iterator::increment()
 {
     if(m_token->isLeaf())
     {
@@ -211,19 +211,19 @@ Token const* Statement::getTableRef(QString const& tableName, Token const *conte
     m_lastIndex = 0;
 };
 
- void Statement::token_const_iterator::decrement()
+void Statement::token_const_iterator::decrement()
 {
     m_lastIndex = m_token->row(); // Ugly hack - by remembering the row we do support one decrement in a row - not more
     m_stack.pop_back();
     m_token = m_stack.back();
 };
 
- bool Statement::token_const_iterator::equal(token_const_iterator const& other) const
+bool Statement::token_const_iterator::equal(token_const_iterator const& other) const
 {
     return this->m_token == other.m_token;
 };
 
- Statement::token_const_iterator Statement::begin() const
+Statement::token_const_iterator Statement::begin() const
 {
     return token_const_iterator(_mAST);
 }

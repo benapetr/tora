@@ -11,11 +11,11 @@
   modification, are permitted provided that the following conditions are met:
 
   * Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+    notice, this list of conditions and the following disclaimer.
   * Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in
-	the documentation and/or other materials provided with the
-	distribution.
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the
+    distribution.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -44,23 +44,23 @@ Util::RegisterInFactory<BindParMisc, DefineParFactTwoParmSing, int> regDefineInt
 
 BindParMisc::BindParMisc(unsigned int pos, SqlStatement &stmt, DescribeColumn* ct): BindPar(pos, stmt, ct)
 {
-	valuep = (void**) calloc(_cnt, 128);
-	alenp = (ub2*) calloc(_cnt, sizeof(ub2));
+    valuep = (void**) calloc(_cnt, 128);
+    alenp = (ub2*) calloc(_cnt, sizeof(ub2));
 
-	dty = SQLT_STR;
-	value_sz = 128;
-	_type_name = typeid(tstring).name();
+    dty = SQLT_STR;
+    value_sz = 128;
+    _type_name = typeid(tstring).name();
 }
 
 BindParMisc::BindParMisc(unsigned int pos, SqlStatement &stmt, BindVarDecl &decl) : BindPar(pos, stmt, decl)
 {
-	// an assumtion is that remaining datatypes can hit into 128 chars
-	valuep = (void**) calloc(decl.bracket[1], 128);
-	alenp = (ub2*) calloc(_cnt, sizeof(ub2));
+    // an assumtion is that remaining datatypes can hit into 128 chars
+    valuep = (void**) calloc(decl.bracket[1], 128);
+    alenp = (ub2*) calloc(_cnt, sizeof(ub2));
 
-	dty = SQLT_STR;
-	value_sz = 128;
-	_type_name = typeid(tstring).name();
+    dty = SQLT_STR;
+    value_sz = 128;
+    _type_name = typeid(tstring).name();
 }
 
 };

@@ -1,9 +1,9 @@
 // This module implements the "official" low-level API.
 //
 // Copyright (c) 2012 Riverbank Computing Limited <info@riverbankcomputing.com>
-// 
+//
 // This file is part of QScintilla.
-// 
+//
 // This file may be used under the terms of the GNU General Public
 // License versions 2.0 or 3.0 as published by the Free Software
 // Foundation and appearing in the files LICENSE.GPL2 and LICENSE.GPL3
@@ -15,10 +15,10 @@
 // certain additional rights. These rights are described in the Riverbank
 // GPL Exception version 1.1, which can be found in the file
 // GPL_EXCEPTION.txt in this package.
-// 
+//
 // If you are unsure which license is appropriate for your use, please
 // contact the sales department at sales@riverbankcomputing.com.
-// 
+//
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -168,7 +168,7 @@ void QsciScintillaBase::setScrollBars()
 // Send a message to the real Scintilla widget using the low level Scintilla
 // API.
 long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
-        long lParam) const
+                                      long lParam) const
 {
     return sci->WndProc(msg, wParam, lParam);
 }
@@ -176,7 +176,7 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
 
 // Overloaded message send.
 long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
-        void *lParam) const
+                                      void *lParam) const
 {
     return sci->WndProc(msg, wParam, reinterpret_cast<sptr_t>(lParam));
 }
@@ -184,7 +184,7 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
 
 // Overloaded message send.
 long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
-        const char *lParam) const
+                                      const char *lParam) const
 {
     return sci->WndProc(msg, wParam, reinterpret_cast<sptr_t>(lParam));
 }
@@ -192,19 +192,19 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
 
 // Overloaded message send.
 long QsciScintillaBase::SendScintilla(unsigned int msg,
-        const char *lParam) const
+                                      const char *lParam) const
 {
     return sci->WndProc(msg, static_cast<uptr_t>(0),
-            reinterpret_cast<sptr_t>(lParam));
+                        reinterpret_cast<sptr_t>(lParam));
 }
 
 
 // Overloaded message send.
 long QsciScintillaBase::SendScintilla(unsigned int msg, const char *wParam,
-        const char *lParam) const
+                                      const char *lParam) const
 {
     return sci->WndProc(msg, reinterpret_cast<uptr_t>(wParam),
-            reinterpret_cast<sptr_t>(lParam));
+                        reinterpret_cast<sptr_t>(lParam));
 }
 
 
@@ -212,7 +212,7 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, const char *wParam,
 long QsciScintillaBase::SendScintilla(unsigned int msg, long wParam) const
 {
     return sci->WndProc(msg, static_cast<uptr_t>(wParam),
-            static_cast<sptr_t>(0));
+                        static_cast<sptr_t>(0));
 }
 
 
@@ -220,13 +220,13 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, long wParam) const
 long QsciScintillaBase::SendScintilla(unsigned int msg, int wParam) const
 {
     return sci->WndProc(msg, static_cast<uptr_t>(wParam),
-            static_cast<sptr_t>(0));
+                        static_cast<sptr_t>(0));
 }
 
 
 // Overloaded message send.
 long QsciScintillaBase::SendScintilla(unsigned int msg, long cpMin, long cpMax,
-        char *lpstrText) const
+                                      char *lpstrText) const
 {
     QSCI_SCI_NAMESPACE(TextRange) tr;
 
@@ -235,13 +235,13 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, long cpMin, long cpMax,
     tr.lpstrText = lpstrText;
 
     return sci->WndProc(msg, static_cast<uptr_t>(0),
-            reinterpret_cast<sptr_t>(&tr));
+                        reinterpret_cast<sptr_t>(&tr));
 }
 
 
 // Overloaded message send.
 long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
-        const QColor &col) const
+                                      const QColor &col) const
 {
     sptr_t lParam = (col.blue() << 16) | (col.green() << 8) | col.red();
 
@@ -260,7 +260,7 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, const QColor &col) const
 
 // Overloaded message send.
 long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
-        QPainter *hdc, const QRect &rc, long cpMin, long cpMax) const
+                                      QPainter *hdc, const QRect &rc, long cpMin, long cpMax) const
 {
     QSCI_SCI_NAMESPACE(RangeToFormat) rf;
 
@@ -280,7 +280,7 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
 
 // Overloaded message send.
 long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
-        const QPixmap &lParam) const
+                                      const QPixmap &lParam) const
 {
     return sci->WndProc(msg, wParam, reinterpret_cast<sptr_t>(&lParam));
 }
@@ -288,7 +288,7 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
 
 // Overloaded message send.
 long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
-        const QImage &lParam) const
+                                      const QImage &lParam) const
 {
     return sci->WndProc(msg, wParam, reinterpret_cast<sptr_t>(&lParam));
 }
@@ -299,7 +299,7 @@ long QsciScintillaBase::SendScintilla(unsigned int msg, unsigned long wParam,
 void *QsciScintillaBase::SendScintillaPtrResult(unsigned int msg) const
 {
     return reinterpret_cast<void *>(sci->WndProc(msg, static_cast<uptr_t>(0),
-            static_cast<sptr_t>(0)));
+                                    static_cast<sptr_t>(0)));
 }
 
 
@@ -514,7 +514,7 @@ void QsciScintillaBase::mouseDoubleClickEvent(QMouseEvent *e)
     bool alt = e->modifiers() & Qt::AltModifier;
 
     sci->ButtonDown(QSCI_SCI_NAMESPACE(Point)(e->x(), e->y()), clickTime,
-            shift, ctrl, alt);
+                    shift, ctrl, alt);
 
     // Remember the current position and time in case it turns into a triple
     // click.
@@ -648,9 +648,9 @@ void QsciScintillaBase::dragLeaveEvent(QDragLeaveEvent *)
 void QsciScintillaBase::dragMoveEvent(QDragMoveEvent *e)
 {
     sci->SetDragPosition(
-            sci->SPositionFromLocation(
-                    QSCI_SCI_NAMESPACE(Point)(e->pos().x(), e->pos().y()),
-                    false, false, sci->UserVirtualSpace()));
+        sci->SPositionFromLocation(
+            QSCI_SCI_NAMESPACE(Point)(e->pos().x(), e->pos().y()),
+            false, false, sci->UserVirtualSpace()));
 
     acceptAction(e);
 }
@@ -676,10 +676,10 @@ void QsciScintillaBase::dropEvent(QDropEvent *e)
     s = text.data();
 
     std::string dest = QSCI_SCI_NAMESPACE(Document)::TransformLineEnds(s, len,
-                sci->pdoc->eolMode);
+                       sci->pdoc->eolMode);
 
     sci->DropAt(sci->posDrop, dest.c_str(), dest.length(), moving,
-            rectangular);
+                rectangular);
 
     sci->Redraw();
 }

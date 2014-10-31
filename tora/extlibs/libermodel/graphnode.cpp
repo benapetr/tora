@@ -52,67 +52,67 @@ GraphNode::GraphNode() :
 }
 
 GraphNode::GraphNode(const GraphNode& gn) :
-GraphElement(gn)
+    GraphElement(gn)
 {
-  //   kDebug() ;
+    //   kDebug() ;
 }
 
 #ifdef GV_LiB
 GraphNode::GraphNode(node_t* gn) : GraphElement()
 {
-  ///kDebug();
-  updateWithNode(gn);
+    ///kDebug();
+    updateWithNode(gn);
 }
 #endif
 
 void GraphNode::updateWithNode(const GraphNode& node)
 {
-  ///kDebug() << id() << node.id();
-  GraphElement::updateWithElement(node);
-  if (canvasNode())
-  {
-    canvasNode()->computeBoundingRect();
-    canvasNode()->modelChanged();
-  }
+    ///kDebug() << id() << node.id();
+    GraphElement::updateWithElement(node);
+    if (canvasNode())
+    {
+        canvasNode()->computeBoundingRect();
+        canvasNode()->modelChanged();
+    }
 //   kDebug() << "done";
 }
 
 #ifdef GV_LiB
 void GraphNode::updateWithNode(node_t* node)
 {
-  ///kDebug() << agnameof(node);
-  m_attributes["id"] = agnameof(node);
-  m_attributes["label"] = ND_label(node)->text;
+    ///kDebug() << agnameof(node);
+    m_attributes["id"] = agnameof(node);
+    m_attributes["label"] = ND_label(node)->text;
 
 
-  renderOperations().clear();
-  if (agget(node, (char*)"_draw_") != NULL)
-  {
-    parse_renderop(agget(node, (char*)"_draw_"), renderOperations());
-    ///kDebug() << "_draw_: element renderOperations size is now " << renderOperations().size();
-  }
-  if (agget(node, (char*)"_ldraw_") != NULL)
-  {
-    parse_renderop(agget(node, (char*)"_ldraw_"), renderOperations());
-    ///kDebug() << "_ldraw_: element renderOperations size is now " << renderOperations().size();
-  }
+    renderOperations().clear();
+    if (agget(node, (char*)"_draw_") != NULL)
+    {
+        parse_renderop(agget(node, (char*)"_draw_"), renderOperations());
+        ///kDebug() << "_draw_: element renderOperations size is now " << renderOperations().size();
+    }
+    if (agget(node, (char*)"_ldraw_") != NULL)
+    {
+        parse_renderop(agget(node, (char*)"_ldraw_"), renderOperations());
+        ///kDebug() << "_ldraw_: element renderOperations size is now " << renderOperations().size();
+    }
 
-  Agsym_t *attr = agnxtattr(agraphof(node), AGNODE, NULL);
-  while(attr)
-  {
-    ///kDebug() << agnameof(node) << ":" << attr->name << agxget(node,attr);
-    m_attributes[attr->name] = agxget(node,attr);
-    attr = agnxtattr(agraphof(node), AGNODE, attr);
-  }
+    Agsym_t *attr = agnxtattr(agraphof(node), AGNODE, NULL);
+    while(attr)
+    {
+        ///kDebug() << agnameof(node) << ":" << attr->name << agxget(node,attr);
+        m_attributes[attr->name] = agxget(node,attr);
+        attr = agnxtattr(agraphof(node), AGNODE, attr);
+    }
 }
 #endif
 
 QTextStream& operator<<(QTextStream& s, const GraphNode& n)
 {
-  s << n.id() << "  ["
-    << dynamic_cast<const GraphElement&>(n)
-    <<"];"<<endl;
-  return s;
+    s << n.id() << "  ["
+      << dynamic_cast<const GraphElement&>(n)
+      <<"];"<<endl;
+    return s;
 }
 
 ///}

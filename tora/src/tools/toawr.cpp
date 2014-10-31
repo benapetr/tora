@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -67,7 +67,7 @@ static toSQL SQLDBInstances("toAWR:DBInstances",
                             "                   ci.host_name       = wr.host_name           \n"
                             "              then '* '||wr.dbid||':'||wr.instance_name        \n"
                             " else '  '||wr.dbid||':'||wr.instance_name \n"
-                            "	end) disp_dbdbid    \n"
+                            "   end) disp_dbdbid    \n"
                             "   , wr.dbid   dbbid  \n"
                             "   , wr.instance_number instt_num    \n"
                             "   , wr.db_name         dbb_name     \n"
@@ -142,7 +142,7 @@ static toSQL SQLSnaps("toAWR:Snaps",
                       "  and di.instance_number  = s.instance_number \n"
                       "  and di.startup_time     = s.startup_time    \n"
                       "  and s.end_interval_time between trunc(to_date(:sdate<char[11],in>, 'YYYY:MM:DD'))    \n"
-                      "	and trunc(to_date(:edate<char[11],in>, 'YYYY:MM:DD')+1)                         \n"
+                      " and trunc(to_date(:edate<char[11],in>, 'YYYY:MM:DD')+1)                         \n"
 //      "  and s.end_interval_time >= decode( &num_days "
 //      "                                  , 0   , to_date('31-JAN-9999','DD-MON-YYYY') "
 //      "                                  , 3.14, s.end_interval_time "
@@ -216,7 +216,7 @@ public:
 
     virtual bool canHandle(const toConnection &conn)
     {
-		return conn.providerIs("Oracle");
+        return conn.providerIs("Oracle");
     }
 
     virtual toToolWidget* toolWindow(QWidget *parent, toConnection &connection)
@@ -264,10 +264,10 @@ toAWR::toAWR(/*toTool *tool,*/ QWidget *parent, toConnection &_connection)
     dbid->setSQL(toSQL::sql("toAWR:DBInstances", connection()));
     fsnap = new toResultCombo(toolbar, "AWR toolbar");
     fsnap->setSelectionPolicy(toResultCombo::LastButOne);
-	fsnap->setSQL(SQLSnaps);
+    fsnap->setSQL(SQLSnaps);
     tsnap = new toResultCombo(toolbar, "AWR toolbar");
     tsnap->setSelectionPolicy(toResultCombo::Last);
-	tsnap->setSQL(SQLSnaps);
+    tsnap->setSQL(SQLSnaps);
 
     startdate = new QDateTimeEdit(QDate::currentDate());
     startdate->setCalendarPopup(true);
@@ -335,7 +335,7 @@ void toAWR::execute(void)
 
         try
         {
-			toConnectionSubLoan c(connection());
+            toConnectionSubLoan c(connection());
             toQuery checkSnaps(c, SQLCheckSnaps, toQueryParams() << dbids << insts << fsnaps << tsnaps);
 
             toQuery report(c,
@@ -423,7 +423,7 @@ void toAWR::startDateChanged(QDate date)
         toQueryParams params;
         params << dbid << inst << date.toString("yyyy:MM:dd") << date.toString("yyyy:MM:dd");
         fsnap->setSelectionPolicy(toResultCombo::None);
-		fsnap->refreshWithParams(params);
+        fsnap->refreshWithParams(params);
     }
     TOCATCH;
 }
@@ -445,7 +445,7 @@ void toAWR::endDateChanged(QDate date)
     QString inst = l.at(1);
     try
     {
-        toQueryParams params;		
+        toQueryParams params;
         params << dbid << inst << date.toString("yyyy:MM:dd") << date.toString("yyyy:MM:dd");
         tsnap->setSelectionPolicy(toResultCombo::None);
         tsnap->refreshWithParams(params);
@@ -471,7 +471,7 @@ void toAWR::instanceChanged(int pos)
         toQueryParams sparams, eparams;
         sparams <<  dbid << inst << startdate->date().toString("yyyy:MM:dd") << startdate->date().toString("yyyy:MM:dd");
         TLOG(1, toDecorator, __HERE__) << "FSNAP: ("  << sparams.size() << ")" << std::endl;
-		fsnap->refreshWithParams(sparams);
+        fsnap->refreshWithParams(sparams);
 
 
         eparams << dbid << inst << enddate->date().toString("yyyy:MM:dd") << enddate->date().toString("yyyy:MM:dd");
@@ -485,18 +485,18 @@ void toAWR::instanceRead(void)
 {
     dbid->setCurrentIndex(0);
 
-	try
-	{
-		QVariant vdbid = dbid->itemData(dbid->currentIndex());
-		QString dbids( vdbid.toStringList().at(0) );
-		QString insts( vdbid.toStringList().at(1) );
-		
-		toQueryParams params;
-		params << dbids << insts << QDate::currentDate().toString("yyyy:MM:dd") << QDate::currentDate().toString("yyyy:MM:dd");
+    try
+    {
+        QVariant vdbid = dbid->itemData(dbid->currentIndex());
+        QString dbids( vdbid.toStringList().at(0) );
+        QString insts( vdbid.toStringList().at(1) );
+
+        toQueryParams params;
+        params << dbids << insts << QDate::currentDate().toString("yyyy:MM:dd") << QDate::currentDate().toString("yyyy:MM:dd");
         //fsnap->setSelectionPolicy(toResultCombo::None);
-		fsnap->refreshWithParams(params);
-		tsnap->refreshWithParams(params);
-	}
-	TOCATCH;
+        fsnap->refreshWithParams(params);
+        tsnap->refreshWithParams(params);
+    }
+    TOCATCH;
 
 };

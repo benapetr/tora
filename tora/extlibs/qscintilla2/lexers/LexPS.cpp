@@ -116,7 +116,7 @@ static void ColourisePSDoc(
         } else if (sc.state == SCE_PS_NUMBER) {
             if (IsASelfDelimitingChar(sc.ch) || IsAWhitespaceChar(sc.ch)) {
                 if ((sc.chPrev == '+' || sc.chPrev == '-' ||
-                     sc.chPrev == 'E' || sc.chPrev == 'e') && numRadix == 0)
+                        sc.chPrev == 'E' || sc.chPrev == 'e') && numRadix == 0)
                     sc.ChangeState(SCE_PS_NAME);
                 sc.SetState(SCE_C_DEFAULT);
             } else if (sc.ch == '#') {
@@ -155,9 +155,9 @@ static void ColourisePSDoc(
                 char s[100];
                 sc.GetCurrent(s, sizeof(s));
                 if ((pslevel >= 1 && keywords1.InList(s)) ||
-                    (pslevel >= 2 && keywords2.InList(s)) ||
-                    (pslevel >= 3 && keywords3.InList(s)) ||
-                    keywords4.InList(s) || keywords5.InList(s)) {
+                        (pslevel >= 2 && keywords2.InList(s)) ||
+                        (pslevel >= 3 && keywords3.InList(s)) ||
+                        keywords4.InList(s) || keywords5.InList(s)) {
                     sc.ChangeState(SCE_PS_KEYWORD);
                 }
                 sc.SetState(SCE_C_DEFAULT);
@@ -173,7 +173,7 @@ static void ColourisePSDoc(
                 nestTextCurrent++;
             } else if (sc.ch == ')') {
                 if (--nestTextCurrent == 0)
-                   sc.ForwardSetState(SCE_PS_DEFAULT);
+                    sc.ForwardSetState(SCE_PS_DEFAULT);
             } else if (sc.ch == '\\') {
                 sc.Forward();
             }
@@ -220,8 +220,8 @@ static void ColourisePSDoc(
                     sc.SetState(SCE_PS_HEXSTRING);
                 }
             } else if (sc.ch == '>' && sc.chNext == '>') {
-                    sc.SetState(SCE_PS_PAREN_DICT);
-                    sc.Forward();
+                sc.SetState(SCE_PS_PAREN_DICT);
+                sc.Forward();
             } else if (sc.ch == '>' || sc.ch == ')') {
                 sc.SetState(SCE_C_DEFAULT);
                 styler.ColourTo(sc.currentPos, SCE_PS_BADSTRINGCHAR);
@@ -265,7 +265,7 @@ static void ColourisePSDoc(
 
             // Mark the start of tokens
             if (tokenizing && sc.state != SCE_C_DEFAULT && sc.state != SCE_PS_COMMENT &&
-                sc.state != SCE_PS_DSC_COMMENT && sc.state != SCE_PS_DSC_VALUE) {
+                    sc.state != SCE_PS_DSC_COMMENT && sc.state != SCE_PS_DSC_VALUE) {
                 styler.Flush();
                 styler.StartAt(tokenpos, static_cast<char>(INDIC2_MASK));
                 styler.ColourTo(tokenpos, INDIC2_MASK);
@@ -283,7 +283,7 @@ static void ColourisePSDoc(
 }
 
 static void FoldPSDoc(unsigned int startPos, int length, int, WordList *[],
-                       Accessor &styler) {
+                      Accessor &styler) {
     bool foldCompact = styler.GetPropertyInt("fold.compact", 1) != 0;
     bool foldAtElse = styler.GetPropertyInt("fold.at.else", 0) != 0;
     unsigned int endPos = startPos + length;

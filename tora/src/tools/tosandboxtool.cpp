@@ -11,9 +11,9 @@
 static const char * execute_xpm[] =
 {
     "16 16 3 1",
-    " 	c None",
-    ".	c #000000",
-    "+	c #0FFE14",
+    "   c None",
+    ".  c #000000",
+    "+  c #0FFE14",
     "                ",
     "                ",
     "                ",
@@ -35,9 +35,9 @@ static const char * execute_xpm[] =
 static const char * tosimplequery_xpm[] =
 {
     "16 16 3 1",
-    " 	c None",
-    ".	c #000000",
-    "+	c #FFFFFF",
+    "   c None",
+    ".  c #000000",
+    "+  c #FFFFFF",
     "       ......   ",
     "      ..++++.   ",
     "     .+.++++.   ",
@@ -119,15 +119,15 @@ void toSandbox::execute(void)
 {
     try
     {
-    	QString sql = m_statement->text();
-    	m_eventQuery = new toEventQuery(this
-    			, toConnectionRegistrySing::Instance().currentConnection()
-    			, sql
-    			, toQueryParams()
-    			, toEventQuery::READ_FIRST);
-    	//toQList params=toParamGet::getParam(this,sql);
+        QString sql = m_statement->text();
+        m_eventQuery = new toEventQuery(this
+                                        , toConnectionRegistrySing::Instance().currentConnection()
+                                        , sql
+                                        , toQueryParams()
+                                        , toEventQuery::READ_FIRST);
+        //toQList params=toParamGet::getParam(this,sql);
 
-    	m_mvc->setQuery(m_eventQuery);
+        m_mvc->setQuery(m_eventQuery);
 
     }
     TOCATCH

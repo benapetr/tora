@@ -136,7 +136,7 @@ static bool IsValidHrule(const unsigned int endPos, StyleContext &sc) {
             }
             else {
                 sc.SetState(SCE_MARKDOWN_DEFAULT);
-		return false;
+                return false;
             }
         }
     }
@@ -144,7 +144,7 @@ static bool IsValidHrule(const unsigned int endPos, StyleContext &sc) {
 }
 
 static void ColorizeMarkdownDoc(unsigned int startPos, int length, int initStyle,
-                               WordList **, Accessor &styler) {
+                                WordList **, Accessor &styler) {
     unsigned int endPos = startPos + length;
     int precharCount = 0;
     // Don't advance on a new loop iteration and retry at the same position.
@@ -290,8 +290,8 @@ static void ColorizeMarkdownDoc(unsigned int startPos, int length, int initStyle
 
         // The header lasts until the newline
         else if (sc.state == SCE_MARKDOWN_HEADER1 || sc.state == SCE_MARKDOWN_HEADER2 ||
-                sc.state == SCE_MARKDOWN_HEADER3 || sc.state == SCE_MARKDOWN_HEADER4 ||
-                sc.state == SCE_MARKDOWN_HEADER5 || sc.state == SCE_MARKDOWN_HEADER6) {
+                 sc.state == SCE_MARKDOWN_HEADER3 || sc.state == SCE_MARKDOWN_HEADER4 ||
+                 sc.state == SCE_MARKDOWN_HEADER5 || sc.state == SCE_MARKDOWN_HEADER6) {
             if (IsNewline(sc.ch))
                 sc.SetState(SCE_MARKDOWN_LINE_BEGIN);
         }
@@ -388,7 +388,7 @@ static void ColorizeMarkdownDoc(unsigned int startPos, int length, int initStyle
             else if (sc.Match("**") && sc.GetRelative(2) != ' ' && AtTermStart(sc)) {
                 sc.SetState(SCE_MARKDOWN_STRONG1);
                 sc.Forward();
-           }
+            }
             else if (sc.Match("__") && sc.GetRelative(2) != ' ' && AtTermStart(sc)) {
                 sc.SetState(SCE_MARKDOWN_STRONG2);
                 sc.Forward();

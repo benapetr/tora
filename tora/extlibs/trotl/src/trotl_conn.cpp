@@ -11,11 +11,11 @@
   modification, are permitted provided that the following conditions are met:
 
   * Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+    notice, this list of conditions and the following disclaimer.
   * Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in
-	the documentation and/or other materials provided with the
-	distribution.
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the
+    distribution.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -44,102 +44,102 @@ namespace trotl
 
 // thread_safe_log get_log()
 // {
-// 	// static std::ofstream out( "out.txt");
-// 	static internal_thread_safe_log log( std::cerr);
-// 	return thread_safe_log( log);
+//  // static std::ofstream out( "out.txt");
+//  static internal_thread_safe_log log( std::cerr);
+//  return thread_safe_log( log);
 // }
 
 #if 0
 OciConnection* OciConnection::CreateFromESqlContext(void* context)
 {
-	OCIEnv* envhp = NULL;
-	sword res = SQLEnvGet(context, &envhp);
+    OCIEnv* envhp = NULL;
+    sword res = SQLEnvGet(context, &envhp);
 
-	if (res != OCI_SUCCESS)
-		return NULL;
+    if (res != OCI_SUCCESS)
+        return NULL;
 
-	OCISvcCtx* svchp = NULL;
-	res = SQLSvcCtxGet(context, NULL, 0, &svchp);
-	oci_check_error(__TROTL_HERE__, envhp, res);
+    OCISvcCtx* svchp = NULL;
+    res = SQLSvcCtxGet(context, NULL, 0, &svchp);
+    oci_check_error(__TROTL_HERE__, envhp, res);
 
-	return new OciConnection(envhp, svchp);
+    return new OciConnection(envhp, svchp);
 }
 #endif
 
 /// cancel a pending OCI call in the worker thread
 void OciConnection::cancel()
 {
-	sword res = OCICALL(OCICALL(OCIBreak(_svc_ctx, _env._errh)));
+    sword res = OCICALL(OCICALL(OCIBreak(_svc_ctx, _env._errh)));
 
-	oci_check_error(__TROTL_HERE__, _env._errh, res);
+    oci_check_error(__TROTL_HERE__, _env._errh, res);
 }
 
 /// reset() is to be called after handling the cancellation in the calling worker thread.
 void OciConnection::reset()
 {
-	sword res = OCICALL(OCIReset(_svc_ctx, _env._errh));
+    sword res = OCICALL(OCIReset(_svc_ctx, _env._errh));
 
-	oci_check_error(__TROTL_HERE__, _env._errh, res);
+    oci_check_error(__TROTL_HERE__, _env._errh, res);
 }
 
 tstring OciConnection::getNLS_LANG()
 {
-	OraText infoBuf[OCI_NLS_MAXBUFSZ];
-	sword res;
-	tostream retval;
+    OraText infoBuf[OCI_NLS_MAXBUFSZ];
+    sword res;
+    tostream retval;
 
-	res = OCICALL(OCINlsGetInfo(_env,                            /* environment handle */
-	                            _env._errh,                            /* error handle */
-	                            infoBuf,                         /* destination buffer */
-	                            (size_t) OCI_NLS_MAXBUFSZ,              /* buffer size */
-	                            (ub2) OCI_NLS_LANGUAGE));                       /* item */
-	oci_check_error(__TROTL_HERE__, _env._errh, res);
+    res = OCICALL(OCINlsGetInfo(_env,                            /* environment handle */
+                                _env._errh,                            /* error handle */
+                                infoBuf,                         /* destination buffer */
+                                (size_t) OCI_NLS_MAXBUFSZ,              /* buffer size */
+                                (ub2) OCI_NLS_LANGUAGE));                       /* item */
+    oci_check_error(__TROTL_HERE__, _env._errh, res);
 
-	retval << (const char*) infoBuf;
+    retval << (const char*) infoBuf;
 
-	res = OCICALL(OCINlsGetInfo(_env,                            /* environment handle */
-	                            _env._errh,                            /* error handle */
-	                            infoBuf,                         /* destination buffer */
-	                            (size_t) OCI_NLS_MAXBUFSZ,              /* buffer size */
-	                            (ub2) OCI_NLS_TERRITORY));                      /* item */
-	oci_check_error(__TROTL_HERE__, _env._errh, res);
+    res = OCICALL(OCINlsGetInfo(_env,                            /* environment handle */
+                                _env._errh,                            /* error handle */
+                                infoBuf,                         /* destination buffer */
+                                (size_t) OCI_NLS_MAXBUFSZ,              /* buffer size */
+                                (ub2) OCI_NLS_TERRITORY));                      /* item */
+    oci_check_error(__TROTL_HERE__, _env._errh, res);
 
-	retval << '_' << (const char *)infoBuf;
+    retval << '_' << (const char *)infoBuf;
 
-	res = OCICALL(OCINlsGetInfo(_env,                            /* environment handle */
-	                            _env._errh,                            /* error handle */
-	                            infoBuf,                         /* destination buffer */
-	                            (size_t) OCI_NLS_MAXBUFSZ,              /* buffer size */
-	                            (ub2) OCI_NLS_CHARACTER_SET));                  /* item */
-	oci_check_error(__TROTL_HERE__, _env._errh, res);
+    res = OCICALL(OCINlsGetInfo(_env,                            /* environment handle */
+                                _env._errh,                            /* error handle */
+                                infoBuf,                         /* destination buffer */
+                                (size_t) OCI_NLS_MAXBUFSZ,              /* buffer size */
+                                (ub2) OCI_NLS_CHARACTER_SET));                  /* item */
+    oci_check_error(__TROTL_HERE__, _env._errh, res);
 
-	retval << '.' << (const char *) infoBuf;
-	return retval.str();
+    retval << '.' << (const char *) infoBuf;
+    return retval.str();
 }
 
 void OciConnection::changePassword(tstring userid, tstring password, tstring new_password)
 {
-	sword res;
-	/*
-	res = OCICALL(OCIAttrSet (reinterpret_cast<dvoid* >(_svc_ctx),
-		      static_cast<ub4 >(OCI_HTYPE_SVCCTX),
-		      reinterpret_cast<dvoid * >(_authp),
-		      0,
-		      static_cast<ub4 >(OCI_ATTR_SESSION),
-		      _env._errh));
-	oci_check_error(__TROTL_HERE__, _env._errh, res);
-	*/
-	res = OCICALL(OCIPasswordChange (_svc_ctx,
-	                                 _env._errh,
-	                                 (text*)(userid.c_str()),
-	                                 (ub4)(userid.length()),
-	                                 (text*)(password.c_str()),
-	                                 (ub4)(password.length()),
-	                                 (text*)(new_password.c_str()),
-	                                 (ub4)(new_password.length()),
-	                                 //OCI_AUTH);
-	                                 OCI_DEFAULT));
-	oci_check_error(__TROTL_HERE__, _env._errh, res);
+    sword res;
+    /*
+    res = OCICALL(OCIAttrSet (reinterpret_cast<dvoid* >(_svc_ctx),
+              static_cast<ub4 >(OCI_HTYPE_SVCCTX),
+              reinterpret_cast<dvoid * >(_authp),
+              0,
+              static_cast<ub4 >(OCI_ATTR_SESSION),
+              _env._errh));
+    oci_check_error(__TROTL_HERE__, _env._errh, res);
+    */
+    res = OCICALL(OCIPasswordChange (_svc_ctx,
+                                     _env._errh,
+                                     (text*)(userid.c_str()),
+                                     (ub4)(userid.length()),
+                                     (text*)(password.c_str()),
+                                     (ub4)(password.length()),
+                                     (text*)(new_password.c_str()),
+                                     (ub4)(new_password.length()),
+                                     //OCI_AUTH);
+                                     OCI_DEFAULT));
+    oci_check_error(__TROTL_HERE__, _env._errh, res);
 }
 
 }; //namespace trotl

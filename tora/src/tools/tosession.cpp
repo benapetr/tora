@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -249,8 +249,8 @@ static toSQL SQLSessionTXN(
     "           NVL(s.username, 'None') OraUser,                                                    \n"
     "           s.program,                                                                          \n"
     "           case when t.used_ublk is not null then t.used_ublk * TO_NUMBER(x.value)/1024/1024||'M'   \n"
-    "	        else null end as \"Undo\",                                                          \n"
-    "	   t.*                                                                                      \n"
+    "           else null end as \"Undo\",                                                          \n"
+    "      t.*                                                                                      \n"
     "      FROM sys.v_$session     s,                                                               \n"
     "           sys.v_$transaction t,                                                               \n"
     "           sys.v_$parameter   x                                                                \n"
@@ -274,7 +274,7 @@ static toSQL SQLSessions(
     "toSession:ListSession",
     "SELECT a.Sid \"Id\",\n"
     "       a.Serial# \"Serial#\",\n"
-	"       a.UserName \"Username\",\n"
+    "       a.UserName \"Username\",\n"
     "       a.SchemaName \"Schema\",\n"
     "       a.Status \"Status\",\n"
     "       a.Server \"Server\",\n"
@@ -375,7 +375,7 @@ toSession::toSession(QWidget *main, toConnection &connection)
                    main,
                    connection,
                    "toSession")
-	, SessionFilter(new toSessionFilter)
+    , SessionFilter(new toSessionFilter)
 {
     QToolBar *toolbar = Utils::toAllocBar(this, tr("Session manager"));
     layout()->addWidget(toolbar);
@@ -524,7 +524,7 @@ toSession::toSession(QWidget *main, toConnection &connection)
 
         StatisticSplitter = new QSplitter(Qt::Horizontal, ResultTab);
         SessionStatistics = new toResultStats(false, 0, StatisticSplitter);
-#ifdef TORA3_GRAPH	
+#ifdef TORA3_GRAPH
         WaitBar = new toResultBar(StatisticSplitter);
         WaitBar->setSQL(SQLSessionWait);
         WaitBar->setTitle(tr("Session wait states"));
@@ -533,7 +533,7 @@ toSession::toSession(QWidget *main, toConnection &connection)
         IOBar->setSQL(SQLSessionIO);
         IOBar->setTitle(tr("Session I/O"));
         IOBar->setYPostfix(QString::fromLatin1("blocks/s"));
-#endif	
+#endif
         ResultTab->addTab(StatisticSplitter, tr("Statistics"));
 
         Waits = new toWaitEvents(0, ResultTab, "waits");
@@ -573,10 +573,10 @@ toSession::toSession(QWidget *main, toConnection &connection)
         LongOps           = NULL;
         StatisticSplitter = NULL;
         SessionStatistics = NULL;
-#ifdef TORA3_GRAPH	
+#ifdef TORA3_GRAPH
         WaitBar           = NULL;
         IOBar             = NULL;
-#endif	
+#endif
         Waits             = NULL;
         ConnectInfo       = NULL;
         PendingLocks      = NULL;
@@ -625,11 +625,11 @@ toSession::toSession(QWidget *main, toConnection &connection)
 
 toSession::~toSession()
 {
-	if(SessionFilter)
-	{
-		Sessions->setFilter(NULL);
-		delete SessionFilter;
-	}
+    if(SessionFilter)
+    {
+        Sessions->setFilter(NULL);
+        delete SessionFilter;
+    }
 }
 
 bool toSession::canHandle(const toConnection &conn)
@@ -680,7 +680,7 @@ void toSession::slotWindowActivated(toToolWidget* widget)
                 ToolMenu->addSeparator();
             }
 
-	    toGlobalEventSingle::Instance().addCustomMenu(ToolMenu);
+            toGlobalEventSingle::Instance().addCustomMenu(ToolMenu);
         }
     }
     else
@@ -774,7 +774,7 @@ void toSession::enableStatistics(bool enable)
         sql = QString::fromLatin1("ALTER SYSTEM SET TIMED_STATISTICS = FALSE");
     try
     {
-    	toConnectionSubLoan conn(connection());
+        toConnectionSubLoan conn(connection());
         conn->execute(sql);
     }
     catch (...)
@@ -863,7 +863,7 @@ void toSession::slotChangeTab(int index)
                 PreviousStatement->changeAddress(sindex.data().toString());
         } else if (CurrentTab == Transaction)
         {
-        	Transaction->refreshWithParams(toQueryParams() << connectionId << serial);
+            Transaction->refreshWithParams(toQueryParams() << connectionId << serial);
         }
     }
 }
@@ -885,7 +885,7 @@ void toSession::slotCancelBackend()
 
         try
         {
-        	toConnectionSubLoan conn(connection());
+            toConnectionSubLoan conn(connection());
             conn->execute(QString("SELECT pg_cancel_backend ( %1 )").arg(item.data().toString()));
         }
         TOCATCH;
@@ -949,7 +949,7 @@ void toSession::slotDisconnectSession()
         {
             // oracle can take an awful long time to return
             toEventQuery *query = new toEventQuery(this
-            		                               , connection()
+                                                   , connection()
                                                    , sql
                                                    , toQueryParams()
                                                    , toEventQuery::READ_ALL);
@@ -983,7 +983,7 @@ void toSession::slotChangeItem()
     {
         if (!item.isEmpty())
         {
-#ifdef TORA3_GRAPH	  
+#ifdef TORA3_GRAPH
             if (WaitBar)
                 WaitBar->refreshWithParams(toQueryParams() << item);
             if (IOBar)

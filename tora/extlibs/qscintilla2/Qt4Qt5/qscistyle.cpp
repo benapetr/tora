@@ -1,9 +1,9 @@
 // This module implements the QsciStyle class.
 //
 // Copyright (c) 2012 Riverbank Computing Limited <info@riverbankcomputing.com>
-// 
+//
 // This file is part of QScintilla.
-// 
+//
 // This file may be used under the terms of the GNU General Public
 // License versions 2.0 or 3.0 as published by the Free Software
 // Foundation and appearing in the files LICENSE.GPL2 and LICENSE.GPL3
@@ -15,10 +15,10 @@
 // certain additional rights. These rights are described in the Riverbank
 // GPL Exception version 1.1, which can be found in the file
 // GPL_EXCEPTION.txt in this package.
-// 
+//
 // If you are unsure which license is appropriate for your use, please
 // contact the sales department at sales@riverbankcomputing.com.
-// 
+//
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -46,8 +46,8 @@ QsciStyle::QsciStyle(int style)
 
 // A ctor.
 QsciStyle::QsciStyle(int style, const QString &description,
-        const QColor &color, const QColor &paper, const QFont &font,
-        bool eolFill)
+                     const QColor &color, const QColor &paper, const QFont &font,
+                     bool eolFill)
 {
     init(style);
 
@@ -93,32 +93,32 @@ void QsciStyle::init(int style)
 void QsciStyle::apply(QsciScintillaBase *sci) const
 {
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETFORE, style_nr,
-            style_color);
+                       style_color);
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETBACK, style_nr,
-            style_paper);
+                       style_paper);
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETFONT, style_nr,
-            style_font.family().toLatin1().data());
+                       style_font.family().toLatin1().data());
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETSIZE, style_nr,
-            style_font.pointSize());
+                       style_font.pointSize());
 
     // Pass the Qt weight via the back door.
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETWEIGHT, style_nr,
-            -style_font.weight());
+                       -style_font.weight());
 
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETITALIC, style_nr,
-            style_font.italic());
+                       style_font.italic());
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETUNDERLINE, style_nr,
-            style_font.underline());
+                       style_font.underline());
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETEOLFILLED, style_nr,
-            style_eol_fill);
+                       style_eol_fill);
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETCASE, style_nr,
-            (long)style_case);
+                       (long)style_case);
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETVISIBLE, style_nr,
-            style_visible);
+                       style_visible);
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETCHANGEABLE, style_nr,
-            style_changeable);
+                       style_changeable);
     sci->SendScintilla(QsciScintillaBase::SCI_STYLESETHOTSPOT, style_nr,
-            style_hotspot);
+                       style_hotspot);
 }
 
 

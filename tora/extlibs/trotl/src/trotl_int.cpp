@@ -11,11 +11,11 @@
   modification, are permitted provided that the following conditions are met:
 
   * Redistributions of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
+    notice, this list of conditions and the following disclaimer.
   * Redistributions in binary form must reproduce the above copyright
-	notice, this list of conditions and the following disclaimer in
-	the documentation and/or other materials provided with the
-	distribution.
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the
+    distribution.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,58 +56,58 @@ Util::RegisterInFactory<BindParNumber, DefineParFactTwoParmSing, int> regDefineN
 
 tstring TROTL_EXPORT BindParNumber::get_string(unsigned int row) const
 {
-	if(!indp[row])
-	{
-		text str_buf[64];
-		ub4 str_len = sizeof(str_buf) / sizeof(*str_buf);
+    if(!indp[row])
+    {
+        text str_buf[64];
+        ub4 str_len = sizeof(str_buf) / sizeof(*str_buf);
 
-		sword res = OCICALL(OCINumberToText(
-		                            _env._errh,
-		                            (OCINumber*) &((char*)valuep)[row * value_sz ],		//(OCINumber*)valuep,
-		                            (const oratext*) g_TROTL_DEFAULT_NUM_FTM,
-		                            (ub4)strlen(g_TROTL_DEFAULT_NUM_FTM),
-		                            0,							// CONST OraText *nls_params,
-		                            0,							// ub4 nls_p_length,
-		                            (ub4*)&str_len,
-		                            str_buf
-		                    ));
-		oci_check_error(__TROTL_HERE__, _env._errh, res);
+        sword res = OCICALL(OCINumberToText(
+                                _env._errh,
+                                (OCINumber*) &((char*)valuep)[row * value_sz ],     //(OCINumber*)valuep,
+                                (const oratext*) g_TROTL_DEFAULT_NUM_FTM,
+                                (ub4)strlen(g_TROTL_DEFAULT_NUM_FTM),
+                                0,                          // CONST OraText *nls_params,
+                                0,                          // ub4 nls_p_length,
+                                (ub4*)&str_len,
+                                str_buf
+                            ));
+        oci_check_error(__TROTL_HERE__, _env._errh, res);
 
-		return tstring((const char*)str_buf, str_len);
-	}
-	else
-	{
-		return "";
-	}
+        return tstring((const char*)str_buf, str_len);
+    }
+    else
+    {
+        return "";
+    }
 }
 
 TROTL_EXPORT BindParNumber::BindParNumber(unsigned int pos, SqlStatement &stmt, DescribeColumn* ct) : BindPar(pos, stmt, ct)
 {
-	_errh.alloc(stmt._env);
-	valuep = (void**) calloc(_cnt, (size_t)OCI_NUMBER_SIZE );
+    _errh.alloc(stmt._env);
+    valuep = (void**) calloc(_cnt, (size_t)OCI_NUMBER_SIZE );
 
-	dty =  SQLT_VNU; //dty = SQLT_NUM;
-	value_sz = OCI_NUMBER_SIZE;
-	for(unsigned i = 0; i < _cnt; ++i)
-	{
-		((ub2*)rlenp)[i] = (ub2) value_sz;
-	}
-	_type_name = ct->typeName();
+    dty =  SQLT_VNU; //dty = SQLT_NUM;
+    value_sz = OCI_NUMBER_SIZE;
+    for(unsigned i = 0; i < _cnt; ++i)
+    {
+        ((ub2*)rlenp)[i] = (ub2) value_sz;
+    }
+    _type_name = ct->typeName();
 }
 
 TROTL_EXPORT BindParNumber::BindParNumber(unsigned int pos, SqlStatement &stmt, BindVarDecl &decl): BindPar(pos, stmt, decl)
 {
-	_errh.alloc(stmt._env);
-	valuep = (void**) calloc(_cnt, (size_t)OCI_NUMBER_SIZE );
+    _errh.alloc(stmt._env);
+    valuep = (void**) calloc(_cnt, (size_t)OCI_NUMBER_SIZE );
 
-	dty =  SQLT_VNU; //dty = SQLT_NUM;
-	value_sz = OCI_NUMBER_SIZE;
-	for(unsigned i = 0; i < _cnt; ++i)
-	{
-		((ub4*)rlenp)[i] = (ub4) value_sz;
-	}
+    dty =  SQLT_VNU; //dty = SQLT_NUM;
+    value_sz = OCI_NUMBER_SIZE;
+    for(unsigned i = 0; i < _cnt; ++i)
+    {
+        ((ub4*)rlenp)[i] = (ub4) value_sz;
+    }
 
-	_type_name = "NUMBER";
+    _type_name = "NUMBER";
 };
 
 

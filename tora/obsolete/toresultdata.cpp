@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -67,8 +67,8 @@ toResultData::toResultData(QWidget *parent,
                            Qt::WindowFlags f)
     : QWidget(parent, f)
     , Model(NULL)
-	, AllFilter(false)
-	, Discard(false)
+    , AllFilter(false)
+    , Discard(false)
 {
     if (name)
         setObjectName(name);
@@ -205,7 +205,7 @@ void toResultData::query(const QString &, toQueryParams const& params)
     SQL = "SELECT ";
     Q_FOREACH(QString c, priKeys)
     {
-    	SQL += c + ",";
+        SQL += c + ",";
     }
     SQL = SQL + " t.* FROM %1.%2 t ";
     SQL = SQL.arg(conn.getTraits().quote(Owner)).arg(conn.getTraits().quote(Table));
@@ -243,11 +243,11 @@ void toResultData::closeEvent(QCloseEvent *event)
 
 void toResultData::setModel(toResultModel *model)
 {
-	if (model == NULL)
-		Model = NULL;
-	Model = dynamic_cast<toResultModelEdit *>(model);
-	Q_ASSERT_X(Model != NULL || model == NULL, qPrintable(__QHERE__), "Invalid subclass of toResultModel");
-	connect(Model, SIGNAL(changed(bool)), saveAct, SLOT(setEnabled(bool)));
+    if (model == NULL)
+        Model = NULL;
+    Model = dynamic_cast<toResultModelEdit *>(model);
+    Q_ASSERT_X(Model != NULL || model == NULL, qPrintable(__QHERE__), "Invalid subclass of toResultModel");
+    connect(Model, SIGNAL(changed(bool)), saveAct, SLOT(setEnabled(bool)));
 }
 
 void toResultData::navigate(QAction *action)
@@ -268,7 +268,7 @@ void toResultData::navigate(QAction *action)
     else if (action == previousAct)
         row = (std::max)(--row, 0);
     else if (action == nextAct)
-    	row = (std::min)(++row, Edit->model()->rowCount() - 1);
+        row = (std::min)(++row, Edit->model()->rowCount() - 1);
     else if (action == lastAct)
         row = Edit->model()->rowCount() - 1;
     else
@@ -313,7 +313,7 @@ void toResultData::removeFilter(bool)
         case 0:
             Criteria.clear();
             Order.clear();
-            // Intentionally no break
+        // Intentionally no break
         case 1:
             Criteria.remove(FilterName);
             Order.remove(FilterName);
@@ -349,7 +349,7 @@ void toResultData::changeFilter(bool checked)
     filter.Order->setText(Order[FilterName]);
     filter.Criteria->setText(Criteria[FilterName]);
 
-	filter.Columns->changeObject(toCache::ObjectRef(Owner, Table));
+    filter.Columns->changeObject(toCache::ObjectRef(Owner, Table));
 
     if (dialog.exec())
     {
@@ -373,7 +373,7 @@ void toResultData::changeFilter(bool checked)
 bool toResultData::maybeSave(void)
 {
     if (Edit->editModel() == NULL)
-    	return true;
+        return true;
     if (!Edit->editModel()->changed())
         return true;
 
@@ -395,12 +395,12 @@ bool toResultData::maybeSave(void)
             emit changesSaved();
         return true;
     case QMessageBox::Discard:
-    	return Discard = true;
+        return Discard = true;
     case QMessageBox::Cancel:
         return false;
     }
-	Q_ASSERT_X(false, qPrintable(__QHERE__), "Invalid Message box response");
-	return true; // never reached
+    Q_ASSERT_X(false, qPrintable(__QHERE__), "Invalid Message box response");
+    return true; // never reached
 }
 
 

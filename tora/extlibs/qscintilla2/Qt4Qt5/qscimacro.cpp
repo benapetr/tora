@@ -1,9 +1,9 @@
 // This module implements the QsciMacro class.
 //
 // Copyright (c) 2012 Riverbank Computing Limited <info@riverbankcomputing.com>
-// 
+//
 // This file is part of QScintilla.
-// 
+//
 // This file may be used under the terms of the GNU General Public
 // License versions 2.0 or 3.0 as published by the Free Software
 // Foundation and appearing in the files LICENSE.GPL2 and LICENSE.GPL3
@@ -15,10 +15,10 @@
 // certain additional rights. These rights are described in the Riverbank
 // GPL Exception version 1.1, which can be found in the file
 // GPL_EXCEPTION.txt in this package.
-// 
+//
 // If you are unsure which license is appropriate for your use, please
 // contact the sales department at sales@riverbankcomputing.com.
-// 
+//
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -135,7 +135,7 @@ bool QsciMacro::load(const QString &asc)
                     int b1, b2;
 
                     if ((b1 = fromHex(*sp++)) < 0 ||
-                        (b2 = fromHex(*sp++)) < 0)
+                            (b2 = fromHex(*sp++)) < 0)
                     {
                         ok = false;
                         break;
@@ -169,7 +169,7 @@ bool QsciMacro::load(const QString &asc)
 
         macro.append(cmd);
     }
-        
+
     if (!ok)
         macro.clear();
 
@@ -296,7 +296,7 @@ void QsciMacro::record(unsigned int msg, unsigned long wParam, void *lParam)
             return;
         }
 
-        /* Drop through. */
+    /* Drop through. */
 
     case QsciScintillaBase::SCI_INSERTTEXT:
     case QsciScintillaBase::SCI_APPENDTEXT:

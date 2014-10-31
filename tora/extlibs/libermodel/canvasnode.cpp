@@ -53,30 +53,30 @@
 ///namespace KGraphViewer
 ///{
 CanvasNode::CanvasNode(DotGraphView* v,
-                        GraphNode* s,
-                        QGraphicsScene* c,
-                        QGraphicsItem* parent)
-: CanvasElement(v,(GraphElement*)s, c, parent)
+                       GraphNode* s,
+                       QGraphicsScene* c,
+                       QGraphicsItem* parent)
+    : CanvasElement(v,(GraphElement*)s, c, parent)
 
 {
-  ///kDebug() << s->id();
-  connect(s,SIGNAL(changed()),this,SLOT(modelChanged()));
+    ///kDebug() << s->id();
+    connect(s,SIGNAL(changed()),this,SLOT(modelChanged()));
 
-  QString tipStr;
-  QString id = s->id();
-  QString label = s->label();
-  tipStr = QString("id='%1'\nlabel='%2'").arg(id).arg(label);
+    QString tipStr;
+    QString id = s->id();
+    QString label = s->label();
+    tipStr = QString("id='%1'\nlabel='%2'").arg(id).arg(label);
 //   kDebug() << "CanvasEllipseNode setToolTip " << tipStr;
-  setToolTip(tipStr);
+    setToolTip(tipStr);
 }
 
 // CanvasHtmlNode::CanvasHtmlNode(
-//                                           DotGraphView* v, 
+//                                           DotGraphView* v,
 //                                           GraphNode* n,
 //                                           const DotRenderOp& dro,
 //                                           const DotRenderOpVec& dros,
 //                                           QGraphicsScene* c,
-//                                           double scaleX, double scaleY, 
+//                                           double scaleX, double scaleY,
 //                                           int xMargin, int yMargin, int gh,
 //                                           int wdhcf, int hdvcf
 //                                         )
@@ -85,7 +85,7 @@ CanvasNode::CanvasNode(DotGraphView* v,
 //   m_renderOperations = dros;
 // //   kDebug() << "Creating "<<node()->id()<<" CanvasHtmlNode for" << n
 // //     << " with label '" << n->label() << "'";
-// 
+//
 //   QString myHTMLCode = n->label();
 //   myHTMLCode = myHTMLCode.mid(1, myHTMLCode.length() - 2);
 // //   kDebug() << "HTML = " << myHTMLCode;
@@ -113,17 +113,17 @@ CanvasNode::CanvasNode(DotGraphView* v,
 //   CanvasHtmlNode::connect(v, SIGNAL(contentsMoving ( int, int)), this, SLOT(move(int, int)));
 //   CanvasHtmlNode::connect(v, SIGNAL(zoomed (double)), this, SLOT(zoomed(double)));
 // }
-// 
-// CanvasHtmlNode::~CanvasHtmlNode() 
+//
+// CanvasHtmlNode::~CanvasHtmlNode()
 // {
 //   KHTMLPart::hide();
 // }
-// 
+//
 // // void CanvasHtmlNode::paint(QPainter& p)
 // // {
 // //   view()->drawContents(&p);
 // // }
-// 
+//
 // void CanvasHtmlNode::move(int x, int y)
 // {
 // //   kDebug() << "CanvasHtmlNode::move("<<x<<", "<<y<<")";
@@ -131,7 +131,7 @@ CanvasNode::CanvasNode(DotGraphView* v,
 //   view()->move(int((node()->x())*m_scaleX*m_zoomFactor - m_xMovedTo), int((m_gh-node()->y())*m_scaleY*m_zoomFactor) - m_yMovedTo);
 // //   view()->move(int(x*m_scaleX), int((m_gh-y)*m_scaleY));
 // }
-// 
+//
 // void CanvasHtmlNode::zoomed(double factor)
 // {
 //   m_zoomFactor = factor;

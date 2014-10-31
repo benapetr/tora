@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -43,13 +43,13 @@
 #include <QtCore/QMimeData>
 
 toResultModelEdit::toResultModelEdit(toEventQuery *query,
-                             QList<QString> priKeys,
-                             QObject *parent,
-                             bool read)
+                                     QList<QString> priKeys,
+                                     QObject *parent,
+                                     bool read)
     : toResultModel(query, parent, read)
     , PriKeys(priKeys)
 {
-	setSupportedDragActions(Qt::CopyAction | Qt::MoveAction);
+    setSupportedDragActions(Qt::CopyAction | Qt::MoveAction);
 }
 
 toResultModelEdit::~toResultModelEdit()
@@ -155,10 +155,10 @@ bool toResultModelEdit::changed(void)
 }
 
 bool toResultModelEdit::dropMimeData(const QMimeData *data,
-                                 Qt::DropAction action,
-                                 int row,
-                                 int column,
-                                 const QModelIndex &parent)
+                                     Qt::DropAction action,
+                                     int row,
+                                     int column,
+                                     const QModelIndex &parent)
 {
     if (action == Qt::IgnoreAction)
         return true;
@@ -255,12 +255,12 @@ bool toResultModelEdit::dropMimeData(const QMimeData *data,
 
 Qt::DropActions toResultModelEdit::supportedDropActions() const
 {
-	return Qt::CopyAction | Qt::MoveAction;
+    return Qt::CopyAction | Qt::MoveAction;
 }
 
 bool toResultModelEdit::setData(const QModelIndex &index,
-                            const QVariant &_value,
-                            int role)
+                                const QVariant &_value,
+                                int role)
 {
     if (role != Qt::EditRole)
         return false;
@@ -283,7 +283,7 @@ bool toResultModelEdit::setData(const QModelIndex &index,
 
     {
         // If no prikey is used, data is recorded in change list
-    	toQuery::Row oldRow = row;           // keep old version
+        toQuery::Row oldRow = row;           // keep old version
         row[index.column()] = newValue;
         // for writing to the database
         recordChange(index, newValue, oldRow);
@@ -309,7 +309,7 @@ Qt::ItemFlags toResultModelEdit::flags(const QModelIndex &index) const
 
     if (!index.isValid() || index.row() >= Rows.size())
     {
-    	return Qt::ItemIsDropEnabled | defaultFlags;
+        return Qt::ItemIsDropEnabled | defaultFlags;
     }
 
     toQuery::Row const& row = Rows.at(index.row());
@@ -333,19 +333,19 @@ Qt::ItemFlags toResultModelEdit::flags(const QModelIndex &index) const
 
 QList<struct toResultModelEdit::ChangeSet>& toResultModelEdit::changes()
 {
-	return Changes;
+    return Changes;
 }
 
 void toResultModelEdit::revertChanges()
 {
-	bool c = changed();
+    bool c = changed();
     Changes.clear();
     emit changed(changed());
 }
 
 void toResultModelEdit::recordChange(const QModelIndex &index,
-        const toQValue &newValue,
-        const toQuery::Row &row)
+                                     const toQValue &newValue,
+                                     const toQuery::Row &row)
 {
     // first, if it was an added row, find and update the ChangeSet so
     // they all get inserted as one.
@@ -367,8 +367,8 @@ void toResultModelEdit::recordChange(const QModelIndex &index,
     struct ChangeSet change;
 
     change.columnName = headerData(index.column(),
-                                            Qt::Horizontal,
-                                            Qt::DisplayRole).toString();
+                                   Qt::Horizontal,
+                                   Qt::DisplayRole).toString();
     change.newValue = newValue;
     change.row      = row;
     change.column   = index.column();

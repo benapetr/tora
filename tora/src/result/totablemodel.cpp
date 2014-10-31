@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -43,8 +43,8 @@
 
 toTableModelPriv::toTableModelPriv(QObject *parent)
     : QAbstractTableModel(parent)
-	, SortedOnColumn(-1)
-	, SortOrder(Qt::AscendingOrder)
+    , SortedOnColumn(-1)
+    , SortOrder(Qt::AscendingOrder)
 {
 }
 
@@ -73,8 +73,8 @@ QVariant toTableModelPriv::data(QModelIndex const& index, int role) const
     if (index.row() >= Rows.size()) //
         return QVariant();
 
-	int r = index.row();
-	int c = index.column();
+    int r = index.row();
+    int c = index.column();
     toQValue const &data = Rows.at(index.row()).at(index.column());
 
     switch(role)
@@ -126,15 +126,15 @@ QVariant toTableModelPriv::data(QModelIndex const& index, int role) const
 }
 
 bool toTableModelPriv::setData( QModelIndex const& index,
-                            QVariant const& value,
-                            int role)
+                                QVariant const& value,
+                                int role)
 {
-	throw QString("Not implemented yet: bool toTableModel::setData(...)");
+    throw QString("Not implemented yet: bool toTableModel::setData(...)");
 }
 
 QVariant toTableModelPriv::headerData(int section,
-                                   Qt::Orientation orientation,
-                                   int role) const
+                                      Qt::Orientation orientation,
+                                      int role) const
 {
     /*if (role != Qt::DisplayRole)
         return QVariant();*/
@@ -170,7 +170,7 @@ QVariant toTableModelPriv::headerData(int section,
 //            case ADDED:
 //                return QBrush(Qt::green);
 //            case MODIFIED:
-                return QBrush(Qt::blue);
+            return QBrush(Qt::blue);
 //            case EXISTED:
 //            default:
 //                return QVariant();
@@ -182,9 +182,9 @@ QVariant toTableModelPriv::headerData(int section,
 }
 
 bool toTableModelPriv::setHeaderData(int section,
-                                  Qt::Orientation orientation,
-                                  QVariant const& value,
-                                  int role)
+                                     Qt::Orientation orientation,
+                                     QVariant const& value,
+                                     int role)
 {
     if (role != Qt::DisplayRole)
         return false;
@@ -218,7 +218,7 @@ bool toTableModelPriv::canFetchMore(const QModelIndex &parent) const
 //    }
 //    catch (...)
 //    {
-//        TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+//        TLOG(1, toDecorator, __HERE__) << "   Ignored exception." << std::endl;
 //        // will catch later
 //        ;
 //    }
@@ -253,7 +253,7 @@ Qt::ItemFlags toTableModelPriv::flags(QModelIndex const& index) const
 //        if(Editable)
 //            return Qt::ItemIsDropEnabled | defaultFlags;
 //        else
-            return defaultFlags;
+        return defaultFlags;
     }
 
     toQValue const &data = Rows.at(index.row()).at(index.column());
@@ -268,7 +268,7 @@ Qt::ItemFlags toTableModelPriv::flags(QModelIndex const& index) const
 //    if (Editable)
 //        fl |= defaultFlags | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
 //    else
-        fl |= defaultFlags;
+    fl |= defaultFlags;
 
     //Check the status of current record
 // TODO Heran's patch
@@ -372,10 +372,10 @@ QMimeData* toTableModelPriv::mimeData(const QModelIndexList &indexes) const
 }
 
 bool toTableModelPriv::dropMimeData(const QMimeData *data,
-                                 Qt::DropAction action,
-                                 int row,
-                                 int column,
-                                 const QModelIndex &parent)
+                                    Qt::DropAction action,
+                                    int row,
+                                    int column,
+                                    const QModelIndex &parent)
 {
     throw QString("Not implemented yet: bool toTableModel::dropMimeData(...)");
 }
@@ -395,48 +395,48 @@ void toTableModelPriv::cleanup()
 
 void toTableModelPriv::beginInsertRows(const QModelIndex &parent, int first, int last)
 {
-	super::beginInsertRows(parent, first, last);
+    super::beginInsertRows(parent, first, last);
 }
 
 void toTableModelPriv::endInsertRows()
 {
-	super::endInsertRows();
+    super::endInsertRows();
 }
 
 void toTableModelPriv::appendRow(toQuery::Row const& r)
 {
-	int oldRowCount = rowCount();
+    int oldRowCount = rowCount();
 
-	Rows << r;
+    Rows << r;
 
-	if (oldRowCount == 0)
-		emit firstResultReceived();
+    if (oldRowCount == 0)
+        emit firstResultReceived();
 }
 
 void toTableModelPriv::appendRows(toQuery::RowList const& r)
 {
-	int oldRowCount = rowCount();
+    int oldRowCount = rowCount();
 
-	beginInsertRows(QModelIndex(), oldRowCount, oldRowCount + r.size() - 1); 
-	Rows << r;
-	endInsertRows();
+    beginInsertRows(QModelIndex(), oldRowCount, oldRowCount + r.size() - 1);
+    Rows << r;
+    endInsertRows();
 
-	if (oldRowCount == 0)
-		emit firstResultReceived();
+    if (oldRowCount == 0)
+        emit firstResultReceived();
 }
 
 void toTableModelPriv::setHeaders(toQuery::HeaderList const& h)
 {
-	if(!Headers.empty())
-	{
-		Q_ASSERT_X(false, qPrintable(__QHERE__), "Query already described");
-	}
+    if(!Headers.empty())
+    {
+        Q_ASSERT_X(false, qPrintable(__QHERE__), "Query already described");
+    }
 
-	beginInsertColumns(QModelIndex(), columnCount(), columnCount() + h.size() - 1);
-	Headers = h;
-	endInsertColumns();
+    beginInsertColumns(QModelIndex(), columnCount(), columnCount() + h.size() - 1);
+    Headers = h;
+    endInsertColumns();
 
-	emit headersReceived();
+    emit headersReceived();
 }
 
 toQuery::RowList toTableModelPriv::mergesort(toQuery::RowList &rows,

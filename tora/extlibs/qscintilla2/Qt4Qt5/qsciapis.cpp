@@ -1,9 +1,9 @@
 // This module implements the QsciAPIs class.
 //
 // Copyright (c) 2012 Riverbank Computing Limited <info@riverbankcomputing.com>
-// 
+//
 // This file is part of QScintilla.
-// 
+//
 // This file may be used under the terms of the GNU General Public
 // License versions 2.0 or 3.0 as published by the Free Software
 // Foundation and appearing in the files LICENSE.GPL2 and LICENSE.GPL3
@@ -15,10 +15,10 @@
 // certain additional rights. These rights are described in the Riverbank
 // GPL Exception version 1.1, which can be found in the file
 // GPL_EXCEPTION.txt in this package.
-// 
+//
 // If you are unsure which license is appropriate for your use, please
 // contact the sales department at sales@riverbankcomputing.com.
-// 
+//
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -64,7 +64,7 @@ struct QsciAPIsPrepared
     QStringList raw_apis;
 
     QStringList apiWords(int api_idx, const QStringList &wseps,
-            bool strip_image) const;
+                         bool strip_image) const;
     static QString apiBaseName(const QString &api);
 };
 
@@ -72,7 +72,7 @@ struct QsciAPIsPrepared
 
 // Return a particular API entry as a list of words.
 QStringList QsciAPIsPrepared::apiWords(int api_idx, const QStringList &wseps,
-        bool strip_image) const
+                                       bool strip_image) const
 {
     QString base = apiBaseName(raw_apis[api_idx]);
 
@@ -427,7 +427,7 @@ bool QsciAPIs::originStartsWith(const QString &path, const QString &wsep)
 
 // Add auto-completion words to an existing list.
 void QsciAPIs::updateAutoCompletionList(const QStringList &context,
-        QStringList &list)
+                                        QStringList &list)
 {
     QString path;
     QStringList new_context = positionOrigin(context, path);
@@ -614,7 +614,7 @@ void QsciAPIs::autoCompletionSelected(const QString &selection)
 // in the APIs) and depending on whether the word was complete (when it's
 // actually the next word in the API entry that is of interest) or not.
 void QsciAPIs::addAPIEntries(const WordIndexList &wl, bool complete,
-        QStringList &with_context, bool &unambig)
+                             QStringList &with_context, bool &unambig)
 {
     QStringList wseps = lexer()->autoCompletionWordSeparators();
 
@@ -664,8 +664,8 @@ void QsciAPIs::addAPIEntries(const WordIndexList &wl, bool complete,
 
 // Return the call tip for a function.
 QStringList QsciAPIs::callTips(const QStringList &context, int commas,
-        QsciScintilla::CallTipsStyle style,
-        QList<int> &shifts)
+                               QsciScintilla::CallTipsStyle style,
+                               QList<int> &shifts)
 {
     QString path;
     QStringList new_context = positionOrigin(context, path);
@@ -966,7 +966,7 @@ QStringList QsciAPIs::installedAPIFiles() const
     QFileInfoList flist = apidir.entryInfoList(filters, QDir::Files, QDir::IgnoreCase);
 
     foreach (QFileInfo fi, flist)
-        filenames << fi.absoluteFilePath();
+    filenames << fi.absoluteFilePath();
 
     return filenames;
 }

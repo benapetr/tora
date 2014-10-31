@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -762,16 +762,16 @@ QKeySequence toKeySequence(const QString &key)
 
 toBusy::toBusy()
 {
-	if (m_mainThread == NULL)
-		m_mainThread = qApp->thread();
-	if (m_mainThread == QThread::currentThread() && m_busyCount.fetchAndAddAcquire(1) == 0 && m_enabled)
-		qApp->setOverrideCursor(Qt::WaitCursor);
+    if (m_mainThread == NULL)
+        m_mainThread = qApp->thread();
+    if (m_mainThread == QThread::currentThread() && m_busyCount.fetchAndAddAcquire(1) == 0 && m_enabled)
+        qApp->setOverrideCursor(Qt::WaitCursor);
 }
 
 toBusy::~toBusy()
 {
-	if (m_mainThread == QThread::currentThread() && m_busyCount.deref() == false)
-		qApp->restoreOverrideCursor();
+    if (m_mainThread == QThread::currentThread() && m_busyCount.deref() == false)
+        qApp->restoreOverrideCursor();
 }
 
 bool toBusy::m_enabled(true);
@@ -787,11 +787,11 @@ QToolBar *toAllocBar(QWidget *parent, const QString &str)
     }
     catch (QString const& e)
     {
-        TLOG(1, toDecorator, __HERE__) << "	Ignored exception: " << e << std::endl;
+        TLOG(1, toDecorator, __HERE__) << " Ignored exception: " << e << std::endl;
     }
     catch (...)
     {
-        TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+        TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
     }
 
     QString name = str;
@@ -1002,9 +1002,9 @@ QComboBox *toRefreshCreate(QWidget *parent, const char *name, const QString &def
 void toSetThreadName(QThread const& p)
 {
     // This was copied from QT trunk - as of 4.8.2 it is not used yet
-    QByteArray objectName = p.objectName().toLatin1();	    
+    QByteArray objectName = p.objectName().toLatin1();
     if (objectName.isEmpty())
-	objectName = p.metaObject()->className();	    
+        objectName = p.metaObject()->className();
 #if defined(__linux__)
     prctl(PR_SET_NAME, (unsigned long)objectName.constData(), 0, 0, 0);
 #elif defined(Q_OS_MAC)
@@ -1243,93 +1243,93 @@ bool toCompareLists(QStringList &lsta, QStringList &lstb, int len)
 
 void toLoadMap(const QString &filename, std::map<QString, QString> &pairs)
 {
-	QByteArray data = Utils::toReadFile(filename).toUtf8();
+    QByteArray data = Utils::toReadFile(filename).toUtf8();
 
-	int pos = 0;
-	int bol = 0;
-	int endtag = -1;
-	int wpos = 0;
-	int size = data.length();
-	while (pos < size)
-	{
-		switch (data[pos])
-		{
-		case '\n':
-		data[wpos] = 0;
-		if (endtag == -1)
-			throw QT_TRANSLATE_NOOP("toTool", "Malformed tag in config file. Missing = on row. (%1)").arg(QString(data.mid(bol, wpos - bol)));
-		{
-			QString tag = ((const char *)data) + bol;
-			QString val = ((const char *)data) + endtag + 1;
-			pairs[tag] = val;
-		}
-		bol = pos + 1;
-		endtag = -1;
-		wpos = pos;
-		break;
-		case '=':
-			if (endtag == -1)
-			{
-				endtag = pos;
-				data[wpos] = 0;
-				wpos = pos;
-			}
-			else
-				data[wpos] = data[pos];
-			break;
-		case '\\':
-			pos++;
-			switch (data[pos])
-			{
-			case 'n':
-				data[wpos] = '\n';
-				break;
-			case '\\':
-				if (endtag >= 0)
-					data[wpos] = '\\';
-				else
-					data[wpos] = ':';
-				break;
-			default:
-				throw QT_TRANSLATE_NOOP("toTool", "Unknown escape character in string (Only \\\\ and \\n recognised)");
-			}
-			break;
-			default:
-				data[wpos] = data[pos];
-				break;
-		}
-		wpos++;
-		pos++;
-	}
+    int pos = 0;
+    int bol = 0;
+    int endtag = -1;
+    int wpos = 0;
+    int size = data.length();
+    while (pos < size)
+    {
+        switch (data[pos])
+        {
+        case '\n':
+            data[wpos] = 0;
+            if (endtag == -1)
+                throw QT_TRANSLATE_NOOP("toTool", "Malformed tag in config file. Missing = on row. (%1)").arg(QString(data.mid(bol, wpos - bol)));
+            {
+                QString tag = ((const char *)data) + bol;
+                QString val = ((const char *)data) + endtag + 1;
+                pairs[tag] = val;
+            }
+            bol = pos + 1;
+            endtag = -1;
+            wpos = pos;
+            break;
+        case '=':
+            if (endtag == -1)
+            {
+                endtag = pos;
+                data[wpos] = 0;
+                wpos = pos;
+            }
+            else
+                data[wpos] = data[pos];
+            break;
+        case '\\':
+            pos++;
+            switch (data[pos])
+            {
+            case 'n':
+                data[wpos] = '\n';
+                break;
+            case '\\':
+                if (endtag >= 0)
+                    data[wpos] = '\\';
+                else
+                    data[wpos] = ':';
+                break;
+            default:
+                throw QT_TRANSLATE_NOOP("toTool", "Unknown escape character in string (Only \\\\ and \\n recognised)");
+            }
+            break;
+        default:
+            data[wpos] = data[pos];
+            break;
+        }
+        wpos++;
+        pos++;
+    }
 
-	return;
+    return;
 }
 
 
 bool toSaveMap(const QString &file, std::map<QString, QString> &pairs)
 {
-	QString data;
+    QString data;
 
-	{
-		// qt4        QRegExp newline(QString::fromLatin1("\n"));
-		// qt4        QRegExp backslash(QString::fromLatin1("\\"));
-		QString newline("\n");
-		QString backslash("\\");
-		for (std::map<QString, QString>::iterator i = pairs.begin(); i != pairs.end(); i++)
-		{
-			QString str = (*i).first;
-			str.append(QString::fromLatin1("="));
-			str.replace(backslash, QString::fromLatin1("\\\\"));
-			str.replace(newline, QString::fromLatin1("\\n"));
-			QString line = (*i).second;
-			line.replace(backslash, QString::fromLatin1("\\\\"));
-			line.replace(newline, QString::fromLatin1("\\n"));
-			str += line.toUtf8();
-			str += QString::fromLatin1("\n");
-			data += str;
-		}
-	}
-	return Utils::toWriteFile(file, data);
+    {
+        // qt4        QRegExp newline(QString::fromLatin1("\n"));
+        // qt4        QRegExp backslash(QString::fromLatin1("\\"));
+        QString newline("\n");
+        QString backslash("\\");
+        for (std::map<QString, QString>::iterator i = pairs.begin(); i != pairs.end(); i++)
+        {
+            QString str = (*i).first;
+            str.append(QString::fromLatin1("="));
+            str.replace(backslash, QString::fromLatin1("\\\\"));
+            str.replace(newline, QString::fromLatin1("\\n"));
+            QString line = (*i).second;
+            line.replace(backslash, QString::fromLatin1("\\\\"));
+            line.replace(newline, QString::fromLatin1("\\n"));
+            str += line.toUtf8();
+            str += QString::fromLatin1("\n");
+            data += str;
+        }
+    }
+    return Utils::toWriteFile(file, data);
 }
 
 } // namespace utils

@@ -21,13 +21,13 @@
 
 ///namespace KGraphViewer
 ///{
-  
+
 CanvasSubgraph::CanvasSubgraph(
-                              DotGraphView* v,
-                              GraphSubgraph* gsubgraph,
-                              QGraphicsScene* c,
-                              QGraphicsItem* parent
-                            ) : CanvasElement(v,(GraphElement*)gsubgraph,c,parent)
+    DotGraphView* v,
+    GraphSubgraph* gsubgraph,
+    QGraphicsScene* c,
+    QGraphicsItem* parent
+) : CanvasElement(v,(GraphElement*)gsubgraph,c,parent)
 {
 }
 

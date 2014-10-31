@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -536,7 +536,7 @@ toProfiler::toProfiler(QWidget *parent, toConnection &connection)
 
     try
     {
-		toConnectionSubLoan con(connection);
+        toConnectionSubLoan con(connection);
         toQuery query(con, SQLProfilerDetect, toQueryParams());
     }
     catch (const QString &)
@@ -550,15 +550,15 @@ toProfiler::toProfiler(QWidget *parent, toConnection &connection)
         {
             try
             {
-            	toConnectionSubLoan con(connection);
-            	toQuery runs(con, SQLProfilerRuns, toQueryParams());
-            	toQuery units(con, SQLProfilerUnits, toQueryParams());
-            	toQuery data(con, SQLProfilerData, toQueryParams());
-            	toQuery number(con, SQLProfilerNumber, toQueryParams());
+                toConnectionSubLoan con(connection);
+                toQuery runs(con, SQLProfilerRuns, toQueryParams());
+                toQuery units(con, SQLProfilerUnits, toQueryParams());
+                toQuery data(con, SQLProfilerData, toQueryParams());
+                toQuery number(con, SQLProfilerNumber, toQueryParams());
             }
             catch (const QString &str)
             {
-            	Utils::toStatusMessage(str);
+                Utils::toStatusMessage(str);
                 QTimer::singleShot(0, this, SLOT(noTables()));
                 return ;
             }
@@ -579,7 +579,7 @@ void toProfiler::refresh(void)
     Run->addItem(tr("Select run"));
     try
     {
-		toConnectionSubLoan con(connection());
+        toConnectionSubLoan con(connection());
         toQuery query(con, SQLListRuns, toQueryParams());
         int id = 1;
         while (!query.eof())
@@ -608,7 +608,7 @@ void toProfiler::execute(void)
     try
     {
         QString exc;
-		toConnectionSubLoan con(connection());
+        toConnectionSubLoan con(connection());
         exc = toSQL::string(SQLStartProfiler, connection());
         for (int i = 0; i < Repeat->value(); i++)
         {
@@ -619,7 +619,7 @@ void toProfiler::execute(void)
 
         toQuery query(con,
                       exc,
-					  toQueryParams() << Comment->text() << tr("%1 runs").arg(Repeat->value()));
+                      toQueryParams() << Comment->text() << tr("%1 runs").arg(Repeat->value()));
         CurrentRun = query.readValue().toInt();
         if (CurrentRun > 0)
         {
@@ -627,7 +627,7 @@ void toProfiler::execute(void)
             refresh();
         }
         else
-        	Utils::toStatusMessage(tr("Something went wrong collecting statistics"));
+            Utils::toStatusMessage(tr("Something went wrong collecting statistics"));
     }
     TOCATCH
 }
@@ -663,11 +663,11 @@ void toProfiler::changeObject(void)
     if (item)
     {
         toQueryParams par = toQueryParams()
-        		<< toQValue(item->allText(0))
-        		<< toQValue(item->allText(1))
-        		<< toQValue(item->allText(4))
-        		<< toQValue(item->allText(5))
-        		<< toQValue(item->allText(6));
+                            << toQValue(item->allText(0))
+                            << toQValue(item->allText(1))
+                            << toQValue(item->allText(4))
+                            << toQValue(item->allText(5))
+                            << toQValue(item->allText(6));
         Lines->clearTotals();
         try
         {

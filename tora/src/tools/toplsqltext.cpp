@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -128,7 +128,7 @@ QString toPLSQL::currentSchema(void)
 }
 
 bool toPLSQL::viewSource(const QString &schema, const QString &name, const QString &type,
-                               int line, bool setCurrent)
+                         int line, bool setCurrent)
 {
     try
     {
@@ -189,7 +189,7 @@ bool toPLSQL::viewSource(const QString &schema, const QString &name, const QStri
 
 toPLSQL::toPLSQL(QWidget *main, toConnection &connection)
     : toToolWidget(PLSQLTool, "plsqleditor.html", main, connection, "toPLSQLEditor")
-	, conn(connection)
+    , conn(connection)
 {
     createActions();
     QToolBar *toolbar = Utils::toAllocBar(this, tr("PLSQLEditor"));
@@ -388,7 +388,7 @@ void toPLSQL::changeSchema(int)
 void toPLSQL::refresh(void)
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
-           Schema->refresh();
+    Schema->refresh();
     QString selected = Schema->selected();
 
     CodeModel->refresh(connection(), selected);
@@ -436,7 +436,7 @@ bool toPLSQL::hasCode(const QString &pSchema, const QString &pType, const QStrin
 
     try
     {
-    	toConnectionSubLoan c(conn);
+        toConnectionSubLoan c(conn);
         toQuery lines(c, SQLHasCode, toQueryParams() << pSchema << pName << pType);
         numberOfLines = lines.readValue().toInt();
         if (numberOfLines > 0)
@@ -495,13 +495,13 @@ toPLSQL::~toPLSQL()
 
 void toPLSQL::prevError(void)
 {
-	//TODO
+    //TODO
     //currentEditor()->editor()->previousError();
 }
 
 void toPLSQL::nextError(void)
 {
-	//TODO
+    //TODO
     //currentEditor()->editor()->nextError();
 }
 
@@ -548,7 +548,7 @@ void toPLSQL::slotWindowActivated(toToolWidget *widget)
             ToolMenu->addAction(nextErrorAct);
             ToolMenu->addAction(previousErrorAct);
 
-    	    toGlobalEventSingle::Instance().addCustomMenu(ToolMenu);
+            toGlobalEventSingle::Instance().addCustomMenu(ToolMenu);
         }
     }
     else
@@ -608,7 +608,7 @@ void toPLSQL::describe()
     toPLSQLEditor *marked = currentEditor()->editor();
     marked->editor()->tableAtCursor(table);
     if (table.first.isEmpty())
-    	table.first = Schema->selected();
+        table.first = Schema->selected();
     toDescribe * d = new toDescribe(this);
     d->changeParams(table);
 }

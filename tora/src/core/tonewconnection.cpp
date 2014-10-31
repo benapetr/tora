@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -83,19 +83,20 @@ toNewConnection::toNewConnection(QWidget* parent, Qt::WFlags fl)
     QList<QString> lst = toConnectionProviderRegistrySing::Instance().providers();
     foreach(QString p, lst)
     {
-		try
-		{
-			if (p == "Oracle")
-			{
-				Provider->addItem(ORACLE_INSTANTCLIENT, QVariant(QString::fromAscii(ORACLE_PROVIDER)));
-				Provider->addItem(ORACLE_TNSCLIENT, QVariant(QString::fromAscii(ORACLE_PROVIDER)));
-			}
-			else
-			{
-				toConnectionProvider &provider = toConnectionProviderRegistrySing::Instance().get(p);
-				Provider->addItem(provider.displayName(), QVariant(provider.name()));
-			}
-		} TOCATCH
+        try
+        {
+            if (p == "Oracle")
+            {
+                Provider->addItem(ORACLE_INSTANTCLIENT, QVariant(QString::fromAscii(ORACLE_PROVIDER)));
+                Provider->addItem(ORACLE_TNSCLIENT, QVariant(QString::fromAscii(ORACLE_PROVIDER)));
+            }
+            else
+            {
+                toConnectionProvider &provider = toConnectionProviderRegistrySing::Instance().get(p);
+                Provider->addItem(provider.displayName(), QVariant(provider.name()));
+            }
+        }
+        TOCATCH
     }
 
     if (Provider->count() < 1)
@@ -178,7 +179,7 @@ toNewConnection::toNewConnection(QWidget* parent, Qt::WFlags fl)
 
 QString toNewConnection::getCurrentProvider()
 {
-	QVariant d = Provider->itemData (Provider->currentIndex(), Qt::UserRole );
+    QVariant d = Provider->itemData (Provider->currentIndex(), Qt::UserRole );
     return d.toString();
 }
 
@@ -387,7 +388,7 @@ void toNewConnection::changeProvider(int current)
             else
                 Host->addItem(host); // This might also call changeHost(), unless blockSignals == true
         }
-		Host->blockSignals(oldStateH);
+        Host->blockSignals(oldStateH);
 
         Database->clear();
         changeHost(); // will populate Databases combobox
@@ -481,7 +482,7 @@ void toNewConnection::changeHost(void)
             Database->clear();
             Q_FOREACH(QString const & s, databases)
             {
-            	Database->addItem(s);
+                Database->addItem(s);
             }
             Database->lineEdit()->setText(current);
         }
@@ -600,20 +601,20 @@ toConnection* toNewConnection::makeConnection(bool savePrefs)
         }
 
         toConnectionOptions opts(getCurrentProvider()
-        		, host
-        		, database
-        		, Username->text()
-        		, Password->text()
-        		, schema
-        		, color
-        		, port
-        		, options);
+                                 , host
+                                 , database
+                                 , Username->text()
+                                 , Password->text()
+                                 , schema
+                                 , color
+                                 , port
+                                 , options);
 
         // checks for existing connection
         foreach(toConnection * conn, toConnectionRegistrySing::Instance().connections())
         {
-        	if (opts == *conn)
-        		return conn;
+            if (opts == *conn)
+                return conn;
         }
 
         toConnection *retCon = new toConnection(

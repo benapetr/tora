@@ -2,32 +2,32 @@
 /* BEGIN_COMMON_COPYRIGHT_HEADER
  *
  * TOra - An Oracle Toolkit for DBA's and developers
- * 
+ *
  * Shared/mixed copyright is held throughout files in this product
- * 
+ *
  * Portions Copyright (C) 2000-2001 Underscore AB
  * Portions Copyright (C) 2003-2005 Quest Software, Inc.
  * Portions Copyright (C) 2004-2013 Numerous Other Contributors
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation;  only version 2 of
  * the License is valid for this program.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file COPYING.txt; if not, please see
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
- * 
+ *
  *      As a special exception, you have permission to link this program
  *      with the Oracle Client libraries and distribute executables, as long
  *      as you follow the requirements of the GNU GPL in regard to all of the
  *      software in the executable aside from Oracle client libraries.
- * 
+ *
  * All trademarks belong to their respective owners.
  *
  * END_COMMON_COPYRIGHT_HEADER */
@@ -101,27 +101,39 @@
 
 namespace ToConfiguration
 {
-	QVariant Worksheet::defaultValue(int option) const
-	{
-		switch(option)
-		{
-		case AutoSaveBool:           return QVariant((bool)false);
-		case CheckSaveBool:          return QVariant((bool)true);
-		case LogAtEndBool:           return QVariant((bool)true);
-		case LogMultiBool:           return QVariant((bool)true);
-		case StatisticsBool:         return QVariant((bool)false);
-		case TimedStatsBool:         return QVariant((bool)true);
-		case DisplayNumberColumnBool:             return QVariant((bool)true);
-		case MoveToErrorBool:        return QVariant((bool)true);
-		case HistoryErrorBool:            return QVariant((bool)false);
-		case ExecLogBool:            return QVariant((bool)false);
-		case ToplevelDescribeBool:   return QVariant((bool)true);
-		case AutoLoad:           return QVariant(QString(""));
-		default:
-			Q_ASSERT_X( false, qPrintable(__QHERE__), qPrintable(QString("Context Worksheet un-registered enum value: %1").arg(option)));
-			return QVariant();
-		}
-	}
+QVariant Worksheet::defaultValue(int option) const
+{
+    switch(option)
+    {
+    case AutoSaveBool:
+        return QVariant((bool)false);
+    case CheckSaveBool:
+        return QVariant((bool)true);
+    case LogAtEndBool:
+        return QVariant((bool)true);
+    case LogMultiBool:
+        return QVariant((bool)true);
+    case StatisticsBool:
+        return QVariant((bool)false);
+    case TimedStatsBool:
+        return QVariant((bool)true);
+    case DisplayNumberColumnBool:
+        return QVariant((bool)true);
+    case MoveToErrorBool:
+        return QVariant((bool)true);
+    case HistoryErrorBool:
+        return QVariant((bool)false);
+    case ExecLogBool:
+        return QVariant((bool)false);
+    case ToplevelDescribeBool:
+        return QVariant((bool)true);
+    case AutoLoad:
+        return QVariant(QString(""));
+    default:
+        Q_ASSERT_X( false, qPrintable(__QHERE__), qPrintable(QString("Context Worksheet un-registered enum value: %1").arg(option)));
+        return QVariant();
+    }
+}
 }
 
 class toWorksheetTool : public toTool
@@ -175,65 +187,65 @@ static toSQL SQLAddress("Global:Address",
                         "Get address of an SQL statement");
 
 static toSQL SQLParseSql("toWorksheet:ParseSql",
-		"declare                                                                      "
-		"	 l_cursor number := dbms_sql.open_cursor;                                 "
-		"	 l_offset number := -1 ;                                                  "
-		"begin                                                                        "
-		"    begin                                                                    "
-		"        dbms_sql.parse(  l_cursor, :st<char[32000],in> , dbms_sql.native );  "
-		"    exception when others then                                               "
-		"        l_offset := dbms_sql.last_error_position;                            "
-		"    end;                                                                     "
-		"    dbms_sql.close_cursor( l_cursor );                                       "
-		"    :off<int,out> := l_offset;                                               "
-		"end;                                                                         "
-		, "Parse Oracle SQL query"
-		, "0800"
-		, "Oracle");
+                         "declare                                                                      "
+                         "    l_cursor number := dbms_sql.open_cursor;                                 "
+                         "    l_offset number := -1 ;                                                  "
+                         "begin                                                                        "
+                         "    begin                                                                    "
+                         "        dbms_sql.parse(  l_cursor, :st<char[32000],in> , dbms_sql.native );  "
+                         "    exception when others then                                               "
+                         "        l_offset := dbms_sql.last_error_position;                            "
+                         "    end;                                                                     "
+                         "    dbms_sql.close_cursor( l_cursor );                                       "
+                         "    :off<int,out> := l_offset;                                               "
+                         "end;                                                                         "
+                         , "Parse Oracle SQL query"
+                         , "0800"
+                         , "Oracle");
 
 static QString toSQLToAddress(toConnection &conn, const QString &sql)
 {
-  QString search = Utils::toSQLStripSpecifier(sql);
+    QString search = Utils::toSQLStripSpecifier(sql);
 
-  toQList vals = toQuery::readQuery(conn, SQLAddress, toQueryParams() << search.left(CHUNK_SIZE));
+    toQList vals = toQuery::readQuery(conn, SQLAddress, toQueryParams() << search.left(CHUNK_SIZE));
 
-  for (toQList::iterator i = vals.begin(); i != vals.end(); i++)
-  {
-      if (search == Utils::toSQLString(conn, *i))
-          return *i;
-  }
-  throw qApp->translate("toSQLToAddress", "SQL Query not found in SGA");
+    for (toQList::iterator i = vals.begin(); i != vals.end(); i++)
+    {
+        if (search == Utils::toSQLString(conn, *i))
+            return *i;
+    }
+    throw qApp->translate("toSQLToAddress", "SQL Query not found in SGA");
 }
 
 static QString toSQLToSql_Id(const QString &sql)
 {
-	// based on
-	// http://www.slaviks-blog.com/2010/03/30/oracle-sql_id-and-hash-value/
-	// Note: 11gR2 also has dbms_sqltune_util0.sqltext_to_sqlid - but who cares
-	QByteArray ba = sql.toLocal8Bit();
-	ba.append('\0');
-	QByteArray baHash = QCryptographicHash::hash(ba, QCryptographicHash::Md5);
+    // based on
+    // http://www.slaviks-blog.com/2010/03/30/oracle-sql_id-and-hash-value/
+    // Note: 11gR2 also has dbms_sqltune_util0.sqltext_to_sqlid - but who cares
+    QByteArray ba = sql.toLocal8Bit();
+    ba.append('\0');
+    QByteArray baHash = QCryptographicHash::hash(ba, QCryptographicHash::Md5);
 
-	QString sql_id;
-	//consider only last/most significant 64 bits of regular 128bit MD5 hash
-	quint32 *msb = (quint32*)(&(baHash.constData()[8]));
-	quint32 *lsb = (quint32*)(&(baHash.constData()[12])); // these bits are the traditional 32 bit hash value
-	quint64 value = (quint64)(*msb) * 4294967296ULL + (quint64)(*lsb);
-	static const char* base32 = "0123456789abcdfghjkmnpqrstuvwxyz";
-	if (value == 0)
-	{
-		sql_id = "0";
-	} else
-	{
-		while (value )
-		{
-			sql_id = base32[value % 32] + sql_id;
-			value /= 32;
-		}
-		sql_id = sql_id.rightJustified(13, '0');
-	}
-	quint32 *hash_value = (quint32*)(&(baHash.constData()[12]));
-	return QString("%1:%2").arg(*hash_value).arg(sql_id);
+    QString sql_id;
+    //consider only last/most significant 64 bits of regular 128bit MD5 hash
+    quint32 *msb = (quint32*)(&(baHash.constData()[8]));
+    quint32 *lsb = (quint32*)(&(baHash.constData()[12])); // these bits are the traditional 32 bit hash value
+    quint64 value = (quint64)(*msb) * 4294967296ULL + (quint64)(*lsb);
+    static const char* base32 = "0123456789abcdfghjkmnpqrstuvwxyz";
+    if (value == 0)
+    {
+        sql_id = "0";
+    } else
+    {
+        while (value )
+        {
+            sql_id = base32[value % 32] + sql_id;
+            value /= 32;
+        }
+        sql_id = sql_id.rightJustified(13, '0');
+    }
+    quint32 *hash_value = (quint32*)(&(baHash.constData()[12]));
+    return QString("%1:%2").arg(*hash_value).arg(sql_id);
 }
 
 void toWorksheet::viewResources(void)
@@ -424,7 +436,7 @@ void toWorksheet::setup(bool autoLoad)
     Schema = new toResultSchema(workToolbar);
     workToolbar->addWidget(Schema);
     connect(Schema, SIGNAL(currentIndexChanged(const QString &)),
-    		this, SLOT(slotSchemaChanged(const QString &)));
+            this, SLOT(slotSchemaChanged(const QString &)));
 
     Schema->refresh();
 
@@ -457,16 +469,16 @@ void toWorksheet::setup(bool autoLoad)
                                bool)),
             this,
             SLOT(slotFirstResult(const QString &,
-                        const toConnection::exception &,
-                        bool)));
+                                 const toConnection::exception &,
+                                 bool)));
     connect(Result,
             SIGNAL(firstResult(const QString &,
                                const toConnection::exception &,
                                bool)),
             this,
             SLOT(slotUnhideResults(const QString &,
-                               const toConnection::exception &,
-                               bool)));
+                                   const toConnection::exception &,
+                                   bool)));
 
     Columns = new toResultCols(container, "description");
     box->addWidget(Columns);
@@ -508,7 +520,7 @@ void toWorksheet::setup(bool autoLoad)
     QSplitter *splitter = new QSplitter(Qt::Horizontal, StatTab);
     Statistics = new toResultStats(true, splitter);
 
-#ifdef TORA3_GRAPH        
+#ifdef TORA3_GRAPH
     WaitChart = new toResultBar(splitter);
     try
     {
@@ -516,7 +528,7 @@ void toWorksheet::setup(bool autoLoad)
     }
     catch (...)
     {
-        TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+        TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
     }
     WaitChart->setTitle(tr("Wait states"));
     WaitChart->setYPostfix(QString::fromLatin1("ms/s"));
@@ -534,7 +546,7 @@ void toWorksheet::setup(bool autoLoad)
     }
     catch (...)
     {
-        TLOG(1, toDecorator, __HERE__) << "	Ignored exception." << std::endl;
+        TLOG(1, toDecorator, __HERE__) << " Ignored exception." << std::endl;
     }
     IOChart->setTitle(tr("I/O"));
     IOChart->setYPostfix(tr("blocks/s"));
@@ -625,8 +637,8 @@ void toWorksheet::setup(bool autoLoad)
 
 toWorksheet::toWorksheet(QWidget *main, toConnection &connection, bool autoLoad)
     : toToolWidget(WorksheetTool, "worksheet.html", main, connection, "toWorksheet")
-	, CurrentTab(NULL)
-	, lockConnectionActClicked(false)
+    , CurrentTab(NULL)
+    , lockConnectionActClicked(false)
 {
     createActions();
     setup(autoLoad);
@@ -690,7 +702,7 @@ void toWorksheet::slotWindowActivated(toToolWidget *widget)
         // depending on the timing.
         // Editor->setFocus();
         //        if (Editor)
-		Editor->setFocus(Qt::ActiveWindowFocusReason);
+        Editor->setFocus(Qt::ActiveWindowFocusReason);
 
         // must set correct schema every time so having two worksheets
         // on different schemas works properly.
@@ -724,22 +736,22 @@ void toWorksheet::slotConnectionChanged(void)
 
 bool toWorksheet::checkSave()
 {
-	using namespace ToConfiguration;
+    using namespace ToConfiguration;
 
     if (!Editor->sciEditor()->isModified())
         return true;
 
     if (!toConfigurationNewSingle::Instance().option(Worksheet::CheckSaveBool).toBool())
-    	return true;
+        return true;
 
     if (toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::AutoSaveBool).toBool() && !Editor->filename().isEmpty())
-    	if (Utils::toWriteFile(Editor->filename(), Editor->sciEditor()->text()))
-    	{
-    		Editor->sciEditor()->setModified(false);
-    		return true;
-    	} else {
-    		return false;
-    	}
+        if (Utils::toWriteFile(Editor->filename(), Editor->sciEditor()->text()))
+        {
+            Editor->sciEditor()->setModified(false);
+            return true;
+        } else {
+            return false;
+        }
 
     // CheckSave is true
     // AutoSave is false or Editor->filemame is empty
@@ -747,11 +759,11 @@ bool toWorksheet::checkSave()
     QString conn;
     try
     {
-    	conn = connection().description();
+        conn = connection().description();
     }
     catch (...)
     {
-    	conn = QString::fromLatin1("unknown connection");
+        conn = QString::fromLatin1("unknown connection");
     }
 
     // grab focus so user can see file and decide to save
@@ -759,54 +771,55 @@ bool toWorksheet::checkSave()
 
     QString str = tr("Save changes to editor for %1?").arg(conn);
     if (!Editor->filename().isEmpty())
-    	str += QString::fromLatin1("\n(%1)").arg(Editor->filename());
+        str += QString::fromLatin1("\n(%1)").arg(Editor->filename());
 
     int ret = TOMessageBox::information(
-    		this,
-    		"Save File",
-    		str,
-    		QMessageBox::Save |
-    		QMessageBox::Discard |
-    		QMessageBox::Cancel);
+                  this,
+                  "Save File",
+                  str,
+                  QMessageBox::Save |
+                  QMessageBox::Discard |
+                  QMessageBox::Cancel);
 
     switch(ret)
     {
     case QMessageBox::Save:
     {
-    	// Editor->filename is empty => show filesave dialog
-    	if (Editor->filename().isEmpty())
-    	{
-    		Editor->setFilename(Utils::toSaveFilename(Editor->filename(),
-    				QString::null,
-    				this));
-    		// if Editor's filename is still empty => file save dialog failed
-    		if (Editor->filename().isEmpty())
-    		{
-    			return false;
-    		} else {
-    			Editor->sciEditor()->setModified(false);
-    			return true;
-    		}
-    	// Editor->filename if not empty => try to save it
-    	} else {
-    		if (Utils::toWriteFile(Editor->filename(), Editor->sciEditor()->text()))
-    		{
-    			Editor->sciEditor()->setModified(false);
-    			return true;
-    		} else {
-    			return false;
-    		}
-    	}
-    } break;
+        // Editor->filename is empty => show filesave dialog
+        if (Editor->filename().isEmpty())
+        {
+            Editor->setFilename(Utils::toSaveFilename(Editor->filename(),
+                                QString::null,
+                                this));
+            // if Editor's filename is still empty => file save dialog failed
+            if (Editor->filename().isEmpty())
+            {
+                return false;
+            } else {
+                Editor->sciEditor()->setModified(false);
+                return true;
+            }
+            // Editor->filename if not empty => try to save it
+        } else {
+            if (Utils::toWriteFile(Editor->filename(), Editor->sciEditor()->text()))
+            {
+                Editor->sciEditor()->setModified(false);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    break;
     case QMessageBox::Discard:
     {
-    	// only ever called if closing widget, make sure this
-    	// is not called again.
-    	Editor->sciEditor()->setModified(false);
-    	return true;
+        // only ever called if closing widget, make sure this
+        // is not called again.
+        Editor->sciEditor()->setModified(false);
+        return true;
     }
     default: // QMessageBox::Cancel
-    	return false;
+        return false;
     }
 }
 
@@ -820,24 +833,24 @@ bool toWorksheet::slotClose()
     }
 
     if (!checkSave())
-    	return false;
+        return false;
 
-	Result->slotStop();
+    Result->slotStop();
     unlockConnection();
     if (!LockedConnection)
     {
-    	return toToolWidget::close();
+        return toToolWidget::close();
     } else
-    	return false;
+        return false;
 }
 
 void toWorksheet::slotSchemaChanged(const QString &)
 {
-	if (LockedConnection)
-	{
-		(*LockedConnection).SchemaInitialized = false;
-		(*LockedConnection).Schema = currentSchema();
-	}
+    if (LockedConnection)
+    {
+        (*LockedConnection).SchemaInitialized = false;
+        (*LockedConnection).Schema = currentSchema();
+    }
 }
 
 void toWorksheet::closeEvent(QCloseEvent *event)
@@ -856,14 +869,14 @@ void toWorksheet::closeEvent(QCloseEvent *event)
 
 void toWorksheet::focusInEvent(QFocusEvent *e)
 {
-	qDebug() << ">>> toWorksheet::focusInEvent" << this;
-	super::focusInEvent(e);
+    qDebug() << ">>> toWorksheet::focusInEvent" << this;
+    super::focusInEvent(e);
 }
 
 void toWorksheet::focusOutEvent(QFocusEvent *e)
 {
-	qDebug() << ">>> toWorksheet::focusOutEvent" << this;
-	super::focusOutEvent(e);
+    qDebug() << ">>> toWorksheet::focusOutEvent" << this;
+    super::focusOutEvent(e);
 }
 
 toWorksheet::~toWorksheet()
@@ -872,29 +885,29 @@ toWorksheet::~toWorksheet()
 
 bool toWorksheet::hasTransaction() const
 {
-	if (LockedConnection)
-		return (*LockedConnection)->hasTransaction();
-	return false;
+    if (LockedConnection)
+        return (*LockedConnection)->hasTransaction();
+    return false;
 }
 
 void toWorksheet::commitChanges()
 {
-	Q_ASSERT_X(LockedConnection, qPrintable(__QHERE__), "No connection for commit");
-	(*LockedConnection)->commit();
-	if (!lockConnectionActClicked)
-		unlockConnection();
-	else
-		toGlobalEventSingle::Instance().setNeedCommit(this, this->hasTransaction());
+    Q_ASSERT_X(LockedConnection, qPrintable(__QHERE__), "No connection for commit");
+    (*LockedConnection)->commit();
+    if (!lockConnectionActClicked)
+        unlockConnection();
+    else
+        toGlobalEventSingle::Instance().setNeedCommit(this, this->hasTransaction());
 }
 
 void toWorksheet::rollbackChanges()
 {
-	Q_ASSERT_X(LockedConnection, qPrintable(__QHERE__), "No connection for rollback");
-	(*LockedConnection)->commit();
-	if (!lockConnectionActClicked)
-		unlockConnection();
-	else
-		toGlobalEventSingle::Instance().setNeedCommit(this, this->hasTransaction());
+    Q_ASSERT_X(LockedConnection, qPrintable(__QHERE__), "No connection for rollback");
+    (*LockedConnection)->commit();
+    if (!lockConnectionActClicked)
+        unlockConnection();
+    else
+        toGlobalEventSingle::Instance().setNeedCommit(this, this->hasTransaction());
 }
 
 toWorksheetEditor* toWorksheet::editor(void)
@@ -950,18 +963,18 @@ bool toWorksheet::describe(toSyntaxAnalyzer::statement const& query)
     {
         if (query.firstWord.startsWith("DESC", Qt::CaseInsensitive))
         {
-        	QStringList parts = query.sql.split(white);
+            QStringList parts = query.sql.split(white);
             slotUnhideResults();
 
             if (connection().providerIs("Oracle"))
             {
                 if (parts.count() == 2)
                 {
-                	Columns->changeObject(toCache::ObjectRef(currentSchema(), unQuote(parts[1]), currentSchema()));
+                    Columns->changeObject(toCache::ObjectRef(currentSchema(), unQuote(parts[1]), currentSchema()));
                 }
                 else if (parts.count() == 3)
                 {
-                	Columns->changeObject(toCache::ObjectRef(unQuote(parts[1]), unQuote(parts[2]), currentSchema()));
+                    Columns->changeObject(toCache::ObjectRef(unQuote(parts[1]), unQuote(parts[2]), currentSchema()));
                 }
                 else
                     throw tr("Wrong number of parameters for describe");
@@ -987,7 +1000,7 @@ bool toWorksheet::describe(toSyntaxAnalyzer::statement const& query)
 
 QString toWorksheet::currentSchema() const
 {
-	return Schema->currentText();
+    return Schema->currentText();
 }
 
 static toSQL SQLCheckMySQLRoutine("toWorksheet:CheckRoutine",
@@ -1049,7 +1062,7 @@ void toWorksheet::mySQLBeforeCreate(QString &chk)
                 {
                     // Check if this routine actually exists in database
                     toQueryParams param;
-					toConnectionSubLoan conn(connection());
+                    toConnectionSubLoan conn(connection());
                     param << toQValue(tok[2 + i].remove('`')); // routine name
                     param << toQValue(tok[1 + i]); // routine type (procedure or function)
                     param << toQValue(Schema->currentText());
@@ -1069,7 +1082,7 @@ void toWorksheet::mySQLBeforeCreate(QString &chk)
                     if (answerYes)
                     {
                         toQueryParams param;
-						toConnectionSubLoan conn(connection());
+                        toConnectionSubLoan conn(connection());
                         param << toQValue(tok[1 + i]); // routine type (procedure or function)
                         param << toQValue(tok[2 + i]); // routine name
                         // Note that if routine creation is not successfull you will be left without any routine!
@@ -1084,15 +1097,15 @@ void toWorksheet::mySQLBeforeCreate(QString &chk)
 
 void toWorksheet::query(QString const& text, execTypeEnum execType)
 {
-	toSyntaxAnalyzer *analyzer = Editor->editor()->analyzer();
-	toSyntaxAnalyzer::statementList stats = analyzer->getStatements(text);
+    toSyntaxAnalyzer *analyzer = Editor->editor()->analyzer();
+    toSyntaxAnalyzer::statementList stats = analyzer->getStatements(text);
 
-	if(stats.isEmpty())
-		return;
+    if(stats.isEmpty())
+        return;
 
-	toSyntaxAnalyzer::statement stat(stats.first());
-	analyzer->sanitizeStatement(stat);
-	query(stat, execType, DontSelectQueryEnum);
+    toSyntaxAnalyzer::statement stat(stats.first());
+    analyzer->sanitizeStatement(stat);
+    query(stat, execType, DontSelectQueryEnum);
 }
 
 void toWorksheet::query(toSyntaxAnalyzer::statement const& statement, execTypeEnum execType, selectionModeEnum selectMode)
@@ -1101,7 +1114,7 @@ void toWorksheet::query(toSyntaxAnalyzer::statement const& statement, execTypeEn
     RefreshTimer.stop();
 
     if(!Editor->editor()->hasSelectedText() || selectMode)
-    	Editor->editor()->SendScintilla(QsciScintilla::SCI_SETSEL, statement.posFrom, statement.posTo);
+        Editor->editor()->SendScintilla(QsciScintilla::SCI_SETSEL, statement.posFrom, statement.posTo);
 
     TLOG(0, toDecorator, __HERE__)
             << "Current statement: " << std::endl
@@ -1115,201 +1128,205 @@ void toWorksheet::query(toSyntaxAnalyzer::statement const& statement, execTypeEn
     //mySQLBeforeCreate(chk);
 
     if (describe(statement))
-    	return;
+        return;
 
     QWidget *curr = ResultTab->currentWidget();
-	Current->hide();
-	Result->show();
-	Current = Result;
-	if (curr == Columns)
-		ResultTab->setCurrentIndex(ResultTab->indexOf(Result));
+    Current->hide();
+    Result->show();
+    Current = Result;
+    if (curr == Columns)
+        ResultTab->setCurrentIndex(ResultTab->indexOf(Result));
 
     if (connection().providerIs("Oracle") && statement.firstWord.startsWith("EXEC", Qt::CaseInsensitive))
     {
-    	Utils::toStatusMessage("Ignoring SQL*Plus command", true);
-    	// todo handle leading spaces any comments here
-    	// put exec in anonymous plsql block or they won't work
-    	//m_lastQuery = m_lastQuery.sql.trimmed().right(m_lastQuery.sql.length() - m_lastQuery.firstWord.length())
-    	//m_lastQuery = QString("BEGIN\n%1;\nEND;").arg(m_lastQuery);
-    	return;
+        Utils::toStatusMessage("Ignoring SQL*Plus command", true);
+        // todo handle leading spaces any comments here
+        // put exec in anonymous plsql block or they won't work
+        //m_lastQuery = m_lastQuery.sql.trimmed().right(m_lastQuery.sql.length() - m_lastQuery.firstWord.length())
+        //m_lastQuery = QString("BEGIN\n%1;\nEND;").arg(m_lastQuery);
+        return;
     }
 
     if (statement.statementType == toSyntaxAnalyzer::SQLPLUS)
     {
-    	QString t = tr("Ignoring SQL*Plus command");
-    	slotFirstResult(statement.sql, toConnection::exception(t), false);
-    	Utils::toStatusMessage(t, true);
-    	return ;
+        QString t = tr("Ignoring SQL*Plus command");
+        slotFirstResult(statement.sql, toConnection::exception(t), false);
+        Utils::toStatusMessage(t, true);
+        return ;
     }
 
-	Time.start(); // Setup query duration timer
-	m_FirstDataReceived = false;
+    Time.start(); // Setup query duration timer
+    m_FirstDataReceived = false;
 
     switch(execType)
     {
     case OnlyPlan: {
-    	if (ResultTab->currentIndex() != ResultTab->indexOf(Plan))
-    		ResultTab->setCurrentIndex(ResultTab->indexOf(Plan));
-    	Plan->query(statement.sql, toQueryParams() << QString("EXPLAIN"));
-    	slotUnhideResults();
-    } break;
+        if (ResultTab->currentIndex() != ResultTab->indexOf(Plan))
+            ResultTab->setCurrentIndex(ResultTab->indexOf(Plan));
+        Plan->query(statement.sql, toQueryParams() << QString("EXPLAIN"));
+        slotUnhideResults();
+    }
+    break;
     case Parse: {
-    	try
-    	{
-    		//parser connection().parse(QueryString);
-    	}
-    	catch (const QString &exc)
-    	{
-    		addLog(exc);
-    	}
-    } break;
+        try
+        {
+            //parser connection().parse(QueryString);
+        }
+        catch (const QString &exc)
+        {
+            addLog(exc);
+        }
+    }
+    break;
     // This is in fact Batch Execution
     case Direct: {
-    	try
-    	{
-    		////lockConnection();
-    		QString buffer;
-    		if (!toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::HistoryErrorBool).toBool())
-    		{
-    			toConnectionSubLoan conn(connection(), currentSchema());
-    			toQuery query(conn, statement.sql, toQueryParams());
-    			if (query.rowsProcessed() > 0)
-    				buffer = tr("%1 rows processed").arg((int)query.rowsProcessed());
-    			else
-    				buffer = tr("Query executed");
-    		}
-    		else
-    		{
-    			throw QString("TODO: rewrite unreadable code: %1").arg(__QHERE__);
-    			// This code has relation to WorksheetSetup UI: checkbox Save Previous Results
-    			// This should open a new Result tab for each query exec.
+        try
+        {
+            ////lockConnection();
+            QString buffer;
+            if (!toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::HistoryErrorBool).toBool())
+            {
+                toConnectionSubLoan conn(connection(), currentSchema());
+                toQuery query(conn, statement.sql, toQueryParams());
+                if (query.rowsProcessed() > 0)
+                    buffer = tr("%1 rows processed").arg((int)query.rowsProcessed());
+                else
+                    buffer = tr("Query executed");
+            }
+            else
+            {
+                throw QString("TODO: rewrite unreadable code: %1").arg(__QHERE__);
+                // This code has relation to WorksheetSetup UI: checkbox Save Previous Results
+                // This should open a new Result tab for each query exec.
 #ifdef TORA3_SOMETHING_UGLY
-    			toResultView *statement = new toResultView(Current->parentWidget());
+                toResultView *statement = new toResultView(Current->parentWidget());
 
-    			try
-    			{
-    				statement->statement((QString) m_lastQuery, param);
-    				if (statement->statement() && statement->statement()->rowsProcessed() > 0)
-    					buffer = tr("%1 rows processed").arg((int)statement->statement()->rowsProcessed());
-    				else
-    					buffer = tr("Query executed");
-    				Current->hide();
-    				Current = statement;
-    				Current->show();
-    			}
-    			catch (...)
-    			{
-    				delete statement;
-    				throw;
-    			}
+                try
+                {
+                    statement->statement((QString) m_lastQuery, param);
+                    if (statement->statement() && statement->statement()->rowsProcessed() > 0)
+                        buffer = tr("%1 rows processed").arg((int)statement->statement()->rowsProcessed());
+                    else
+                        buffer = tr("Query executed");
+                    Current->hide();
+                    Current = statement;
+                    Current->show();
+                }
+                catch (...)
+                {
+                    delete statement;
+                    throw;
+                }
 #endif
-    		}
+            }
 
-    		slotFirstResult(statement.sql, toConnection::exception(buffer), false);
-    	}
-    	catch (const QString &exc)
-    	{
-    		addLog(exc);
-    		if (QMessageBox::question(this, tr("Direct Execute Error"),
-    				exc + "\n\n" + tr("Stop execution ('No' to continue)?"),
-    				QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
-    			throw BatchExecException();
-    		if (!lockConnectionActClicked)
-    			unlockConnection();
-    	}
-    } break;
+            slotFirstResult(statement.sql, toConnection::exception(buffer), false);
+        }
+        catch (const QString &exc)
+        {
+            addLog(exc);
+            if (QMessageBox::question(this, tr("Direct Execute Error"),
+                                      exc + "\n\n" + tr("Stop execution ('No' to continue)?"),
+                                      QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
+                throw BatchExecException();
+            if (!lockConnectionActClicked)
+                unlockConnection();
+        }
+    }
+    break;
     case Normal: {
-    	//if (statement.statementType != toSyntaxAnalyzer::SELECT) TODO: check for "FOR UPDATE HERE
-    	{
-    		lockConnection();
-    		lockConnectionAct->setDisabled(true);
-    	}
+        //if (statement.statementType != toSyntaxAnalyzer::SELECT) TODO: check for "FOR UPDATE HERE
+        {
+            lockConnection();
+            lockConnectionAct->setDisabled(true);
+        }
         this->m_lastQuery = statement;
 
         // unhide the results pane if there's something to show
         if (m_lastQuery.statementType == toSyntaxAnalyzer::SELECT || (ResultTab && ResultTab->currentIndex() != 0))
-        	slotUnhideResults();
+            slotUnhideResults();
 
         toQueryParams param;
         if (m_lastQuery.statementType == toSyntaxAnalyzer::SELECT || m_lastQuery.statementType == toSyntaxAnalyzer::DML)
         {
-        	try
-        	{
-        		param = toParamGet::getParam(connection(), this, m_lastQuery.sql);
-        	}
-        	catch (...)
-        	{
-        		return ;
-        	}
+            try
+            {
+                param = toParamGet::getParam(connection(), this, m_lastQuery.sql);
+            }
+            catch (...)
+            {
+                return ;
+            }
         }
         Utils::toStatusMessage(tr("Processing query"), true);
 
-    	stopAct->setEnabled(true);
-    	Poll.start(1000);
-    	Started->setToolTip(tr("Duration while query has been running\n\n") + statement.sql);
-    	stopAct->setEnabled(true);
-    	Result->setNumberColumn(toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::DisplayNumberColumnBool).toBool());
-    	// it fixes crash running statements from Schema Browser - PV
-    	if (ResultTab)
-    		ResultTab->setCurrentIndex(0);
+        stopAct->setEnabled(true);
+        Poll.start(1000);
+        Started->setToolTip(tr("Duration while query has been running\n\n") + statement.sql);
+        stopAct->setEnabled(true);
+        Result->setNumberColumn(toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::DisplayNumberColumnBool).toBool());
+        // it fixes crash running statements from Schema Browser - PV
+        if (ResultTab)
+            ResultTab->setCurrentIndex(0);
 
-    	try
-    	{
-    		saveHistory();
-    		Result->removeSQL();
-    		if (LockedConnection)
-    			Result->querySub(LockedConnection, statement.sql, param);
-    		else
-    			Result->query(statement.sql, param);
+        try
+        {
+            saveHistory();
+            Result->removeSQL();
+            if (LockedConnection)
+                Result->querySub(LockedConnection, statement.sql, param);
+            else
+                Result->query(statement.sql, param);
 
-    		if (CurrentTab)
-    		{
-    		// todo
-    		// PV - let's open really required tab for called action
-    		// e.g. Plan for explainplan, Result for run statement action etc.
-    		// It stops to really run a statement when I expect explain plan
-    		// if (CurrentTab == Plan)
-    		// Plan->query(QueryString);
-    		// else
-    			if (CurrentTab == ResourceSplitter)
-    				viewResources();
-    		}
-    	}
-    	catch (const toConnection::exception &exc)
-    	{
-    		addLog(exc);
-    		if (!lockConnectionActClicked)
-    			unlockConnection();
-    	}
-    	catch (const QString &exc)
-    	{
-    		addLog(exc);
-    		if (!lockConnectionActClicked)
-    			unlockConnection();
-    	}
-    	try
-    	{
-    		if (statisticAct->isChecked())
-    			Utils::toRefreshParse(timer(), Refresh->currentText());
-    	}
-    	TOCATCH
-    	Result->setSQLName(statement.sql.simplified().left(40));
-    } break;
+            if (CurrentTab)
+            {
+                // todo
+                // PV - let's open really required tab for called action
+                // e.g. Plan for explainplan, Result for run statement action etc.
+                // It stops to really run a statement when I expect explain plan
+                // if (CurrentTab == Plan)
+                // Plan->query(QueryString);
+                // else
+                if (CurrentTab == ResourceSplitter)
+                    viewResources();
+            }
+        }
+        catch (const toConnection::exception &exc)
+        {
+            addLog(exc);
+            if (!lockConnectionActClicked)
+                unlockConnection();
+        }
+        catch (const QString &exc)
+        {
+            addLog(exc);
+            if (!lockConnectionActClicked)
+                unlockConnection();
+        }
+        try
+        {
+            if (statisticAct->isChecked())
+                Utils::toRefreshParse(timer(), Refresh->currentText());
+        }
+        TOCATCH
+        Result->setSQLName(statement.sql.simplified().left(40));
+    }
+    break;
     }
 }
 
 void toWorksheet::querySelection(execTypeEnum execType)
 {
-	toSyntaxAnalyzer *analyzer = Editor->editor()->analyzer();
+    toSyntaxAnalyzer *analyzer = Editor->editor()->analyzer();
 
-	int lineFrom, indexFrom, lineTo, indexTo;
-	Editor->editor()->getSelection(&lineFrom, &indexFrom, &lineTo, &indexTo);
+    int lineFrom, indexFrom, lineTo, indexTo;
+    Editor->editor()->getSelection(&lineFrom, &indexFrom, &lineTo, &indexTo);
 
-	if(indexTo == 0)
-		lineTo = (std::max)(lineFrom, lineTo-1);
-	toSyntaxAnalyzer::statement stat(lineFrom, lineTo);
-	analyzer->sanitizeStatement(stat);
-	query(stat, execType, DontSelectQueryEnum);
+    if(indexTo == 0)
+        lineTo = (std::max)(lineFrom, lineTo-1);
+    toSyntaxAnalyzer::statement stat(lineFrom, lineTo);
+    analyzer->sanitizeStatement(stat);
+    query(stat, execType, DontSelectQueryEnum);
 }
 
 
@@ -1349,7 +1366,7 @@ toSyntaxAnalyzer::statement toWorksheet::currentStatement() const
     toSyntaxAnalyzer::statement stat = analyzer->getStatementAt(cline, cpos);
     analyzer->sanitizeStatement(stat);
 
-	return stat;
+    return stat;
 }
 
 QString toWorksheet::duration(int dur, bool hundreds)
@@ -1373,18 +1390,18 @@ QString toWorksheet::duration(int dur, bool hundreds)
 }
 
 void toWorksheet::slotFirstResult(const QString &sql,
-                         const toConnection::exception &result,
-                         bool error)
+                                  const toConnection::exception &result,
+                                  bool error)
 {
-	// Stop ticking clock
-	// TODO: resume (un-pause) the clock when read-all is executed in Model
+    // Stop ticking clock
+    // TODO: resume (un-pause) the clock when read-all is executed in Model
     Poll.stop();
-	timer()->stop();
+    timer()->stop();
 
     m_FirstDataReceived = true;
 
     if (error && result.offset() >= 0 && toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::MoveToErrorBool).toBool())
-    	Editor->sciEditor()->setCursorPosition(m_lastQuery.lineFrom + result.line() - 1, result.column() - 1);
+        Editor->sciEditor()->setCursorPosition(m_lastQuery.lineFrom + result.line() - 1, result.column() - 1);
 
     if (!error)
     {
@@ -1393,24 +1410,24 @@ void toWorksheet::slotFirstResult(const QString &sql,
 
         try
         {
-        	// TODO: DDL commit/rollback on non-Oracle DBs
-        	// TODO: move this into queryDone
-        	if (m_lastQuery.statementType == toSyntaxAnalyzer::DML)
-        	{
-        		if (toConfigurationNewSingle::Instance().option(ToConfiguration::Database::AutoCommitBool).toBool())
-        		{
-        			Q_ASSERT_X(LockedConnection, qPrintable(__QHERE__), "Connection was not lent for DML");
-        			(*LockedConnection)->commit();
-        		}
-        		else
-        			toGlobalEventSingle::Instance().setNeedCommit(this, this->hasTransaction());
-        	}
+            // TODO: DDL commit/rollback on non-Oracle DBs
+            // TODO: move this into queryDone
+            if (m_lastQuery.statementType == toSyntaxAnalyzer::DML)
+            {
+                if (toConfigurationNewSingle::Instance().option(ToConfiguration::Database::AutoCommitBool).toBool())
+                {
+                    Q_ASSERT_X(LockedConnection, qPrintable(__QHERE__), "Connection was not lent for DML");
+                    (*LockedConnection)->commit();
+                }
+                else
+                    toGlobalEventSingle::Instance().setNeedCommit(this, this->hasTransaction());
+            }
         }
         TOCATCH;
 
-    	QString str = result;
-    	str += "\n" + tr("(Duration ") + duration(Time.elapsed()) + ")";
-    	Utils::toStatusMessage(str, false, false);
+        QString str = result;
+        str += "\n" + tr("(Duration ") + duration(Time.elapsed()) + ")";
+        Utils::toStatusMessage(str, false, false);
     }
 
     addLog(result);
@@ -1419,8 +1436,8 @@ void toWorksheet::slotFirstResult(const QString &sql,
 }
 
 void toWorksheet::slotUnhideResults(const QString &,
-                                const toConnection::exception &,
-                                bool error)
+                                    const toConnection::exception &,
+                                    bool error)
 {
     if (!error && Result->model()->rowCount() > 0)
         slotUnhideResults();
@@ -1437,7 +1454,7 @@ void toWorksheet::slotExecute()
 {
     if (Editor->sciEditor()->hasSelectedText())
     {
-    	querySelection(Normal);
+        querySelection(Normal);
         return;
     }
     toSyntaxAnalyzer::statement stat = currentStatement();
@@ -1448,7 +1465,7 @@ void toWorksheet::slotExplainPlan()
 {
     if (Editor->sciEditor()->hasSelectedText())
     {
-    	querySelection(OnlyPlan);
+        querySelection(OnlyPlan);
         return ;
     }
     toSyntaxAnalyzer::statement stat = currentStatement();
@@ -1457,8 +1474,8 @@ void toWorksheet::slotExplainPlan()
 
 void toWorksheet::slotExecuteStep()
 {
-	toSyntaxAnalyzer::statement stat = currentStatement();
-	query(stat, Normal);
+    toSyntaxAnalyzer::statement stat = currentStatement();
+    query(stat, Normal);
 }
 
 void toWorksheet::slotToggleStatistic(void)
@@ -1489,22 +1506,22 @@ void toWorksheet::slotExecuteAll()
             break;
 
         if( stat.lineTo < cline)
-        	continue;
+            continue;
 
-		analyzer.sanitizeStatement(stat);
+        analyzer.sanitizeStatement(stat);
 
-		try
-		{
-			query(stat, Direct, DontSelectQueryEnum);
-		} catch ( BatchExecException const& e) {
-			break;
-		}
+        try
+        {
+            query(stat, Direct, DontSelectQueryEnum);
+        } catch ( BatchExecException const& e) {
+            break;
+        }
 
         if (Current)
-        	if (toResultView *last = dynamic_cast<toResultView *>(Current))
-        		if (toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::ExecLogBool).toBool())
-        			if (last->firstChild())
-        				History[LastID] = last;
+            if (toResultView *last = dynamic_cast<toResultView *>(Current))
+                if (toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::ExecLogBool).toBool())
+                    if (last->firstChild())
+                        History[LastID] = last;
         lastLinePos = stat.lineTo;
     }
 
@@ -1513,25 +1530,25 @@ void toWorksheet::slotExecuteAll()
 
 void toWorksheet::slotParse()
 {
-	Utils::toBusy busy;
-	toSyntaxAnalyzer::statement stat = currentStatement();
-	toSyntaxAnalyzer *analyzer = Editor->editor()->analyzer();
-	analyzer->sanitizeStatement(stat);
+    Utils::toBusy busy;
+    toSyntaxAnalyzer::statement stat = currentStatement();
+    toSyntaxAnalyzer *analyzer = Editor->editor()->analyzer();
+    analyzer->sanitizeStatement(stat);
 
-	if (!connection().providerIs("Oracle")) // so far no support for other DBs
-		return;
-	if (stat.statementType == toSyntaxAnalyzer::DML || stat.statementType == toSyntaxAnalyzer::SELECT)
-	{
-		toQList vals = toQuery::readQuery(connection(), SQLParseSql, toQueryParams() << stat.sql);
-		int parseOffset = vals.front().toInt();
-		if (parseOffset < 0)
-			return;
+    if (!connection().providerIs("Oracle")) // so far no support for other DBs
+        return;
+    if (stat.statementType == toSyntaxAnalyzer::DML || stat.statementType == toSyntaxAnalyzer::SELECT)
+    {
+        toQList vals = toQuery::readQuery(connection(), SQLParseSql, toQueryParams() << stat.sql);
+        int parseOffset = vals.front().toInt();
+        if (parseOffset < 0)
+            return;
 
-		int pos = stat.posFrom;
-		pos = Editor->sciEditor()->positionAfter(pos, parseOffset);
-		Editor->sciEditor()->gotoPosition(pos);
-		TLOG(1, toDecorator, __HERE__) << "Parse offset:" << parseOffset << std::endl;
-	}
+        int pos = stat.posFrom;
+        pos = Editor->sciEditor()->positionAfter(pos, parseOffset);
+        Editor->sciEditor()->gotoPosition(pos);
+        TLOG(1, toDecorator, __HERE__) << "Parse offset:" << parseOffset << std::endl;
+    }
 }
 
 void toWorksheet::slotEraseLogButton()
@@ -1545,7 +1562,7 @@ void toWorksheet::slotEraseLogButton()
 
 void toWorksheet::slotQueryDone(void)
 {
-	timer()->stop();
+    timer()->stop();
     stopAct->setDisabled(true);
 
     // Possibly the toConnectionSub.Schema got changed after ~toQuery
@@ -1556,21 +1573,21 @@ void toWorksheet::slotQueryDone(void)
     // was executed
     if (LockedConnection && !(*LockedConnection)->schema().isEmpty() && (*LockedConnection)->schema() != currentSchema())
     {
-    		Schema->setSelected((*LockedConnection)->schema());
-    		Schema->refresh();
+        Schema->setSelected((*LockedConnection)->schema());
+        Schema->refresh();
     }
     // TODO: LockedConnection.isNull is mandatory here. For some unknown reason slotQueryDone can be called twice for the same query
     if (!lockConnectionActClicked && LockedConnection)
     {
-    	try
-    	{
-    		Utils::toBusy busy;
-    		if( !(*LockedConnection)->hasTransaction())
-    			unlockConnection();
-    	}
-    	TOCATCH
+        try
+        {
+            Utils::toBusy busy;
+            if( !(*LockedConnection)->hasTransaction())
+                unlockConnection();
+        }
+        TOCATCH
     }
-	lockConnectionAct->setEnabled(true);
+    lockConnectionAct->setEnabled(true);
 }
 
 void toWorksheet::saveDefaults(void)
@@ -1612,12 +1629,12 @@ void toWorksheet::slotEnableStatistic(bool ena)
         Statistics->clear();
         if (toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::TimedStatsBool).toBool())
         {
-        	connection().setInit("STATISTICS", QString::fromLatin1(ENABLETIMED));
+            connection().setInit("STATISTICS", QString::fromLatin1(ENABLETIMED));
         }
     }
     else
     {
-    	connection().setInit("STATISTICS", QString::fromLatin1(DISABLETIMED));
+        connection().setInit("STATISTICS", QString::fromLatin1(DISABLETIMED));
         Result->setStatistics(NULL);
         ResultTab->setTabEnabled(ResultTab->indexOf(StatTab), false);
         statisticAct->setChecked(false);
@@ -1734,7 +1751,7 @@ void toWorksheet::slotDescribeNew(void)
             << "Positon: " << currentToken->getPosition().toString() << "\n"
             << "Token AType: " << currentToken->getTokenATypeName() << '\n'
 //            << "Token Type: " << currentToken->getTokenTypeString() << '\n'
-			;
+            ;
 
         QList<QString> stack;
         while(stackPath->parent())
@@ -2140,137 +2157,137 @@ void toWorksheet::slotCreatePopupMenu(const QPoint &pos)
 
 void toWorksheet::slotChangeConnection(void)
 {
-	if (!lockConnectionActClicked)
-		unlockConnection();
-	lockConnectionAct->setEnabled(true);
+    if (!lockConnectionActClicked)
+        unlockConnection();
+    lockConnectionAct->setEnabled(true);
 }
 
 void toWorksheet::slotLockConnection(bool enabled)
 {
-	if(enabled)
-		lockConnection();
-	else
-		unlockConnection();
-	lockConnectionActClicked = enabled;
+    if(enabled)
+        lockConnection();
+    else
+        unlockConnection();
+    lockConnectionActClicked = enabled;
 }
 
 void toWorksheet::lockConnection()
 {
-	if (LockedConnection) // Do not lock connection twice
-		return;
+    if (LockedConnection) // Do not lock connection twice
+        return;
 
-	try
-	{
-		QSharedPointer<toConnectionSubLoan> conn(new toConnectionSubLoan(connection(), currentSchema()));
-		this->LockedConnection = conn;
+    try
+    {
+        QSharedPointer<toConnectionSubLoan> conn(new toConnectionSubLoan(connection(), currentSchema()));
+        this->LockedConnection = conn;
 
-		//Utils::toBusy busy;
-		//toQuery schema(*LockedConnection, toSQL::string("Global:CurrentSchema", connection()), toQueryParams());
-		//QString value = schema.readValue();
-		//Schema->setSelected(value);
-		//Schema->refresh();
-		//connection().setDefaultSchema(value);
+        //Utils::toBusy busy;
+        //toQuery schema(*LockedConnection, toSQL::string("Global:CurrentSchema", connection()), toQueryParams());
+        //QString value = schema.readValue();
+        //Schema->setSelected(value);
+        //Schema->refresh();
+        //connection().setDefaultSchema(value);
 
-		bool oldVal = lockConnectionAct->blockSignals(true);
-	    lockConnectionAct->setChecked(true);
-	    lockConnectionAct->blockSignals(oldVal);
-	}
+        bool oldVal = lockConnectionAct->blockSignals(true);
+        lockConnectionAct->setChecked(true);
+        lockConnectionAct->blockSignals(oldVal);
+    }
     catch (const QString &str) {
-		bool oldVal = lockConnectionAct->blockSignals(true);
-		lockConnectionAct->setChecked(false);
-	    lockConnectionAct->blockSignals(oldVal);
-    	Utils::toStatusMessage(str);
+        bool oldVal = lockConnectionAct->blockSignals(true);
+        lockConnectionAct->setChecked(false);
+        lockConnectionAct->blockSignals(oldVal);
+        Utils::toStatusMessage(str);
     }
 
 }
 
 void toWorksheet::unlockConnection()
 {
-	if (!checkUnlockConnection())
-	{
-		bool oldVal = lockConnectionAct->blockSignals(true);
-		lockConnectionAct->setChecked(true);
-		lockConnectionAct->blockSignals(oldVal);
-		return;
-	}
+    if (!checkUnlockConnection())
+    {
+        bool oldVal = lockConnectionAct->blockSignals(true);
+        lockConnectionAct->setChecked(true);
+        lockConnectionAct->blockSignals(oldVal);
+        return;
+    }
 
-	this->LockedConnection.clear();
-	lockConnectionActClicked = false;
-	bool oldVal = lockConnectionAct->blockSignals(true);
-	lockConnectionAct->setChecked(false);
-	lockConnectionAct->setEnabled(true);
-	lockConnectionAct->blockSignals(oldVal);
+    this->LockedConnection.clear();
+    lockConnectionActClicked = false;
+    bool oldVal = lockConnectionAct->blockSignals(true);
+    lockConnectionAct->setChecked(false);
+    lockConnectionAct->setEnabled(true);
+    lockConnectionAct->blockSignals(oldVal);
 
-	toGlobalEventSingle::Instance().setNeedCommit(this, false);
+    toGlobalEventSingle::Instance().setNeedCommit(this, false);
 }
 
 bool toWorksheet::checkUnlockConnection()
 {
-	try
-	{
-		if (!this->hasTransaction())
-			return true;
+    try
+    {
+        if (!this->hasTransaction())
+            return true;
 
-		QString str = tr("Commit work in session?");
-		switch (TOMessageBox::warning(this,
-				tr("Commit work?"),
-				str,
-				tr("&Commit"),
-				tr("&Rollback"),
-				tr("Cancel")))
-		{
-		case 0:
-			(*LockedConnection)->commit();
-			return true;
-		case 1:
-			(*LockedConnection)->rollback();
-			return true;
-		case 2:
-			return false;
-		}
-	} catch (const QString &str) {
-		Utils::toStatusMessage(str);
-		if ((*LockedConnection)->isBroken() || !(*LockedConnection)->hasTransaction())
-			return true;
+        QString str = tr("Commit work in session?");
+        switch (TOMessageBox::warning(this,
+                                      tr("Commit work?"),
+                                      str,
+                                      tr("&Commit"),
+                                      tr("&Rollback"),
+                                      tr("Cancel")))
+        {
+        case 0:
+            (*LockedConnection)->commit();
+            return true;
+        case 1:
+            (*LockedConnection)->rollback();
+            return true;
+        case 2:
+            return false;
+        }
+    } catch (const QString &str) {
+        Utils::toStatusMessage(str);
+        if ((*LockedConnection)->isBroken() || !(*LockedConnection)->hasTransaction())
+            return true;
     }
-	return false;
+    return false;
 }
 
 void toWorksheet::addLog(const QString &result)
 {
-	using namespace ToConfiguration;
-	QString dur = duration(Time.elapsed());
-	QString now = QDateTime::currentDateTime().toString(Qt::SystemLocaleDate);
-	toResultViewItem *item = NULL;
+    using namespace ToConfiguration;
+    QString dur = duration(Time.elapsed());
+    QString now = QDateTime::currentDateTime().toString(Qt::SystemLocaleDate);
+    toResultViewItem *item = NULL;
 
-	if (!toConfigurationNewSingle::Instance().option(Worksheet::LogMultiBool).toBool())
-	{
-		if (!toConfigurationNewSingle::Instance().option(Worksheet::LogAtEndBool).toBool())
-			item = new toResultViewItem(Logging, NULL);
-		else
-			item = new toResultViewItem(Logging, LastLogItem);
-	}
-	else if (!toConfigurationNewSingle::Instance().option(Worksheet::LogAtEndBool).toBool())
-		item = new toResultViewMLine(Logging, NULL);
-	else
-		item = new toResultViewMLine(Logging, LastLogItem);
+    if (!toConfigurationNewSingle::Instance().option(Worksheet::LogMultiBool).toBool())
+    {
+        if (!toConfigurationNewSingle::Instance().option(Worksheet::LogAtEndBool).toBool())
+            item = new toResultViewItem(Logging, NULL);
+        else
+            item = new toResultViewItem(Logging, LastLogItem);
+    }
+    else if (!toConfigurationNewSingle::Instance().option(Worksheet::LogAtEndBool).toBool())
+        item = new toResultViewMLine(Logging, NULL);
+    else
+        item = new toResultViewMLine(Logging, LastLogItem);
 
-	LastLogItem = item;
-	item->setText(0, m_lastQuery.sql);
-	item->setText(1, result);
-	item->setText(2, now);
-	item->setText(3, dur);
-	if (toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::HistoryErrorBool).toBool())
-		item->setText(4, QString::number(LastID));
+    LastLogItem = item;
+    item->setText(0, m_lastQuery.sql);
+    item->setText(1, result);
+    item->setText(2, now);
+    item->setText(3, dur);
+    if (toConfigurationNewSingle::Instance().option(ToConfiguration::Worksheet::HistoryErrorBool).toBool())
+        item->setText(4, QString::number(LastID));
 
-	toResultViewItem *citem= dynamic_cast<toResultViewItem *>(Logging->currentItem());
-	if (!citem || citem->allText(0) != m_lastQuery.sql)
-	{
-		bool oldState = Logging->blockSignals(true);
-		Logging->setSelected(item, true);
-		Logging->ensureItemVisible(item);
-		Logging->blockSignals(oldState);
-	}
+    toResultViewItem *citem= dynamic_cast<toResultViewItem *>(Logging->currentItem());
+    if (!citem || citem->allText(0) != m_lastQuery.sql)
+    {
+        bool oldState = Logging->blockSignals(true);
+        Logging->setSelected(item, true);
+        Logging->ensureItemVisible(item);
+        Logging->blockSignals(oldState);
+    }
 }
 
 void toWorksheet::queryStarted(const toSyntaxAnalyzer::statement &stat)
@@ -2280,8 +2297,8 @@ void toWorksheet::queryStarted(const toSyntaxAnalyzer::statement &stat)
 
 toWorksheetSetting::toWorksheetSetting(toTool *tool, QWidget* parent, const char* name)
     : QWidget(parent)
-	, toSettingTab("worksheet.html#preferences")
-	, Tool(tool)
+    , toSettingTab("worksheet.html#preferences")
+    , Tool(tool)
 {
 
     setupUi(this);
@@ -2291,7 +2308,7 @@ toWorksheetSetting::toWorksheetSetting(toTool *tool, QWidget* parent, const char
 
 void toWorksheetSetting::saveSetting(void)
 {
-	toSettingTab::saveSettings(this);
+    toSettingTab::saveSettings(this);
 }
 
 

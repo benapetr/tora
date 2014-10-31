@@ -18,7 +18,7 @@ public:
 
 protected:
     virtual int size() const;
-	virtual const Token& LA(int pos) const;
+    virtual const Token& LA(int pos) const;
 
 private:
     void init();
@@ -37,25 +37,25 @@ OracleLexerNew::OracleLexerNew(const QString &statement, const QString &name)
     : Lexer(statement, name)
     , QBAinput(statement.toUtf8())
     , QBAname(name.toUtf8())
-	, lastLine(1)
-	, lastColumn(0)
-	, lastIndex(0)
+    , lastLine(1)
+    , lastColumn(0)
+    , lastIndex(0)
 {
-	init();
+    init();
 }
 
 OracleLexerNew::~OracleLexerNew()
 {
-	clean();
+    clean();
 }
 
 void OracleLexerNew::init()
 {
     input = new User::MyTraits::InputStreamType(
-    		(const ANTLR_UINT8 *)QBAinput.data(),
-    		ANTLR_ENC_UTF8,
-    		QBAinput.size(), //strlen(data.c_str()),
-    		(ANTLR_UINT8*)QBAname.data());
+        (const ANTLR_UINT8 *)QBAinput.data(),
+        ANTLR_ENC_UTF8,
+        QBAinput.size(), //strlen(data.c_str()),
+        (ANTLR_UINT8*)QBAname.data());
 
     input->setUcaseLA(true); // ignore case
 
@@ -94,99 +94,99 @@ void OracleLexerNew::init()
 
 void OracleLexerNew::setStatement(const char *s, unsigned len)
 {
-	clean();
-	QBAinput.clear();
-	QBAinput.append(s, len);
-	lastLine = 1;
-	lastColumn = 0;
-	lastIndex = 0;
-	init();
+    clean();
+    QBAinput.clear();
+    QBAinput.append(s, len);
+    lastLine = 1;
+    lastColumn = 0;
+    lastIndex = 0;
+    init();
 }
 
 void OracleLexerNew::setStatement(const QString &statement)
 {
-	clean();
-	QBAinput.clear();
-	QBAinput.append(statement.toUtf8());
-	lastLine = 1;
-	lastColumn = 0;
-	lastIndex = 0;
-	init();
+    clean();
+    QBAinput.clear();
+    QBAinput.append(statement.toUtf8());
+    lastLine = 1;
+    lastColumn = 0;
+    lastIndex = 0;
+    init();
 }
 
 void OracleLexerNew::clean()
 {
-	if( tstream)
-		delete tstream;
-	if( lxr)
-		delete lxr;
-	if( input)
-		delete input;
-	tstream = NULL;
-	lxr = NULL;
-	input = NULL;
+    if( tstream)
+        delete tstream;
+    if( lxr)
+        delete lxr;
+    if( input)
+        delete input;
+    tstream = NULL;
+    lxr = NULL;
+    input = NULL;
 }
 
 int OracleLexerNew::size() const
 {
-	if(tstream)
-		return tstream->getTokens()->size();
-	else
-		return 0;
+    if(tstream)
+        return tstream->getTokens()->size();
+    else
+        return 0;
 }
 const Token& OracleLexerNew::LA(int pos) const
 {
-	User::MyTraits::CommonTokenType const* token = tstream->_LT(pos);
-	if(token)
-	{
-		// ANTLR3 starts with 1st while QScintilla starts with 0th
-		int line = token->get_line() - 1;
-		int column = token->getCharPositionInLine();
-		unsigned length = token->get_stopIndex() - token->get_startIndex() + 1;
-		int offset = token->get_startIndex();
-		Token::TokenType type = Token::X_UNASSIGNED;
+    User::MyTraits::CommonTokenType const* token = tstream->_LT(pos);
+    if(token)
+    {
+        // ANTLR3 starts with 1st while QScintilla starts with 0th
+        int line = token->get_line() - 1;
+        int column = token->getCharPositionInLine();
+        unsigned length = token->get_stopIndex() - token->get_startIndex() + 1;
+        int offset = token->get_startIndex();
+        Token::TokenType type = Token::X_UNASSIGNED;
 
-		switch(token->getType())
-		{
-		case User::PLSQLGuiLexer::EOF_TOKEN: 
-			type = Token::X_EOF;
-			break;
-		case User::PLSQLGuiLexer::BUILDIN_FUNCTIONS:
-			type = Token::L_BUILDIN;
-			break;
-		case User::PLSQLGuiLexer::CHAR_STRING:
-		case User::PLSQLGuiLexer::CHAR_STRING_PERL:
-		case User::PLSQLGuiLexer::DELIMITED_ID:
-		case User::PLSQLGuiLexer::HEX_STRING_LIT:
-		case User::PLSQLGuiLexer::NATIONAL_CHAR_STRING_LIT:
-			type = Token::L_STRING;
-			break;
-		case User::PLSQLGuiLexer::COMMENT:
-			type = Token::X_COMMENT;
-			break;
-		case User::PLSQLGuiLexer::PLSQL_RESERVED:
-			type = Token::L_RESERVED; 
-			break;
-		case User::PLSQLGuiLexer::NEWLINE:
-		case User::PLSQLGuiLexer::SPACE:
-		case User::PLSQLGuiLexer::WHITE:
-			type = Token::X_WHITE; 
-			break;
-		default:
-			type = Token::X_UNASSIGNED;
-			break;
-		}		
-		return Token(Position(line, column), length, type); // TODO MSVC WARNING
-	} else
-		throw SQLParser::ParseException();
+        switch(token->getType())
+        {
+        case User::PLSQLGuiLexer::EOF_TOKEN:
+            type = Token::X_EOF;
+            break;
+        case User::PLSQLGuiLexer::BUILDIN_FUNCTIONS:
+            type = Token::L_BUILDIN;
+            break;
+        case User::PLSQLGuiLexer::CHAR_STRING:
+        case User::PLSQLGuiLexer::CHAR_STRING_PERL:
+        case User::PLSQLGuiLexer::DELIMITED_ID:
+        case User::PLSQLGuiLexer::HEX_STRING_LIT:
+        case User::PLSQLGuiLexer::NATIONAL_CHAR_STRING_LIT:
+            type = Token::L_STRING;
+            break;
+        case User::PLSQLGuiLexer::COMMENT:
+            type = Token::X_COMMENT;
+            break;
+        case User::PLSQLGuiLexer::PLSQL_RESERVED:
+            type = Token::L_RESERVED;
+            break;
+        case User::PLSQLGuiLexer::NEWLINE:
+        case User::PLSQLGuiLexer::SPACE:
+        case User::PLSQLGuiLexer::WHITE:
+            type = Token::X_WHITE;
+            break;
+        default:
+            type = Token::X_UNASSIGNED;
+            break;
+        }
+        return Token(Position(line, column), length, type); // TODO MSVC WARNING
+    } else
+        throw SQLParser::ParseException();
 }
 
 QString OracleLexerNew::firstWord()
 {
-	User::MyTraits::CommonTokenType const* token = tstream->_LT(1);
+    User::MyTraits::CommonTokenType const* token = tstream->_LT(1);
     if( token)
     {
-		return QString((const char*)(token->getText().c_str()));
+        return QString((const char*)(token->getText().c_str()));
     }
     return QString();
 }
@@ -204,32 +204,32 @@ QString OracleLexerNew::currentWord(unsigned line, unsigned column)
 
     //if( lastLine > line || (lastLine == line && lastColumn > column))
     //{
-    //	User::MyTraits::CommonTokenType const* tokenZero = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, 0);
-    //	retval = QString::fromUtf8((const char*)(tokenZero->getText()->chars));
-    //	startIndex = 1;
+    //  User::MyTraits::CommonTokenType const* tokenZero = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, 0);
+    //  retval = QString::fromUtf8((const char*)(tokenZero->getText()->chars));
+    //  startIndex = 1;
     //} else {
-    //	User::MyTraits::CommonTokenType const* tokenZero = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, lastIndex);
-    //	retval = QString::fromUtf8((const char*)(tokenZero->getText()->chars));
-    //	startIndex = lastIndex;
+    //  User::MyTraits::CommonTokenType const* tokenZero = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, lastIndex);
+    //  retval = QString::fromUtf8((const char*)(tokenZero->getText()->chars));
+    //  startIndex = lastIndex;
     //}
 
     //for (i = startIndex; i <= size; i++)
     //{
     //    token = (pANTLR3_COMMON_TOKEN)lexerTokenVector->get(lexerTokenVector, i);
     //    if( token == NULL)
-    //    	break;
+    //      break;
 
     //    if ( token->getChannel(token) != HIDDEN)
     //    {
     //        lastIndex  = i;
     //        lastLine   = token->getLine(token);
     //        lastColumn = token->getCharPositionInLine(token);
-    //    	retval = QString::fromUtf8((const char*)(token->getText(token)->chars));
+    //      retval = QString::fromUtf8((const char*)(token->getText(token)->chars));
     //    }
 
     //    if( token->getLine(token) > line
-    //    		|| ( token->getLine(token) == line && token->getCharPositionInLine(token) > column ))
-    //    	break;	
+    //          || ( token->getLine(token) == line && token->getCharPositionInLine(token) > column ))
+    //      break;
     //}
 
     return retval;
