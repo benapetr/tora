@@ -80,7 +80,7 @@ toWorkSpace::toWorkSpace(QWidget *parent)
 
 	vbox->addWidget(m_stackedWidget);
 
-	m_label = new QLabel("Blablabla", this);
+    m_label = new QLabel("", this);
 	
 	vbox->addWidget(m_label);
 }
