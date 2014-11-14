@@ -16,6 +16,7 @@ OPTION(WANT_INTERNAL_LOKI "Use internal/bundled Loki source" OFF)
 OPTION(ENABLE_ORACLE "Enable/Disable Oracle support at all. Including detection" ON)
 OPTION(ENABLE_PGSQL "Enable/Disable PostgreSQL support. Including detection" ON)
 OPTION(ENABLE_DB2 "Enable/Disable DB2 support. Including detection" ON)
+OPTION(QT5_BUILD "Use Qt5" FALSE)
 OPTION(ENABLE_TERADATA "Enable/Disable Teradata support." ON)
 OPTION(WANT_RPM "Enable additional RPM related stuff. Additional make package_rpm target" OFF)
 OPTION(USE_PCH "Use percompiled headers" OFF)
@@ -159,23 +160,47 @@ ENDIF (WIN32 AND NOT DEFINED WANT_INTERNAL_QSCINTILLA)
 ########## Find Dependencies                                                                        ##########
 
 SET (QT_MT_REQUIRED true)
-SET (QT_MIN_VERSION "4.8.0")
-SET (QT_USE_QTSQL TRUE)
-SET (QT_USE_QTNETWORK TRUE)
-SET (QT_USE_QTXML TRUE)
-FIND_PACKAGE(Qt4 REQUIRED)
-INCLUDE( ${QT_USE_FILE} )
+SET(QT_USE_QTNETWORK TRUE)
+SET(QT_USE_QTXML TRUE)
+SET(QT_USE_QTWEBKIT TRUE)
+SET(CMAKE_AUTOMOC ON)
+if(QT5_BUILD)
+	set (QT_FOUND true)
+	set (CMAKE_PREFIX_PATH "C:\\Qt\\5.3\\msvc2013\\")
+        find_package(Qt5Core REQUIRED)
+        find_package(Qt5Gui REQUIRED)
+        find_package(Qt5WebKit REQUIRED)
+        find_package(Qt5Xml REQUIRED)
+        find_package(Qt5Widgets REQUIRED)
+        find_package(Qt5Network REQUIRED)
+        set(QT_INCLUDES
+            ${Qt5Gui_INCLUDE_DIRS}
+            ${Qt5Widgets_INCLUDE_DIRS}
+            ${Qt5Network_INCLUDE_DIRS}
+            ${Qt5WebKit_INCLUDE_DIRS}
+            ${Qt5Xml_INCLUDE_DIRS}
+            ${Qt5Svg_INCLUDE_DIRS}
+           )
+       include_directories(${QT_INCLUDES})
+else()
+    SET (QT_MIN_VERSION "4.8.0")
+    SET (QT_USE_QTSQL TRUE)
+    SET (QT_USE_QTNETWORK TRUE)
+    SET (QT_USE_QTXML TRUE)
+    FIND_PACKAGE(Qt4 REQUIRED)
+    INCLUDE( ${QT_USE_FILE} )
+endif()
 IF (QT_FOUND)
-  MESSAGE("Qt4 Found OK")
-  #Add our Qt definitions
-  ADD_DEFINITIONS(
-    ${QT_DEFINITIONS}
-    -DQT_CORE_LIB
-    -DQT_GUI_LIB
-    -DQT_THREAD_LIB
-    )
+   MESSAGE("Qt4 Found OK")
+   #Add our Qt definitions
+   ADD_DEFINITIONS(
+        ${QT_DEFINITIONS}
+             -DQT_CORE_LIB
+             -DQT_GUI_LIB
+             -DQT_THREAD_LIB
+                       )
 ELSE(QT_FOUND)
-  MESSAGE(FATAL_ERROR "No Qt4 found")
+    MESSAGE(FATAL_ERROR "No Qt4 found")
 ENDIF(QT_FOUND)
 
 IF (WANT_INTERNAL_QSCINTILLA)
