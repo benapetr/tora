@@ -119,7 +119,7 @@ toSyntaxAnalyzer::statement toSyntaxAnalyzerNL::getStatementAt(unsigned line, un
                 retval = statement(lineStart-1, lineEnd-1);
                 lineStart = 0; // reset marker to initial value
             }
-            if(lineNumber > line && retval.lineTo+1 >= line) // off-by-one offset retval.lineTo+1 >= line
+            if(lineNumber > line && (unsigned int)retval.lineTo+1 >= line) // off-by-one offset retval.lineTo+1 >= line
                 return retval;
         } else {
             // Non-Empty line found

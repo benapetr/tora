@@ -41,9 +41,9 @@
 #include "core/utils.h"
 #include "core/toglobalevent.h"
 
-#include <QtGui/QHeaderView>
-#include <QtGui/QTableView>
-#include <QtGui/QSortFilterProxyModel>
+#include <QHeaderView>
+#include <QTableView>
+#include <QSortFilterProxyModel>
 
 REGISTER_VIEW("Connection", toViewConnections);
 

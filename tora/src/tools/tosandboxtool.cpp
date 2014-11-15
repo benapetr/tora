@@ -3,10 +3,10 @@
 #include "core/tochangeconnection.h"
 #include "core/toconnectionregistry.h"
 
-#include <QtGui/QLayout>
-#include <QtGui/QToolBar>
-#include <QtGui/QLineEdit>
-#include <QtGui/QAction>
+#include <QLayout>
+#include <QToolBar>
+#include <QLineEdit>
+#include <QAction>
 
 static const char * execute_xpm[] =
 {
@@ -101,7 +101,7 @@ toSandbox::toSandbox(/*toTool *tool,*/ QWidget *parent, toConnection &connection
     new toChangeConnection(toolbar);
 
     m_statement = new QLineEdit(this);
-    m_statement->setText(QString::fromAscii("select * from dba_objects"));
+    m_statement->setText(QString("select * from dba_objects"));
     layout()->addWidget(m_statement);
 
 

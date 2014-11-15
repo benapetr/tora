@@ -25,7 +25,19 @@
 
 #include "Qsci/qsciprinter.h"
 
+#ifndef QT_VERSION
+// assume we are on qt5
+#define QT_VERSION 0x050000
+#endif
+
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QtPrintSupport\qprinter.h>
+#else
+// qt_4
 #include <qprinter.h>
+#endif
+
 #include <qpainter.h>
 
 #include <qstack.h>

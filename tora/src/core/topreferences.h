@@ -38,10 +38,16 @@
 
 #include "core/totool.h"
 
-#include <QtCore/QVariant>
-#include <QtGui/QDialog>
+#include <QVariant>
+#include <QDialog>
 
 #include <map>
+
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
 
 
 #include "ui_topreferencesui.h"
@@ -64,7 +70,7 @@ public:
     toPreferences(QWidget* parent = 0,
                   const char* name = 0,
                   bool modal = false,
-                  Qt::WFlags fl = 0);
+                  toWFlags fl = 0);
 
 
     static void displayPreferences(QWidget *parent);

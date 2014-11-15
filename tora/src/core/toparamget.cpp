@@ -36,11 +36,11 @@
 #include "core/utils.h"
 #include "core/tomemoeditor.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QHash>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtGui/QCheckBox>
+#include <QDebug>
+#include <QHash>
+#include <QString>
+#include <QStringList>
+#include <QCheckBox>
 
 QHash<QString, QStringList> toParamGet::DefaultCache;
 QHash<QString, QStringList> toParamGet::Cache;

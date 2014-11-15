@@ -37,8 +37,8 @@
 
 #include "loki/Singleton.h"
 
-#include <QtGui/QWidget>
-#include <QtCore/QMap>
+#include <QWidget>
+#include <QMap>
 
 class toToolWidget;
 

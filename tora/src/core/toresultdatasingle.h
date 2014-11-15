@@ -38,9 +38,9 @@
 
 #include "core/toresultmodeledit.h"
 
-#include <QtGui/QWidget>
-#include <QtCore/QList>
-#include <QtCore/QPointer>
+#include <QWidget>
+#include <QList>
+#include <QPointer>
 
 class QScrollArea;
 class QCheckBox;

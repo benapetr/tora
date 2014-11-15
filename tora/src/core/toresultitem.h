@@ -37,9 +37,9 @@
 
 #include "core/toresult.h"
 
-#include <QtGui/QScrollArea>
-#include <QtGui/QFont>
-#include <QtGui/QGridLayout>
+#include <QScrollArea>
+#include <QFont>
+#include <QGridLayout>
 
 #include <vector>
 

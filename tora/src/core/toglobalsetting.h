@@ -42,6 +42,12 @@
 #include "ui_totoolsettingui.h"
 #include "ui_connectioncolorsdialogui.h"
 
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
+
 typedef QMap<QString, QString> ConnectionColors;
 
 class ConnectionColorsDialog : public QDialog, public Ui::ConnectionColorsDialog
@@ -113,7 +119,7 @@ class toGlobalSetting : public QWidget
 
 public:
 	toGlobalSetting(QWidget* parent = 0, const char* name = 0,
-			Qt::WFlags fl = 0);
+			toWFlags fl = 0);
 
 public slots:
     virtual void saveSetting(void);
@@ -138,7 +144,7 @@ class toToolSetting : public QWidget
     Q_OBJECT;
 
 public:
-    toToolSetting(QWidget *parent = 0, const char *name = 0, Qt::WFlags fl = 0);
+    toToolSetting(QWidget *parent = 0, const char *name = 0, toWFlags fl = 0);
 
 public slots:
     virtual void saveSetting(void);

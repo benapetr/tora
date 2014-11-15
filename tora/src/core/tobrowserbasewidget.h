@@ -37,8 +37,13 @@
 
 #include "core/tocache.h"
 
-#include <QtGui/QTabWidget>
 #include <QtCore/QMap>
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QTabWidget>
+#else
+#include <QtGui/QTabWidget>
+#endif
 
 #include "loki/Factory_alt.h"
 

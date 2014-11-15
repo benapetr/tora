@@ -314,7 +314,7 @@ void QsciLexerPython::refreshProperties()
 // Read properties from the settings.
 bool QsciLexerPython::readProperties(QSettings &qs,const QString &prefix)
 {
-    int rc = true, num;
+    int rc = true; //, num;
 
     fold_comments = qs.value(prefix + "foldcomments", false).toBool();
     fold_compact = qs.value(prefix + "foldcompact", true).toBool();

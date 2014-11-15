@@ -39,6 +39,12 @@
 #include "core/toconnection.h"
 #include "core/toresulttableview.h"
 
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
+
 class QCheckBox;
 class QLabel;
 class toResultColsComment;
@@ -75,9 +81,9 @@ public:
      * @param name Name of widget.
      * @param f Widget flags.
      */
-    toResultCols(QWidget *parent, const char *name = NULL, Qt::WFlags f = 0);
+    toResultCols(QWidget *parent, const char *name = NULL, toWFlags f = 0);
 
-	toResultCols(toSQL const& sql, QWidget *parent, const char *name = NULL, Qt::WFlags f = 0);
+	toResultCols(toSQL const& sql, QWidget *parent, const char *name = NULL, toWFlags f = 0);
 
     /**
      * Reimplemented abstract method

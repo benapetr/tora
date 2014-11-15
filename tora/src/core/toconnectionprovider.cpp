@@ -32,23 +32,26 @@
  *
  * END_COMMON_COPYRIGHT_HEADER */
 
+#include <iostream>
 #include "core/toconnectionprovider.h"
 #include "core/tooracleconst.h"
 #include "connection/absfact.h"
 
 void toConnectionProviderRegistry::load(toConnectionProviderFinder::ConnectionProvirerParams const& providerParams)
 {
-    QString const& finderName = providerParams.value("KEY").toString();
-    QString const& providerName = providerParams.value("PROVIDER").toString();
+    QString finderName = providerParams.value("KEY").toString();
+    QString providerName = providerParams.value("PROVIDER").toString();
 
+	std::cout << finderName.toStdString();
     if( m_registry.contains(providerName))
     {
         throw QString("Provider already loaded: %1").arg(providerName);
     }
 
     /* load all dlls. */
+	
     std::auto_ptr<toConnectionProviderFinder> finder = ConnectionProviderFinderFactory::Instance().create(finderName.toStdString(), 0);
-    if(!finder.get())
+	if (!finder.get())
         throw QString("Unknown finder to create: %1").arg(finderName);
 
     finder->load(providerParams);

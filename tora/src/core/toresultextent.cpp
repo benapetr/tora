@@ -37,9 +37,9 @@
 #include "core/toresulttableview.h"
 #include "core/utils.h"
 
-#include <QtGui/QProgressDialog>
-#include <QtCore/QCoreApplication>
-#include <QtGui/QPainter>
+#include <QProgressDialog>
+#include <QCoreApplication>
+#include <QPainter>
 
 static toSQL SQLListExtents("toResultStorage:ListExtents",
                             "SELECT * \n"

@@ -42,11 +42,11 @@
 #include "core/tohelp.h"
 #include "core/tosyntaxsetup.h"
 
-#include <QtCore/QString>
-#include <QtGui/QFrame>
-#include <QtGui/QLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QListWidget>
+#include <QString>
+#include <QFrame>
+#include <QLayout>
+#include <QVBoxLayout>
+#include <QListWidget>
 
 
 void toPreferences::addWidget(QListWidgetItem *item, QWidget *widget)
@@ -89,7 +89,7 @@ void toPreferences::saveSetting(void)
     toConfigurationNewSingle::Instance().saveAll();
 }
 
-toPreferences::toPreferences(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
+toPreferences::toPreferences(QWidget* parent, const char* name, bool modal, toWFlags fl)
     : QDialog(parent)
     , toHelpContext(QString::fromLatin1("preferences.html"))
 {

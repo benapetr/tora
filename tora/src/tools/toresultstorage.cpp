@@ -38,8 +38,8 @@
 #include "core/toconfiguration_new.h"
 #include "core/toglobalsetting.h"
 
-#include <QtGui/QPainter>
-#include <QtGui/QItemDelegate>
+#include <QPainter>
+#include <QItemDelegate>
 
 
 // columns count

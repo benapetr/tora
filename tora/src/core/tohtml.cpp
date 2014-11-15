@@ -35,9 +35,9 @@
 #include "core/tohtml.h"
 #include "core/tomainwindow.h"
 
-#include <QtGui/QApplication>
-#include <QtCore/QString>
-#include <QtCore/QChar>
+#include <QApplication>
+#include <QString>
+#include <QChar>
 
 toHtml::toHtml(const QString &data)
     : Length(data.length())

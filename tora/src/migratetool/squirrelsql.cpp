@@ -34,9 +34,9 @@
 
 #include "migratetool/squirrelsql.h"
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
-#include <QtXml/QXmlStreamReader>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QXmlStreamReader>
 
 #include <QtCore/QtDebug>
 

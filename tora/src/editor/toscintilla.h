@@ -40,9 +40,10 @@
 #include "core/utils.h"
 #include "editor/toeditglobals.h"
 
-#include <QtCore/QString>
-#include <QtCore/QPoint>
-#include <QtGui/QContextMenuEvent>
+#include <QApplication>
+#include <QString>
+#include <QPoint>
+#include <QContextMenuEvent>
 
 class QMenu;
 class QMouseEvent;

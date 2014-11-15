@@ -40,9 +40,9 @@
 #include "core/toconfenum.h"
 
 #include <map>
-#include <QtCore/QString>
-#include <QtGui/QMenu>
-#include <QtGui/QAction>
+#include <QString>
+#include <QMenu>
+#include <QAction>
 
 class QComboBox;
 class QTabWidget;

@@ -40,9 +40,15 @@
 #include "core/toeditwidget.h"
 #include "core/tobackground.h"
 
+#if QT_VERSION >= 0x050000
+#include <QLabel>
+#include <QPointer>
+#include <QMap>
+#else
 #include <QtGui/QLabel>
 #include <QtCore/QPointer>
 #include <QtCore/QMap>
+#endif
 
 class QComboBox;
 class QLabel;

@@ -38,8 +38,8 @@
 #include "core/toresultmodeledit.h"
 #include "ui_toresulttabledataui.h"
 
-#include <QtGui/QWidget>
-#include <QtCore/QMap>
+#include <QWidget>
+#include <QMap>
 
 class QAction;
 class QCloseEvent;

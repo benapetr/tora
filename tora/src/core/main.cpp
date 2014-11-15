@@ -70,10 +70,18 @@
 #include <QtCore/QDebug>
 #include <QtCore/QDateTime>
 #include <QtCore/QSettings>
+#if QT_VERSION >= 0x050000
+#include <QProgressBar>
+#include <QStyleFactory>
+#include <QApplication>
+#include <QMessageBox>
+#else
 #include <QtGui/QProgressBar>
 #include <QtGui/QStyleFactory>
 #include <QtGui/QApplication>
 #include <QtGui/QMessageBox>
+#endif
+
 
 int main(int argc, char **argv)
 {
@@ -126,7 +134,9 @@ int main(int argc, char **argv)
             QApplication::setStyle(QStyleFactory::create(style));
 
         // Set the default codec to use for QString
+#if QT_VERSION < 0x050000
         QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+#endif
 
 // qt4        if (getenv("LANG"))
 //             qApp->setDefaultCodec(QTextCodec::codecForName(getenv("LANG")));

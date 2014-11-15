@@ -42,16 +42,16 @@
 #include "core/toqvalue.h"
 #include "core/toquery.h"
 
-#include <QtCore/QTextCodec>
-#include <QtCore/QThread>
-#include <QtGui/QApplication>
-#include <QtGui/QComboBox>
-#include <QtGui/QFileDialog>
-#include <QtGui/QToolBar>
-#include <QtGui/QPixmapCache>
-#include <QtGui/QPainter>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QDockWidget>
+#include <QTextCodec>
+#include <QThread>
+#include <QApplication>
+#include <QComboBox>
+#include <QFileDialog>
+#include <QToolBar>
+#include <QPixmapCache>
+#include <QPainter>
+#include <QKeyEvent>
+#include <QDockWidget>
 #include <QStyleFactory>
 
 #include <stdlib.h>
@@ -756,7 +756,7 @@ QKeySequence toKeySequence(const QString &key)
     QKeySequence ret = key;
     // TODO printf? use logging
     if (key.isEmpty() && ret.isEmpty())
-        printf("Key sequence %s is not valid\n", key.toAscii().constData());
+        printf("Key sequence %s is not valid\n", key.toUtf8().constData());
     return ret;
 }
 

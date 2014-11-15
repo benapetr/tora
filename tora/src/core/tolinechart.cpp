@@ -40,10 +40,10 @@
 #include "core/toeditorsetting.h"
 #include "core/toconf.h"
 
-#include <QtGui/QPainter>
-#include <QtGui/QPrinter>
-#include <QtGui/QScrollBar>
-#include <QtGui/QPrintDialog>
+#include <QPainter>
+#include <QtPrintSupport/QPrinter>
+#include <QScrollBar>
+#include <QtPrintSupport/QPrintDialog>
 
 #include "icons/print.xpm"
 #include "icons/chart.xpm"
@@ -99,7 +99,7 @@ void toLineChart::setSamples(int samples)
     update();
 }
 
-toLineChart::toLineChart(QWidget *parent, const char *name, Qt::WFlags f)
+toLineChart::toLineChart(QWidget *parent, const char *name, toWFlags f)
     : QWidget(parent, f)
 {
     if (name)
@@ -821,7 +821,7 @@ toLineChart *toLineChart::openCopy(QWidget *parent)
     toLineChart *newWin = new toLineChart(this,
                                           parent ? parent : toMainWidget()->workspace(),
                                           NULL,
-                                          (Qt::WindowFlags) (parent ? 0 : Qt::WA_DeleteOnClose));
+                                          (toWFlags) (parent ? 0 : Qt::WA_DeleteOnClose));
     if (!parent)
     {
         newWin->show();
@@ -837,7 +837,7 @@ toLineChart::~toLineChart()
 {
 }
 
-toLineChart::toLineChart (toLineChart *chart, QWidget *parent, const char *name, Qt::WFlags f)
+toLineChart::toLineChart(toLineChart *chart, QWidget *parent, const char *name, toWFlags f)
     : QWidget(parent, f)
 {
 

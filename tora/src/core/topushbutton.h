@@ -36,10 +36,15 @@
 #define TOPUSHBUTTON_H
 
 
-
+#include <QtCore/QMetaEnum>
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QPushButton>
+#include <QToolButton>
+#else
 #include <QtGui/QPushButton>
 #include <QtGui/QToolButton>
-#include <QtCore/QMetaEnum>
+#endif
 
 class QToolBar;
 

@@ -47,13 +47,13 @@
 #include "core/toconnectionsub.h"
 #include "core/toconnectionsubloan.h"
 
-#include <QtCore/QList>
-#include <QtCore/QDebug>
-#include <QtGui/QToolBar>
-#include <QtGui/QToolButton>
-#include <QtGui/QSplitter>
-#include <QtGui/QPixmap>
-#include <QtGui/QProgressDialog>
+#include <QList>
+#include <QDebug>
+#include <QToolBar>
+#include <QToolButton>
+#include <QSplitter>
+#include <QPixmap>
+#include <QProgressDialog>
 
 #include "icons/refresh.xpm"
 #include "icons/toinvalid.xpm"

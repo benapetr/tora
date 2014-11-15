@@ -40,11 +40,11 @@
 #include "core/toquery.h"
 #include "core/tohelp.h"
 
-#include <QtGui/QDialog>
-#include <QtGui/QPushButton>
-#include <QtGui/QResizeEvent>
-#include <QtGui/QScrollArea>
-#include <QtGui/QGridLayout>
+#include <QDialog>
+#include <QPushButton>
+#include <QResizeEvent>
+#include <QScrollArea>
+#include <QGridLayout>
 
 #include <list>
 #include <map>

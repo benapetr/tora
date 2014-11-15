@@ -41,7 +41,12 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QPointer>
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QWidget>
+#else
 #include <QtGui/QWidget>
+#endif
 #include <QtCore/QSet>
 #include <QtCore/QMap>
 #include <QtCore/QMetaType>

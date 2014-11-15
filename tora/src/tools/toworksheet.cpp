@@ -74,12 +74,12 @@
 #include "core/todatabasesetting.h"
 #include "connection/toqmysqlsetting.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QSettings>
-#include <QtCore/QTextStream>
-#include <QtGui/QInputDialog>
-#include <QtGui/QProgressDialog>
-#include <QtCore/QCryptographicHash>
+#include <QDebug>
+#include <QSettings>
+#include <QTextStream>
+#include <QInputDialog>
+#include <QProgressDialog>
+#include <QCryptographicHash>
 
 #include "icons/clock.xpm"
 #include "icons/recall.xpm"
@@ -1514,6 +1514,7 @@ void toWorksheet::slotExecuteAll()
         {
             query(stat, Direct, DontSelectQueryEnum);
         } catch ( BatchExecException const& e) {
+			Q_UNUSED(e);
             break;
         }
 
@@ -2084,14 +2085,7 @@ toToolWidget* toWorksheet::fileWorksheet(const QString &file)
 void toWorksheet::slotRefreshSetup(void)
 {
     bool ok = false;
-    int num = QInputDialog::getInteger(this,
-                                       tr("Enter refreshrate"),
-                                       tr("Refresh rate of query in seconds"),
-                                       RefreshSeconds,
-                                       0,
-                                       1000000,
-                                       1,
-                                       &ok);
+    int num = QInputDialog::getInt(this, tr("Enter refreshrate"), tr("Refresh rate of query in seconds"), RefreshSeconds, 0, 1000000, 1, &ok);
     if (ok)
     {
         RefreshSeconds = num;

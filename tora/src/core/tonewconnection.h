@@ -39,9 +39,15 @@
 #include "core/totool.h"
 #include "ui_tonewconnectionui.h"
 
-#include <QtCore/QMap>
-#include <QtCore/QVector>
-#include <QtCore/QSettings>
+#include <QMap>
+#include <QVector>
+#include <QSettings>
+
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
 
 class toConnection;
 class toConnectionModel;
@@ -84,7 +90,7 @@ public slots:
 
 public:
     toNewConnection(QWidget* parent = 0,
-                    Qt::WFlags fl = 0);
+                    toWFlags fl = 0);
 
     toConnection* connection()
     {

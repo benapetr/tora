@@ -43,14 +43,14 @@
 #include "core/toeditorsetting.h"
 #include "ts_log/ts_log_utils.h"
 
-#include <QtGui/QFontDialog>
-#include <QtGui/QColorDialog>
+#include <QFontDialog>
+#include <QColorDialog>
 
 #include <Qsci/qscilexersql.h>
 
 using namespace ToConfiguration;
 
-toSyntaxSetup::toSyntaxSetup(QWidget *parent, const char *name, Qt::WFlags fl)
+toSyntaxSetup::toSyntaxSetup(QWidget *parent, const char *name, toWFlags fl)
     : QWidget(parent)
     , toSettingTab("fonts.html")
     , WordClassEnum(ENUM_REF(toSyntaxAnalyzer,WordClassEnum))

@@ -38,9 +38,14 @@
 
 #include "core/topushbutton.h"
 
+#include <QtCore/QMap>
+#if QT_VERSION >= 0x050000
+#include <QAction>
+#include <QToolBar>
+#else
 #include <QtGui/QAction>
 #include <QtGui/QToolBar>
-#include <QtCore/QMap>
+#endif
 
 class toDocklet;
 

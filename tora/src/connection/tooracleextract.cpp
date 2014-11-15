@@ -42,7 +42,13 @@
 #include "core/tosql.h"
 #include "core/totool.h"
 
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QApplication>
+#else
+// qt_4
 #include <QtGui/QApplication>
+#endif
 #include <QtCore/QRegExp>
 
 static toOracleExtract OracleExtractor;

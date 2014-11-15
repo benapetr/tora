@@ -36,12 +36,26 @@
 #define TOTREEWIDGET_H
 
 
-
+#include <QObject>
+#if QT_VERSION >= 0x050000
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+#include <QTreeWidgetItemIterator>
+#include <QList>
+#include <QVariant>
+#else
 #include <QtGui/QTreeWidget>
 #include <QtGui/QTreeWidgetItem>
 #include <QtGui/QTreeWidgetItemIterator>
 #include <QtCore/QList>
 #include <QtCore/QVariant>
+#endif
+
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
 
 class QPainter;
 class QColorGroup;
@@ -65,7 +79,7 @@ private:
 
 public:
 
-    toTreeWidget(QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0);
+    toTreeWidget(QWidget *parent = 0, const char *name = 0, toWFlags f = 0);
 
     /**
      * Returns the first (top) child of this item, or 0 if this item

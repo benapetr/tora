@@ -70,7 +70,7 @@ public:
 
     virtual QString name() const
     {
-        return QString::fromAscii(ORACLE_INSTANTCLIENT);
+        return QString::fromUtf8(ORACLE_INSTANTCLIENT);
     };
 
     /** Return list of possible client locations
@@ -111,13 +111,13 @@ QSet<QString> const toOracleInstantFinder::m_paths = QSet<QString>()
         << QString::fromAscii("/opt/instantclient*")
         << QString::fromAscii("/usr/lib")
 #elif  defined(Q_OS_WIN32)
-        << QString::fromAscii("C:\\instantclient*")
-        << QString::fromAscii("D:\\instantclient*")
-        << QString::fromAscii("E:\\instantclient*")
-        << QString::fromAscii("C:\\oracle\\instantclient*")
-        << QString::fromAscii("D:\\oracle\\instantclient*")
-        << QString::fromAscii("E:\\oracle\\instantclient*")
-        << QString::fromAscii("D:\\devel\\instantclient*")
+        << QString::fromUtf8("C:\\instantclient*")
+        << QString::fromUtf8("D:\\instantclient*")
+        << QString::fromUtf8("E:\\instantclient*")
+        << QString::fromUtf8("C:\\oracle\\instantclient*")
+        << QString::fromUtf8("D:\\oracle\\instantclient*")
+        << QString::fromUtf8("E:\\oracle\\instantclient*")
+        << QString::fromUtf8("D:\\devel\\instantclient*")
 #endif
         << QDir::currentPath()
         ;
@@ -128,7 +128,7 @@ QList<QString> const toOracleInstantFinder::m_libname = QList<QString>()
 #elif defined(Q_WS_MAC)
         << QString::fromAscii("libclntsh.*dylib")
 #elif defined(Q_OS_WIN32) // Note both 32 and 64 bit build
-        << QString::fromAscii("OCI.dll")
+        << QString::fromUtf8("OCI.dll")
 #endif
         ;
 
@@ -426,7 +426,7 @@ public:
 
     virtual QString name() const
     {
-        return QString::fromAscii(ORACLE_TNSCLIENT);
+        return QString::fromUtf8(ORACLE_TNSCLIENT);
     };
 
     /** Return list of possible client locations
@@ -521,9 +521,9 @@ QList<toConnectionProviderFinder::ConnectionProvirerParams> toOracleFinder::find
     {
         QDir ohDir(s);
 #ifdef Q_OS_WIN32
-        QDir ohLibDir(s + QDir::separator() + QString::fromAscii("bin"));
+        QDir ohLibDir(s + QDir::separator() + QString("bin"));
 #else
-        QDir ohLibDir(s + QDir::separator() + QString::fromAscii("lib"));
+        QDir ohLibDir(s + QDir::separator() + QString("lib"));
 #endif
         QStringList sLibraries = ohLibDir.entryList( m_libname);
         QString version;

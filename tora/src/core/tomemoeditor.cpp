@@ -37,11 +37,11 @@
 #include "core/toresultview.h"
 #include "editor/toscintilla.h"
 
-#include <QtGui/QKeyEvent>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QDialogButtonBox>
-#include <QtCore/QSettings>
-#include <QtGui/QCheckBox>
+#include <QKeyEvent>
+#include <QVBoxLayout>
+#include <QDialogButtonBox>
+#include <QSettings>
+#include <QCheckBox>
 
 #include "icons/commit.xpm"
 #include "icons/copy.xpm"

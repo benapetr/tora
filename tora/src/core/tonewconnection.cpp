@@ -46,12 +46,12 @@
 
 #include "icons/trash.xpm"
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QHeaderView>
-#include <QtCore/QStringList>
-#include <QtGui/QMenu>
-#include <QtGui/QIcon>
-#include <QtGui/QSortFilterProxyModel>
+#include <QMessageBox>
+#include <QHeaderView>
+#include <QStringList>
+#include <QMenu>
+#include <QIcon>
+#include <QSortFilterProxyModel>
 
 // TODO turn these into enum (QMetaEnum)
 #define CONF_PROVIDER_LIST_SORT_OFFSET "ProvListSort" //Sort by database/connection name, asc
@@ -60,7 +60,7 @@
 static toConnectionModel     *m_connectionModel = 0;
 static QSortFilterProxyModel *m_proxyModel      = 0;
 
-toNewConnection::toNewConnection(QWidget* parent, Qt::WFlags fl)
+toNewConnection::toNewConnection(QWidget* parent, toWFlags fl)
     : QDialog(parent, fl)
     , toHelpContext(QString::fromLatin1("newconnection.html"))
 {
@@ -87,8 +87,8 @@ toNewConnection::toNewConnection(QWidget* parent, Qt::WFlags fl)
         {
             if (p == "Oracle")
             {
-                Provider->addItem(ORACLE_INSTANTCLIENT, QVariant(QString::fromAscii(ORACLE_PROVIDER)));
-                Provider->addItem(ORACLE_TNSCLIENT, QVariant(QString::fromAscii(ORACLE_PROVIDER)));
+                Provider->addItem(ORACLE_INSTANTCLIENT, QVariant(QString(ORACLE_PROVIDER)));
+                Provider->addItem(ORACLE_TNSCLIENT, QVariant(QString(ORACLE_PROVIDER)));
             }
             else
             {
@@ -116,7 +116,7 @@ toNewConnection::toNewConnection(QWidget* parent, Qt::WFlags fl)
 
     PreviousContext = new QMenu(this);
     QAction *delact = PreviousContext->addAction(
-                          QIcon(trash_xpm),
+                          QIcon(QPixmap(trash_xpm)),
                           tr("&Delete"));
     connect(delact,
             SIGNAL(triggered()),

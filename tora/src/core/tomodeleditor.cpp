@@ -38,12 +38,12 @@
 #include "core/toqvalue.h"
 #include "editor/toscintilla.h"
 
-#include <QtGui/QKeyEvent>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QDialogButtonBox>
-#include <QtCore/QSettings>
-#include <QtCore/QAbstractItemModel>
-#include <QtGui/QCheckBox>
+#include <QKeyEvent>
+#include <QVBoxLayout>
+#include <QDialogButtonBox>
+#include <QSettings>
+#include <QAbstractItemModel>
+#include <QCheckBox>
 
 #include "icons/commit.xpm"
 #include "icons/copy.xpm"
@@ -76,7 +76,7 @@ void toModelEditor::saveFile()
                 toMainWindow::lookup(),
                 QT_TRANSLATE_NOOP("toWriteFile", "File error"),
                 QT_TRANSLATE_NOOP("toWriteFile", QString("Couldn't open %1 for writing")
-                                  .arg(fn).toAscii().constData())); // TODO test this in MSVC
+                                  .arg(fn).toUtf8().constData())); // TODO test this in MSVC
             return;
         }
         offset = 0;

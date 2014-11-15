@@ -35,8 +35,13 @@
 #ifndef TOABOUT_H
 #define TOABOUT_H
 
-
 #include "ui_toaboutui.h"
+
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
 
 class toAbout : public QDialog, public Ui::toAboutUI
 {
@@ -49,7 +54,7 @@ public:
         License
     };
 
-    toAbout(AboutType, QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WFlags fl = 0);
+    toAbout(AboutType, QWidget* parent = 0, const char* name = 0, bool modal = false, toWFlags fl = 0);
     ~toAbout();
 
 };

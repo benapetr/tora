@@ -45,14 +45,14 @@
 #include "core/toglobalsetting.h"
 #include "core/todatabasesetting.h"
 
-#include <QtCore/QtDebug>
-#include <QtCore/QDir>
-#include <QtCore/QDateTime>
-#include <QtCore/QTextStream>
-#include <QtCore/QDataStream>
-#include <QtCore/QMutexLocker>
-#include <QtCore/QThread>
-#include <QtGui/QProgressDialog>
+#include <QtDebug>
+#include <QDir>
+#include <QDateTime>
+#include <QTextStream>
+#include <QDataStream>
+#include <QMutexLocker>
+#include <QThread>
+#include <QProgressDialog>
 //#include <boost/preprocessor/iteration/detail/local.hpp>
 
 /* This method runs as a separate thread executed from:

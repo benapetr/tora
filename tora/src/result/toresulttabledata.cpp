@@ -43,11 +43,11 @@
 #include "editor/toscintilla.h"
 #include "ui_toresultcontentfilterui.h"
 
-#include <QtGui/QToolBar>
-#include <QtGui/QAction>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QMessageBox>
-#include <QtGui/QCloseEvent>
+#include <QToolBar>
+#include <QAction>
+#include <QVBoxLayout>
+#include <QMessageBox>
+#include <QCloseEvent>
 
 #include "icons/refresh.xpm"
 #include "icons/addrecord.xpm"
@@ -536,9 +536,9 @@ void toResultTableData::refreshWarn()
 
 unsigned toResultTableData::commitUpdate(toConnectionSubLoan &conn, toResultModelEdit::ChangeSet &change)
 {
-    static const QString UPDATE = QString::fromAscii("UPDATE %1.%2 SET %3 WHERE 1=1 %4");
-    static const QString CONJUNCTION = QString::fromAscii(" AND %1 = %2");
-    static const QString ASSIGNMENT = QString::fromAscii("%1 = %2");
+    static const QString UPDATE = QString("UPDATE %1.%2 SET %3 WHERE 1=1 %4");
+    static const QString CONJUNCTION = QString(" AND %1 = %2");
+    static const QString ASSIGNMENT = QString("%1 = %2");
 
     if (Model->getPriKeys().empty())
     {
@@ -646,8 +646,8 @@ unsigned toResultTableData::commitAdd(toConnectionSubLoan &conn, toResultModelEd
 
 unsigned toResultTableData::commitDelete(toConnectionSubLoan &conn, toResultModelEdit::ChangeSet &change)
 {
-    static const QString DELETESTAT = QString::fromAscii("DELETE FROM %1.%2 WHERE 1=1 %3");
-    static const QString CONJUNCTION = QString::fromAscii(" AND %1 = %2");
+    static const QString DELETESTAT = QString("DELETE FROM %1.%2 WHERE 1=1 %3");
+    static const QString CONJUNCTION = QString(" AND %1 = %2");
     if (Model->getPriKeys().empty())
     {
         Utils::toStatusMessage(tr("This table has no known primary keys"));

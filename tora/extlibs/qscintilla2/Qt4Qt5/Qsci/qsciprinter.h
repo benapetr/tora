@@ -35,7 +35,16 @@ extern "C++" {
 #undef B0
 #endif
 
-#include <qprinter.h>
+// we need to include some qt header just to get the version
+#include <QObject>
+
+#if QT_VERSION >= 0x050000
+    // qt_5
+    #include <QtPrintSupport\qprinter.h>
+#else
+    // qt_4
+    #include <qprinter.h>
+#endif
 
 #include <Qsci/qsciglobal.h>
 #include <Qsci/qsciscintilla.h>

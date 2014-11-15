@@ -36,10 +36,14 @@
 #define TOEDITABLEMENU_H
 
 
-
+#include <QObject>
+#if QT_VERSION >= 0x050000
+#include <QMenu>
+#include <QKeyEvent>
+#else
 #include <QtGui/QMenu>
 #include <QtGui/QKeyEvent>
-
+#endif
 
 /**
  * A QMenu subclass with editable entries.

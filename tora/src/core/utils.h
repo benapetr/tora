@@ -37,6 +37,16 @@
 
 #include "core/tora_export.h"
 
+#include <QObject>
+#if QT_VERSION >= 0x050000
+#include <QAtomicInt>
+#include <QString>
+#include <QThread>
+#include <QFile>
+#include <QFileInfo>
+#include <QMessageBox>
+#include <QMainWindow>
+#else
 #include <QtCore/QAtomicInt>
 #include <QtCore/QString>
 #include <QtCore/QThread>
@@ -44,6 +54,7 @@
 #include <QtCore/QFileInfo>
 #include <QtGui/QMessageBox>
 #include <QtGui/QMainWindow>
+#endif
 
 #include <map>
 

@@ -42,9 +42,9 @@
 #include "icons/paste.xpm"
 #include "icons/search.xpm"
 
-#include <QtGui/QApplication>
-#include <QtGui/QClipboard>
-#include <QtCore/QMimeData>
+#include <QApplication>
+#include <QClipboard>
+#include <QMimeData>
 
 toEditMenu::toEditMenu()
     : QMenu(tr("&Edit"), NULL)

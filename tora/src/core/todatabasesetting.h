@@ -40,6 +40,12 @@
 
 #include "ui_todatabasesettingui.h"
 
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
+
 namespace ToConfiguration {
 	class Database : public ConfigContext
 	{
@@ -73,7 +79,7 @@ class toDatabaseSetting : public QWidget
     Q_OBJECT;
 
 public:
-    toDatabaseSetting(QWidget *parent = 0, const char *name = 0, Qt::WFlags fl = 0);
+    toDatabaseSetting(QWidget *parent = 0, const char *name = 0, toWFlags fl = 0);
 
 public slots:
     virtual void saveSetting(void);

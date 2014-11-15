@@ -36,9 +36,9 @@
 #include "core/utils.h"
 #include "editor/tosearchreplace.h"
 
-#include <QtGui/QFocusEvent>
-#include <QtGui/QTextDocument>
-#include <QtGui/QTextBrowser>
+#include <QFocusEvent>
+#include <QTextDocument>
+#include <QTextBrowser>
 
 toTextView::toTextView(QWidget *parent /* = 0*/, const char *name /* = 0*/)
     : QWidget(parent)

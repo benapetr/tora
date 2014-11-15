@@ -48,10 +48,10 @@
 #include "icons/unittest.xpm"
 #include "icons/refresh.xpm"
 
-#include <QtCore/QSettings>
-#include <QtGui/QSplitter>
-#include <QtGui/QToolBar>
-#include <QtGui/QTreeView>
+#include <QSettings>
+#include <QSplitter>
+#include <QToolBar>
+#include <QTreeView>
 
 // helper definitons for SQLPackageParams and SQLUnitParams columns
 #define ARGUMENT_NAME 1

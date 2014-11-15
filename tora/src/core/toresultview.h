@@ -41,11 +41,11 @@
 #include "core/toresult.h"
 #include "core/totreewidget.h"
 
-#include <QtCore/QString>
-#include <QtGui/QFocusEvent>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QMenu>
+#include <QString>
+#include <QFocusEvent>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <QMenu>
 
 #include <map>
 #include <algorithm>
@@ -574,7 +574,7 @@ public:
      * @param name Name of list.
      * @param f Widget flags.
      */
-    toListView(QWidget *parent, const char *name = NULL, Qt::WFlags f = 0);
+    toListView(QWidget *parent, const char *name = NULL, toWFlags f = 0);
     virtual ~toListView();
 
     /** Get SQL name of list.
@@ -814,7 +814,7 @@ public:
                  bool numCol,
                  QWidget *parent,
                  const char *name = NULL,
-                 Qt::WFlags f = 0);
+                 toWFlags f = 0);
 
     /** Create list. The columns are not readable and the number
      * column is displayed.
@@ -822,7 +822,7 @@ public:
      * @param name Name of widget.
      * @param f Widget flags.
      */
-    toResultView(QWidget *parent, const char *name = NULL, Qt::WFlags f = 0);
+    toResultView(QWidget *parent, const char *name = NULL, toWFlags f = 0);
     ~toResultView();
 
     /** Set the read all flag.

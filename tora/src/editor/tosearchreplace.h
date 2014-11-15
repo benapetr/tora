@@ -39,7 +39,11 @@
 #include "editor/toeditglobals.h"
 #include "core/totool.h"
 
+#if QT_VERSION >= 0x050000
+#include <QWidget>
+#else
 #include <QtGui/QWidget>
+#endif
 
 class toListView;
 class toMarkedEditor;

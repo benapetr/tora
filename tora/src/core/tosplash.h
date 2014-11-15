@@ -35,8 +35,15 @@
 #ifndef TOSPLASH_H
 #define TOSPLASH_H
 
+#include <QObject>
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QWidget>
+#include <QLabel>
+#else
 #include <QtGui/QWidget>
 #include <QtGui/QLabel>
+#endif
 
 class QLabel;
 class QProgressBar;

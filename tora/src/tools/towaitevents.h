@@ -39,8 +39,8 @@
 #include <map>
 #include <algorithm>
 
-#include <QtGui/QWidget>
-#include <QtCore/QString>
+#include <QWidget>
+#include <QString>
 
 class toTreeWidget;
 class toEventQuery;

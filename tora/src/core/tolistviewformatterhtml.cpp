@@ -89,9 +89,9 @@ QString toListViewFormatterHTML::getFormattedString(toExportSettings &settings,
             output += QString("\t<TH>");
             endLine(output);
 
-            QString text(Qt::escape(model->headerData(j,
+            QString text = QString(model->headerData(j,
                                     Qt::Horizontal,
-                                    Qt::DisplayRole).toString()));
+                                    Qt::DisplayRole).toString()).toHtmlEscaped();
 
             output += "\t\t" + text;
 
@@ -123,7 +123,7 @@ QString toListViewFormatterHTML::getFormattedString(toExportSettings &settings,
             endLine(output);
 
             mi = model->index(row, i);
-            QString text(Qt::escape(model->data(mi, Qt::EditRole).toString()));
+            QString text = QString(model->data(mi, Qt::EditRole).toString()).toHtmlEscaped();
 
             output += "\t\t" + text;
             endLine(output);

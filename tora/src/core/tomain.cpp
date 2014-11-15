@@ -72,9 +72,15 @@
 #include "icons/stop.xpm"
 #include "icons/refresh.xpm"
 
+#if QT_VERSION >= 0x050000
+#include <QComboBox>
+#include <QStatusBar>
+#include <QMenuBar>
+#else
 #include <QtGui/QComboBox>
 #include <QtGui/QStatusBar>
 #include <QtGui/QMenuBar>
+#endif
 
 
 toMain::toMain()
