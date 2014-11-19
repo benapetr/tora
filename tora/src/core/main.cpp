@@ -62,26 +62,18 @@
 #include <memory>
 #include <typeinfo>
 
-#include <QtCore/QTextCodec>
-#include <QtCore/QString>
-#include <QtCore/QTranslator>
-#include <QtCore/QLibrary>
-#include <QtCore/QDir>
-#include <QtCore/QDebug>
-#include <QtCore/QDateTime>
-#include <QtCore/QSettings>
-#if QT_VERSION >= 0x050000
+#include <QTextCodec>
+#include <QString>
+#include <QTranslator>
+#include <QLibrary>
+#include <QDir>
+#include <QDebug>
+#include <QDateTime>
+#include <QSettings>
 #include <QProgressBar>
 #include <QStyleFactory>
 #include <QApplication>
 #include <QMessageBox>
-#else
-#include <QtGui/QProgressBar>
-#include <QtGui/QStyleFactory>
-#include <QtGui/QApplication>
-#include <QtGui/QMessageBox>
-#endif
-
 
 int main(int argc, char **argv)
 {

@@ -41,9 +41,14 @@
 #include "core/toconf.h"
 
 #include <QPainter>
-#include <QtPrintSupport/QPrinter>
 #include <QScrollBar>
+#if QT_VERSION >= 0x050000
+#include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
+#else
+#include <qprinter.h>
+#include <QtGui/QPrintDialog>
+#endif
 
 #include "icons/print.xpm"
 #include "icons/chart.xpm"

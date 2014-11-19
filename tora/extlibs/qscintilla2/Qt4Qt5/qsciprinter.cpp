@@ -32,7 +32,7 @@
 
 #if QT_VERSION >= 0x050000
 // qt_5
-#include <QtPrintSupport\qprinter.h>
+#include <QtPrintSupport\QPrinter>
 #else
 // qt_4
 #include <qprinter.h>

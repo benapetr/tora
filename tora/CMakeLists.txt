@@ -185,7 +185,6 @@ if(QT5_BUILD)
             ${Qt5Svg_INCLUDE_DIRS}
            )
        include_directories(${QT_INCLUDES})
-       TARGET_LINK_LIBRARIES(TOra ${QT_LIBRARIES})
 else()
     SET (QT_MIN_VERSION "4.8.0")
     SET (QT_USE_QTSQL TRUE)

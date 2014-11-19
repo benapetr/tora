@@ -51,8 +51,13 @@
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QMenu>
+#if QT_VERSION >= 0x050000
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
+#else
+#include <qprinter.h>
+#include <QtGui/QPrintDialog>
+#endif
 
 #include "icons/chart.xpm"
 #include "icons/print.xpm"
