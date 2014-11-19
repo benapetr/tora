@@ -43,16 +43,16 @@
 #include "tools/toworksheet.h"
 #include "tools/toscripttreeitem.h"
 
-#include <QtGui/QScrollArea>
-#include <QtGui/QMessageBox>
-#include <QtCore/QFile>
-#include <QtCore/QDir>
-#include <QtGui/QFileDialog>
-#include <QtGui/QCompleter>
-#include <QtGui/QDirModel>
-#include <QtCore/QSettings>
-#include <QtGui/QSplitter>
-#include <QtCore/QTextStream>
+#include <QScrollArea>
+#include <QMessageBox>
+#include <QFile>
+#include <QDir>
+#include <QFileDialog>
+#include <QCompleter>
+#include <QDirModel>
+#include <QSettings>
+#include <QSplitter>
+#include <QTextStream>
 
 #include "icons/execute.xpm"
 #include "icons/toscript.xpm"

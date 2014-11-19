@@ -40,8 +40,11 @@
 #include "ui_tohelpui.h"
 #include "ui_tohelpaddfileui.h"
 #include "ui_tohelpsetupui.h"
-
+#if QT_VERSION >= 0x050000
+#include <QDialog>
+#else
 #include <QtGui/QDialog>
+#endif
 
 
 class toHelpAddFile : public QDialog, public Ui::toHelpAddFileUI

@@ -35,9 +35,9 @@
 #include "migratetool/tora3.h"
 #include "core/utils.h"
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
-#include <QtCore/QMap>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QMap>
 
 namespace MigrateTool
 {

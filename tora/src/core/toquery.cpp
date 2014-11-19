@@ -40,12 +40,12 @@
 #include "core/toconnectiontraits.h"
 #include "core/tosql.h"
 
-#include <QtGui/QApplication>
+#include <QApplication>
 
 toQuery::toQuery(toConnectionSubLoan &conn, const toSQL &sql, toQueryParams const& params)
     : m_ConnectionSubLoan(conn)
     , m_Params(params)
-    , m_SQL(sql(conn.ParentConnection).toAscii())
+    , m_SQL(sql(conn.ParentConnection).toUtf8())
     , m_Query(NULL)
     , m_eof(false)
     , m_rowsProcessed(0)

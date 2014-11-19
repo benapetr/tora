@@ -74,6 +74,7 @@ static const QString AboutText = QString::fromUtf8(
                                      "Contributors (In alphabetical order):<P>\n"
                                      "<UL>\n"
                                      "<LI><B>Henrik Johnson</B> - Original developer, no longer involved.\n"
+                                     "<LI><B>Petr Bena</B> - Qt5 support.\n"
                                      "<LI><B>Alexander (Leo) Bergolth</B> - Access to Oracle 7 database.\n"
                                      "<LI><B>Volker Götz</B> - Improved PostgreSQL support.\n"
                                      "<LI><B>Oliver Jehle</B> - Object caching to disc, SAP and much more.\n"
@@ -136,7 +137,7 @@ static const QString AboutText = QString::fromUtf8(
 #define ABOUT_CAPTION TOAPPNAME " %1"
 
 
-toAbout::toAbout(AboutType page, QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
+toAbout::toAbout(AboutType page, QWidget* parent, const char* name, bool modal, toWFlags fl)
     : QDialog(parent, fl)
 {
     if (name)

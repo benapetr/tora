@@ -40,10 +40,10 @@
 // due the TODock
 #include "core/utils.h"
 
-#include <QtCore/QString>
-#include <QtGui/QWidget>
-#include <QtGui/QShowEvent>
-#include <QtGui/QHideEvent>
+#include <QString>
+#include <QWidget>
+#include <QShowEvent>
+#include <QHideEvent>
 
 #include <list>
 #include <map>

@@ -45,20 +45,25 @@
 #include <math.h>
 #include <time.h>
 
-#include <QtGui/QPainter>
-#include <QtGui/QToolTip>
-#include <QtGui/QPaintEvent>
-#include <QtGui/QPixmap>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QMenu>
-#include <QtGui/QPrinter>
+#include <QPainter>
+#include <QToolTip>
+#include <QPaintEvent>
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QMenu>
+#if QT_VERSION >= 0x050000
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+#else
+#include <qprinter.h>
 #include <QtGui/QPrintDialog>
+#endif
 
 #include "icons/chart.xpm"
 #include "icons/print.xpm"
 
 
-toPieChart::toPieChart(QWidget *parent, const char *name, Qt::WFlags f)
+toPieChart::toPieChart(QWidget *parent, const char *name, toWFlags f)
     : QWidget(parent, f)
     , AllTip(NULL)
 {
@@ -132,7 +137,7 @@ void toPieChart::setValues(std::list<double> &values, std::list<QString> &labels
 toPieChart::toPieChart(toPieChart *pie,
                        QWidget *parent,
                        const char *name,
-                       Qt::WFlags f)
+                       toWFlags f)
     : QWidget(parent, f | Qt::Window),
       Values(pie->Values),
       Labels(pie->Labels),
@@ -167,7 +172,7 @@ void toPieChart::createPopupMenu(const QPoint &pos)
     {
         Menu = new QMenu(this);
 
-        Menu->addAction(QIcon(print_xpm),
+        Menu->addAction(QIcon(QPixmap(print_xpm)),
                         tr("&Print..."),
                         this,
                         SLOT(editPrint()));

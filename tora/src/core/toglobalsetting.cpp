@@ -42,11 +42,11 @@
 #include "core/toqvalue.h"
 #include "ts_log/ts_log_utils.h"
 
-#include <QtCore/QString>
-#include <QtCore/QDebug>
-#include <QtGui/QColorDialog>
-#include <QtGui/QFileDialog>
-#include <QtGui/QStyleFactory>
+#include <QString>
+#include <QDebug>
+#include <QColorDialog>
+#include <QFileDialog>
+#include <QStyleFactory>
 
 
 ToConfiguration::Global s_global;
@@ -274,7 +274,7 @@ void ConnectionColorsDialog::accept()
 
 
 
-toGlobalSetting::toGlobalSetting(QWidget *parent, const char *name, Qt::WFlags fl)
+toGlobalSetting::toGlobalSetting(QWidget *parent, const char *name, toWFlags fl)
     : QWidget(parent, fl)
     , toSettingTab("preferences.html#global")
 {
@@ -453,7 +453,7 @@ void toGlobalSetting::saveSetting(void)
     Utils::toSetSessionType(Style->currentText());
 }
 
-toToolSetting::toToolSetting(QWidget *parent, const char *name, Qt::WFlags fl)
+toToolSetting::toToolSetting(QWidget *parent, const char *name, toWFlags fl)
     : QWidget(parent/*, name, fl*/)
     , toSettingTab("toolsetting.html")
 {

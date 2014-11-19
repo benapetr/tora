@@ -43,9 +43,9 @@
 #include "core/toqvalue.h"
 #include "core/todatabasesetting.h"
 
-#include <QtGui/QApplication>
-#include <QtCore/QMutexLocker>
-#include <QtCore/QTimer>
+#include <QApplication>
+#include <QMutexLocker>
+#include <QTimer>
 
 /* It is not allowed to throw an exception from event slot.
  * So let's catch all the possible errors in slot handlers

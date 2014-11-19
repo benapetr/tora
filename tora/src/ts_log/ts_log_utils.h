@@ -12,7 +12,7 @@
 #define __HERE1__(x)   STR(x)"\t" + __PRETTY_FUNCTION__
 #define STR(a) #a
 #else
-#define __QHERE__ QString::fromAscii(__FILE__) + ":"__HERE1__(__LINE__)
+#define __QHERE__ QString::fromUtf8(__FILE__) + ":"__HERE1__(__LINE__)
 #define __HERE__  std::string(__FILE__) + ":"__HERE1__(__LINE__)
 #define __HERE1__(x)   STR(x)"\t" +  __FUNCSIG__
 #define STR(a) #a

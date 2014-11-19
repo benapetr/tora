@@ -44,20 +44,20 @@
 #include "core/toresultview.h"
 #include "core/totool.h"
 
-#include <QtCore/QString>
-#include <QtCore/QDir>
-#include <QtCore/QTimer>
+#include <QString>
+#include <QDir>
+#include <QTimer>
 
-#include <QtGui/QHideEvent>
-#include <QtGui/QShowEvent>
-#include <QtGui/QTextEdit>
-#include <QtCore/QFileInfo>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QMessageBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QSplitter>
-#include <QtGui/QToolBar>
+#include <QHideEvent>
+#include <QShowEvent>
+#include <QTextEdit>
+#include <QFileInfo>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QSplitter>
+#include <QToolBar>
 
 #include "icons/totemplate.xpm"
 
@@ -895,7 +895,7 @@ void toTemplateSQLObject::poll(void)
         while (Query->hasMore())
         {
             toTreeWidgetItem *item = Parent->createChild(Query->readValue());
-            for (unsigned int j = 1; j < desc.size(); j++)
+            for (int j = 1; j < desc.size(); j++)
                 item->setText(j, Query->readValue());
         }
     }

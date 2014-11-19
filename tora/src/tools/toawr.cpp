@@ -45,11 +45,11 @@
 #include "icons/execute.xpm"
 #include "icons/awrtool.xpm"
 
-#include <QtGui/QLineEdit>
-#include <QtGui/QDateEdit>
-#include <QtGui/QMessageBox> //TODO see utis.h define TOMessageBox QMessageBox(QMessageBox should be included there)
-#include <QtGui/QToolBar>
-#include <QtGui/QLabel>
+#include <QLineEdit>
+#include <QDateEdit>
+#include <QMessageBox> //TODO see utis.h define TOMessageBox QMessageBox(QMessageBox should be included there)
+#include <QToolBar>
+#include <QLabel>
 
 #include <iostream>
 #include <list>
@@ -328,10 +328,10 @@ void toAWR::execute(void)
 //      params.push_back(fsnaps);
 //      params.push_back(tsnaps);
         TLOG(0, toDecorator, __HERE__)
-                << "Dbid:" << dbids.toAscii().constData() << ' '
-                << "Inst:" << insts.toAscii().constData() << ' '
-                << "fsnap:" << fsnaps.toAscii().constData() << ' '
-                << "tsnap:" << tsnaps.toAscii().constData() << std::endl;
+                << "Dbid:" << dbids.toUtf8().constData() << ' '
+                << "Inst:" << insts.toUtf8().constData() << ' '
+                << "fsnap:" << fsnaps.toUtf8().constData() << ' '
+                << "tsnap:" << tsnaps.toUtf8().constData() << std::endl;
 
         try
         {
@@ -355,7 +355,7 @@ void toAWR::execute(void)
                 reports += line;
                 reports += '\n';
             }
-            std::cerr << reports.toAscii().constData() << std::endl;
+            std::cerr << reports.toUtf8().constData() << std::endl;
 
             QWidget *box = new QWidget(Tabs);
             QVBoxLayout *vbox = new QVBoxLayout;
@@ -413,7 +413,7 @@ void toAWR::startDateChanged(QDate date)
     std::stringstream s;
     for(QList<QString>::iterator i = l.begin(); i != l.end(); ++i)
     {
-        s << ":\'" << (*i).toAscii().constData() << '\'';
+        s << ":\'" << (*i).toUtf8().constData() << '\'';
     }
     TLOG(0, toDecorator, __HERE__) << "start date changed:" << date.toString("YYYY:MM:DD") << std::endl;
     QString dbid = l.at(0);
@@ -438,7 +438,7 @@ void toAWR::endDateChanged(QDate date)
     std::stringstream s;
     for(QList<QString>::iterator i = l.begin(); i != l.end(); ++i)
     {
-        s << ":\'" << (*i).toAscii().constData() << '\'';
+        s << ":\'" << (*i).toUtf8().constData() << '\'';
     }
     TLOG(0, toDecorator, __HERE__) << "end date changed:" << date.toString("YYYY:MM:DD") << std::endl;
     QString dbid = l.at(0);
@@ -461,7 +461,7 @@ void toAWR::instanceChanged(int pos)
     std::stringstream s;
     for(QList<QString>::iterator i = l.begin(); i != l.end(); ++i)
     {
-        s << ":\'" << (*i).toAscii().constData() << '\'';
+        s << ":\'" << (*i).toUtf8().constData() << '\'';
     }
     TLOG(0, toDecorator, __HERE__) << "Instance changed:" << pos << s.str() << std::endl;
     QString dbid = l.at(0);

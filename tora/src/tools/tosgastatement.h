@@ -36,8 +36,12 @@
 #define TOSGASTATEMENT_H
 
 
-
+#include <QObject>
+#if QT_VERSION >= 0x050000
+#include <QTabWidget>
+#else
 #include <QtGui/QTabWidget>
+#endif
 
 class QComboBox;
 class QTabWidget;

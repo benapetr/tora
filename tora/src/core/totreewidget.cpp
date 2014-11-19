@@ -34,14 +34,18 @@
 
 #include "core/totreewidget.h"
 
-
+#if QT_VERSION >= 0x050000
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+#else
 #include <QtGui/QTreeWidget>
 #include <QtGui/QTreeWidgetItem>
+#endif
 
 
 toTreeWidget::toTreeWidget(QWidget *parent,
                            const char *name,
-                           Qt::WFlags f)
+                           toWFlags f)
     : QTreeWidget(parent)
 {
     if (name)

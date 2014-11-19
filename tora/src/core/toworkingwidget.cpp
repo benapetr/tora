@@ -34,9 +34,9 @@
 
 #include "core/toworkingwidget.h"
 
-#include <QtGui/QPushButton>
-#include <QtGui/QLabel>
-#include <QtGui/QHBoxLayout>
+#include <QPushButton>
+#include <QLabel>
+#include <QHBoxLayout>
 
 #include "icons/stop.xpm"
 
@@ -63,7 +63,7 @@ toWorkingWidget::toWorkingWidget(QWidget * parent)
     WorkingLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     hbox->addWidget(WorkingLabel);
 
-    WorkingStop = new QPushButton(QIcon(stop_xpm), tr("Stop"), HWorking);
+    WorkingStop = new QPushButton(QIcon(QPixmap(stop_xpm)), tr("Stop"), HWorking);
     WorkingStop->setAutoFillBackground(true);
     WorkingStop->setBackgroundRole(QPalette::Window);
     WorkingStop->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);

@@ -35,6 +35,7 @@
 #ifndef TODATABASESETTING_H
 #define TODATABASESETTING_H
 
+#include "core/utils.h"
 #include "core/totool.h"
 #include "core/toconfenum.h"
 
@@ -73,7 +74,7 @@ class toDatabaseSetting : public QWidget
     Q_OBJECT;
 
 public:
-    toDatabaseSetting(QWidget *parent = 0, const char *name = 0, Qt::WFlags fl = 0);
+    toDatabaseSetting(QWidget *parent = 0, const char *name = 0, toWFlags fl = 0);
 
 public slots:
     virtual void saveSetting(void);

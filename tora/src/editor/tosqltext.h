@@ -42,11 +42,11 @@
 
 #include "loki/Singleton.h"
 
-#include <QtCore/QString>
-#include <QtCore/QTimer>
-#include <QtCore/QStringList>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QWidget>
+#include <QString>
+#include <QTimer>
+#include <QStringList>
+#include <QKeyEvent>
+#include <QWidget>
 
 class QListWidgetItem;
 class QsciAbstractAPIs;

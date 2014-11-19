@@ -687,10 +687,17 @@ IF (WIN32 AND MINGW)
   LIST(APPEND TORA_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/tora_rc.o)
 ENDIF (WIN32 AND MINGW)
 
+if(QT5_BUILD)
+	#QT5_ADD_TRANSLATION(TORA_I18N_QM ${TORA_I18N_TS} ${TORA_I18N_TS_TOAD})
+QT5_WRAP_UI(TORA_UI_SOURCES ${TORA_UI_SRC} )
+QT5_WRAP_CPP(TORA_MOC_SOURCES ${TORA_MOC_CLASSES})
+QT5_ADD_RESOURCES(TORA_RCC_SRCS ${TORA_RCC_FILES})
+else()
 QT4_ADD_TRANSLATION(TORA_I18N_QM ${TORA_I18N_TS} ${TORA_I18N_TS_TOAD})
 QT4_WRAP_UI(TORA_UI_SOURCES ${TORA_UI_SRC} )
 QT4_WRAP_CPP(TORA_MOC_SOURCES ${TORA_MOC_CLASSES})
 QT4_ADD_RESOURCES(TORA_RCC_SRCS ${TORA_RCC_FILES})
+endif()
 
 ################################################################################
 #                       Libraries and library imports                          #
@@ -722,8 +729,10 @@ IF(WIN32)
   IF (MSVC AND NOT TORA_DEBUG)
     # this is a must to switch off subsystem:console (console window poping up)
     # WinMain wrapper from QT_QTMAIN_LIBRARY is used and liner must be modified
-    LINK_LIBRARIES(${QT_QTMAIN_LIBRARY})
-    SET (GUI_TYPE WIN32)
+    IF (NOT QT5_BUILD)
+        LINK_LIBRARIES(${QT_QTMAIN_LIBRARY})
+        SET (GUI_TYPE WIN32)
+    ENDIF ()
   ENDIF ()
 ENDIF(WIN32)
 
@@ -785,6 +794,10 @@ ADD_EXECUTABLE(${EXE_NAME} ${GUI_TYPE}
   ${APPLE_BUNDLE_SOURCES}
   )
 TARGET_LINK_LIBRARIES(${EXE_NAME} ${TORA_LIBS})
+IF (QT5_BUILD)
+	TARGET_LINK_LIBRARIES(${EXE_NAME} ${QT_LIBRARIES})
+ENDIF()
+
 SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES ENABLE_EXPORTS ON)
 ADD_DEPENDENCIES(${EXE_NAME} revisiontag) # explicitly say that the executable depends on the svnheader
 IF(PCH_DEFINED)

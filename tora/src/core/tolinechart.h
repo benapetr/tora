@@ -35,10 +35,20 @@
 #ifndef TOLINECHART_H
 #define TOLINECHART_H
 
-#include <QtGui/QWidget>
+#include "core/utils.h"
+
 #include <QtCore/QString>
+
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QWidget>
+#include <QPaintEvent>
+#include <QMouseEvent>
+#else
+#include <QtGui/QWidget>
 #include <QtGui/QPaintEvent>
 #include <QtGui/QMouseEvent>
+#endif
 #include <QtCore/QRect>
 #include <QtCore/QPoint>
 
@@ -109,7 +119,7 @@ public:
      * @param name Name of widget.
      * @param f Widget flags.
      */
-    toLineChart(QWidget *parent = NULL, const char *name = NULL, Qt::WFlags f = 0);
+    toLineChart(QWidget *parent = NULL, const char *name = NULL, toWFlags f = 0);
 
     /** Create a new chart by copying all the data from another chart.
      * @param chart Chart to copy data from.
@@ -117,7 +127,7 @@ public:
      * @param name Name of widget.
      * @param f Widget flags.
      */
-    toLineChart(toLineChart *chart, QWidget *parent = NULL, const char *name = NULL, Qt::WFlags f = 0);
+    toLineChart(toLineChart *chart, QWidget *parent = NULL, const char *name = NULL, toWFlags f = 0);
 
     /** Destroy chart
      */

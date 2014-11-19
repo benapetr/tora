@@ -733,7 +733,7 @@ Lexer::token_const_iterator OracleGuiLexer::findEndTokenDML( Lexer::token_const_
 		case PLSQLGuiLexer::SQLPLUS_COMMAND_INTRODUCER:
 		case PLSQLGuiLexer::SQLPLUS_SOLIDUS:
 		case PLSQLGuiLexer::SEMICOLON:
-			i--;
+			//i--;
 			goto exitLoop;
 		case PLSQLGuiLexer::OTHER_COMMAND_INTRODUCER: // ALTER, GRANT, TRUNCATE, SET TRANCACTION, ...
 			// EXPLAIN PLAN SET STATEMENT - do not end this stmt

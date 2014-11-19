@@ -41,8 +41,14 @@
 #include "editor/tostyle.h"
 #include "core/toeditorsetting.h"
 
-#include <QtCore/QString>
-#include <QtCore/QMetaEnum>
+#include <QString>
+#include <QMetaEnum>
+
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
 
 class QListWidgetItem;
 class toSyntaxAnalyzer;
@@ -61,7 +67,7 @@ class toSyntaxSetup
     toStylesMap Styles;  // QMap<enum toSyntaxAnalyzer::WordClass, toStyle> => toStyle
     toSyntaxAnalyzer* Analyzer;
 public:
-    toSyntaxSetup(QWidget *parent = 0, const char *name = 0, Qt::WFlags fl = 0);
+    toSyntaxSetup(QWidget *parent = 0, const char *name = 0, toWFlags fl = 0);
     virtual void saveSetting(void);
 
 public slots:

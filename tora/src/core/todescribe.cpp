@@ -37,10 +37,10 @@
 #include "core/toconnection.h"
 #include "core/tobrowserbasewidget.h"
 
-#include <QtCore/QSettings>
-#include <QtGui/QHideEvent>
-#include <QtGui/QMessageBox>
-#include <QtCore/QList>
+#include <QSettings>
+#include <QHideEvent>
+#include <QMessageBox>
+#include <QList>
 
 toDescribe::toDescribe(QWidget * parent)
     : QDialog(parent)

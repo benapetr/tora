@@ -42,7 +42,18 @@
 #include <QtCore/QMap>
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#ifndef QT_VERSION
+// assume we are on qt5
+#define QT_VERSION 0x050000
+#endif
+
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QWidget>
+#else
+// qt_4
 #include <QtGui/QWidget>
+#endif
 
 class QPixmap;
 class QAction;

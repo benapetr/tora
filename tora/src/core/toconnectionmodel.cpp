@@ -49,9 +49,16 @@ toConnectionModel::toConnectionModel(QObject *parent)
 
 void toConnectionModel::setupData(QMap<int, toConnectionOptions> list)
 {
+#if QT_VERSION >= 0x050000
+    beginResetModel();
+    m_data.clear();
+    m_data = list;
+    endResetModel();
+#else
     m_data.clear();
     m_data = list;
     reset();
+#endif
 }
 
 
@@ -107,13 +114,23 @@ void toConnectionModel::readConfig()
     }
     Settings.endGroup(); // history section
 
+#if QT_VERSION >= 0x050000
+    beginResetModel();
+    endResetModel();
+#else
     reset();
+#endif
 }
 
 void toConnectionModel::append(int ix, toConnectionOptions conn)
 {
     m_data[ix] = conn;
+#if QT_VERSION >= 0x050000
+    beginResetModel();
+    endResetModel();
+#else
     reset();
+#endif
 }
 
 bool toConnectionModel::removeRow(int row, const QModelIndex &parent)

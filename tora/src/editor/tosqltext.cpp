@@ -40,8 +40,8 @@
 #include "core/toconfiguration_new.h"
 #include "editor/toworksheettext.h"
 
-#include <QtGui/QListWidget>
-#include <QtGui/QVBoxLayout>
+#include <QListWidget>
+#include <QVBoxLayout>
 
 #include <Qsci/qsciapis.h>
 #include <Qsci/qsciabstractapis.h>
@@ -71,7 +71,7 @@ toSqlText::toSqlText(QWidget *parent, const char *name)
     // QsciScintilla::setFolding(QsciScintilla::BoxedFoldStyle);
 
     QsciScintilla::setMarginType(2, TextMarginRightJustified);
-    QsciScintilla::setMarginWidth(2, QString::fromAscii("009"));
+    QsciScintilla::setMarginWidth(2, QString("009"));
 
     m_parserTimer->setInterval(5000);   // every 5s
     m_parserTimer->setSingleShot(true); // repeat only if bg thread responded
@@ -431,7 +431,7 @@ void toSqlText::processed()
         return;
 
     Style style = OneLine;
-    unsigned lastLine = 0;
+    int lastLine = 0;
     Q_FOREACH(const toSyntaxAnalyzer::statement &r, m_worker->statements)
     {
         // "clear" line numbers before the statement
@@ -441,7 +441,7 @@ void toSqlText::processed()
         }
 
         // "draw" line numbers for the sql statement
-        for(unsigned int i=r.lineFrom, j=1; i <= r.lineTo; ++i, ++j)
+        for(int i=r.lineFrom, j=1; i <= r.lineTo; ++i, ++j)
         {
             setMarginText(i, QString::number(j), style);
         }

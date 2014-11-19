@@ -42,11 +42,11 @@
 //#include "core/toconfiguration_new.h"
 #include "connection/tooraclesetting.h"
 
-#include <QtGui/QComboBox>
-#include <QtGui/QSpinBox>
-#include <QtGui/QMenu>
-#include <QtGui/QToolBar>
-#include <QtGui/QVBoxLayout>
+#include <QComboBox>
+#include <QSpinBox>
+#include <QMenu>
+#include <QToolBar>
+#include <QVBoxLayout>
 
 #include "icons/execute.xpm"
 #include "icons/refresh.xpm"
@@ -334,7 +334,7 @@ toAnalyze::toAnalyze(QWidget *main, toConnection &connection)
                                        QSizePolicy::Minimum));
 
     Stop = new QToolButton(this);
-    Stop->setIcon(QIcon(stop_xpm));
+    Stop->setIcon(QIcon(QPixmap(stop_xpm)));
     Stop->setText(tr("Stop current run"));
     Stop->setEnabled(false);
     connect(Stop, SIGNAL(triggered(QAction *)), this, SLOT(slotStop()));

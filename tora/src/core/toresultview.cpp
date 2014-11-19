@@ -44,10 +44,17 @@
 #include "core/toeditorsetting.h"
 #include "core/toconfiguration_new.h"
 
-#include <QtCore/QTimer>
-#include <QtGui/QClipboard>
-#include <QtGui/QPainter>
-#include <QtGui/QProgressDialog>
+#include <QTimer>
+#include <QMimeData>
+#include <QClipboard>
+#include <QPainter>
+#include <QProgressDialog>
+
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
 
 static int MaxColDisp;
 static bool Gridlines;
@@ -406,8 +413,10 @@ int toResultViewMLCheck::realWidth(const QFontMetrics &fm, const toTreeWidget *t
     if (t.isNull())
         t = txt;
     int wx = top->itemMargin() * 2 - fm.minLeftBearing() - fm.minRightBearing() + 1;
+#if QT_VERSION < 0x050000
     if (column == 0)
         wx += top->style()->pixelMetric(QStyle::PM_CheckListButtonSize) + 4 + top->itemMargin();
+#endif
 
     return (std::min)(TextWidth(fm, t), MaxColDisp) + wx;
 }
@@ -424,8 +433,10 @@ int toResultViewCheck::realWidth(const QFontMetrics &fm, const toTreeWidget *top
         t = txt;
     QRect bounds = fm.boundingRect(t);
     int wx = top->itemMargin() * 2 - fm.minLeftBearing() - fm.minRightBearing() + 1;
+#if QT_VERSION < 0x050000
     if (column == 0)
         wx += top->style()->pixelMetric(QStyle::PM_CheckListButtonSize) + 4 + top->itemMargin();
+#endif
 
     return (std::min)(bounds.width(), MaxColDisp) + wx;
 }
@@ -459,7 +470,7 @@ QString toResultViewCheck::firstText(int col) const
     return txt;
 }
 
-toListView::toListView(QWidget *parent, const char *name, Qt::WFlags f)
+toListView::toListView(QWidget *parent, const char *name, toWFlags f)
     : toTreeWidget(parent, name, f)
     , toEditWidget()
     , AllTip(NULL)
@@ -1202,13 +1213,13 @@ void toResultView::setup(bool readable, bool dispCol)
     SortAscending = true;
 }
 
-toResultView::toResultView(bool readable, bool dispCol, QWidget *parent, const char *name, Qt::WFlags f)
+toResultView::toResultView(bool readable, bool dispCol, QWidget *parent, const char *name, toWFlags f)
     : toListView(parent, name, f)
 {
     setup(readable, dispCol);
 }
 
-toResultView::toResultView(QWidget *parent, const char *name, Qt::WFlags f)
+toResultView::toResultView(QWidget *parent, const char *name, toWFlags f)
     : toListView(parent, name, f)
 {
     setup(false, true);

@@ -39,9 +39,9 @@
 #include "core/toraversion.h"
 #include "core/toconf.h"
 
-#include <QtGui/QApplication>
-#include <QtGui/QProgressDialog>
-#include <QtCore/QString>
+#include <QApplication>
+#include <QProgressDialog>
+#include <QString>
 #include <QtNetwork/QHostInfo>
 
 std::map<QString, toExtract::extractor *> *toExtract::Extractors;
@@ -55,7 +55,7 @@ void toExtract::extractor::registerExtract(const QString &db,
     QString name = toExtract::extractorName(db, oper, type);
 
     if ((*toExtract::Extractors).find(name) != (*toExtract::Extractors).end())
-        fprintf(stderr, "Extractor %s multiply defined\n", name.toAscii().constData());
+        fprintf(stderr, "Extractor %s multiply defined\n", name.toUtf8().constData());
 
     (*toExtract::Extractors)[name] = this;
 }
@@ -69,7 +69,7 @@ void toExtract::extractor::unregisterExtract(const QString &db,
     QString name = toExtract::extractorName(db, oper, type);
     std::map<QString, extractor *>::iterator i = (*toExtract::Extractors).find(name);
     if (i == (*toExtract::Extractors).end())
-        fprintf(stderr, "Extractor %s not defined on unregistering\n", name.toAscii().constData());
+        fprintf(stderr, "Extractor %s not defined on unregistering\n", name.toUtf8().constData());
     else
         (*toExtract::Extractors).erase(i);
 }
@@ -955,8 +955,8 @@ std::list<toExtract::columnInfo> toExtract::parseColumnDescription(std::list<QSt
                     current->bNotNull = true;
                 else
                     printf("Error! Found unknown extra data for column %s -> %s\n",
-                           name.toAscii().constData(),
-                           extra.toAscii().constData());
+                           name.toUtf8().constData(),
+                           extra.toUtf8().constData());
             }
             else if (!extra.isEmpty())
             {

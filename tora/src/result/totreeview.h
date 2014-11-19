@@ -37,8 +37,7 @@
 
 #include "ts_log/ts_log_utils.h"
 
-#include <QtGui/QTreeView>
-
+#include <QTreeView>
 
 class toTreeViewPriv : public QTreeView
 {

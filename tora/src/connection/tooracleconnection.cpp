@@ -54,9 +54,19 @@
 #include "trotl_describe.h"
 
 #include <QtCore/QVariant>
+
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QInputDialog>
+#include <QLineEdit>
+#include <QApplication>
+#else
+// qt_4
 #include <QtGui/QInputDialog>
 #include <QtGui/QLineEdit>
 #include <QtGui/QApplication>
+#endif
+
 #include <iomanip>
 
 _Noreturn void ReThrowException(const ::trotl::OciException &exc)

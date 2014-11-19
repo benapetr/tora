@@ -38,9 +38,16 @@
 
 
 #include <QtCore/QMap>
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QAction>
+#include <QWidget>
+#include <QDockWidget>
+#else
 #include <QtGui/QAction>
 #include <QtGui/QWidget>
 #include <QtGui/QDockWidget>
+#endif
 #include <QtCore/QRect>
 
 class toDocklet;

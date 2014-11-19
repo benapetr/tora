@@ -41,13 +41,20 @@
 #include "core/tomainwindow.h"
 #include "core/toconf.h"
 
-#include <QtGui/QClipboard>
+#include <QClipboard>
+#if QT_VERSION >= 0x050000
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+#else
+#include <qprinter.h>
 #include <QtGui/QPrintDialog>
-#include <QtXml/QDomDocument>
-#include <QtGui/QShortcut>
-#include <QtCore/QtDebug>
-#include <QtGui/QMenu>
-#include <QtGui/QClipboard>
+#endif
+#include <QDomDocument>
+#include <QShortcut>
+#include <QMimeData>
+#include <QtDebug>
+#include <QMenu>
+#include <QClipboard>
 
 #include <Qsci/qsciprinter.h>
 #include <Qsci/qscilexersql.h>
@@ -112,7 +119,7 @@ toScintilla::toScintilla(QWidget *parent, const char *name)
     super::setUtf8(true);
     setAcceptDrops(true); // QWidget::setAcceptDrops
 
-    super::setMarginWidth(0, QString::fromAscii("00"));
+    super::setMarginWidth(0, QString("00"));
 }
 
 toScintilla::~toScintilla()
@@ -582,22 +589,22 @@ QMenu *toScintilla::createPopupMenu(const QPoint& pos)
 
     if (!isReadOnly())
     {
-        action = popup->addAction(QIcon(undo_xpm), tr("&Undo"), this, SLOT(undo()));
+        action = popup->addAction(QIcon(QPixmap(undo_xpm)), tr("&Undo"), this, SLOT(undo()));
         action->setShortcut(QKeySequence::Undo);
         action->setEnabled(isUndoAvailable());
 
-        action = popup->addAction(QIcon(redo_xpm), tr("&Redo"), this, SLOT(redo()));
+        action = popup->addAction(QIcon(QPixmap(redo_xpm)), tr("&Redo"), this, SLOT(redo()));
         action->setShortcut(QKeySequence::Redo);
         action->setEnabled(isRedoAvailable());
 
         popup->addSeparator();
 
-        action = popup->addAction(QIcon(cut_xpm), tr("Cu&t"), this, SLOT(cut()));
+        action = popup->addAction(QIcon(QPixmap(cut_xpm)), tr("Cu&t"), this, SLOT(cut()));
         action->setShortcut(QKeySequence::Cut);
         action->setToolTip(tr("Cut to clipboard"));
         action->setEnabled(hasSelectedText());
 
-        action = popup->addAction(QIcon(copy_xpm),
+        action = popup->addAction(QIcon(QPixmap(copy_xpm)),
                                   tr("&Copy"),
                                   this,
                                   SLOT(copy()));
@@ -605,7 +612,7 @@ QMenu *toScintilla::createPopupMenu(const QPoint& pos)
         action->setToolTip(tr("Copy to clipboard"));
         action->setEnabled(hasSelectedText());
 
-        action = popup->addAction(QIcon(paste_xpm),
+        action = popup->addAction(QIcon(QPixmap(paste_xpm)),
                                   tr("&Paste"),
                                   this,
                                   SLOT(paste()));
@@ -637,7 +644,7 @@ QString toScintilla::getSelectionAsHTML()
     if (lexer() == NULL)
         return QString::null;
 
-    static const QString SPAN_CLASS = QString::fromAscii("<span class=\"S%1\">");
+    static const QString SPAN_CLASS = QString("<span class=\"S%1\">");
 
     clearIndicatorRange(0, 0, lines(), lineLength(lines()-1), m_searchIndicator);
     recolor();

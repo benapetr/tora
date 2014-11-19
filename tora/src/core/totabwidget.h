@@ -35,10 +35,10 @@
 #ifndef TOTABWIDGET_H
 #define TOTABWIDGET_H
 
-#include <QtGui/QTabWidget>
-#include <QtCore/QMap>
-#include <QtCore/QPointer>
-#include <QtCore/QString>
+#include <QTabWidget>
+#include <QMap>
+#include <QPointer>
+#include <QString>
 
 
 /** An extension of the regular tab widget with posibility to hide

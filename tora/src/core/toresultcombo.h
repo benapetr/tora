@@ -38,9 +38,9 @@
 
 #include "core/toresult.h"
 
-#include <QtGui/QComboBox>
-#include <QtCore/QStringList>
-#include <QtCore/QPointer>
+#include <QComboBox>
+#include <QStringList>
+#include <QPointer>
 
 class toEventQuery;
 class toSQL;

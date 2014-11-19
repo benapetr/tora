@@ -46,8 +46,8 @@
 #include "result/totablemodel.h"
 #include "result/totableview.h"
 
-#include <QtCore/QObject>
-#include <QtGui/QHeaderView>
+#include <QObject>
+#include <QHeaderView>
 
 /** toTableView traits */
 struct MVCTraits
@@ -215,8 +215,8 @@ void TOMVC< _T, _VP, _DP>::observeHeaders(const toQuery::HeaderList &headers)
 	{
 		struct toQuery::HeaderDesc d;
 
-		d.name = QString::fromAscii("#");
-		d.datatype = QString::fromAscii("RowNumber");
+		d.name = QString("#");
+		d.datatype = QString("RowNumber");
 		h.prepend(d);
 	}
 	Model::setHeaders(h);

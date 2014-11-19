@@ -548,7 +548,13 @@ void toCodeModel::readData()
         new toCodeModelItem(item, cname, ctype, cstatus);
     }
 
+#if QT_VERSION >= 0x050000
+    beginResetModel();
+    endResetModel();
+#else
     reset();
+#endif
+
     emit dataReady();
 
     if(!query->hasMore() && query->eof())

@@ -50,14 +50,14 @@
 #include "editor/tohighlightededitor.h"
 #include "editor/todebugtext.h"
 
-#include <QtCore/QSettings>
-#include <QtCore/QTemporaryFile>
-#include <QtCore/QProcess>
-#include <QtGui/QToolBar>
-#include <QtGui/QMenu>
-#include <QtGui/QTreeView>
-#include <QtGui/QSplitter>
-#include <QtGui/QToolButton>
+#include <QSettings>
+#include <QTemporaryFile>
+#include <QProcess>
+#include <QToolBar>
+#include <QMenu>
+#include <QTreeView>
+#include <QSplitter>
+#include <QToolButton>
 
 #include "icons/close.xpm"
 #include "icons/compile.xpm"

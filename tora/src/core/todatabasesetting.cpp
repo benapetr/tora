@@ -40,11 +40,11 @@
 #include "core/toqvalue.h"
 #include "ts_log/ts_log_utils.h"
 
-#include <QtGui/QColorDialog>
-#include <QtCore/QString>
-#include <QtGui/QFileDialog>
+#include <QColorDialog>
+#include <QString>
+#include <QFileDialog>
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 QVariant ToConfiguration::Database::defaultValue(int option) const
 {
@@ -101,7 +101,7 @@ void toDatabaseSetting::IndicateEmptyColor_clicked()
     }
 }
 
-toDatabaseSetting::toDatabaseSetting(QWidget *parent, const char *name, Qt::WFlags fl)
+toDatabaseSetting::toDatabaseSetting(QWidget *parent, const char *name, toWFlags fl)
     : QWidget(parent, fl)
     , toSettingTab("database.html")
 {

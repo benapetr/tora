@@ -35,11 +35,9 @@
 #ifndef TORESULTCOLSCOMMENT_H
 #define TORESULTCOLSCOMMENT_H
 
-
-
-#include <QtCore/QString>
-#include <QtGui/QLineEdit>
-#include <QtGui/QFocusEvent>
+#include <QString>
+#include <QLineEdit>
+#include <QFocusEvent>
 
 class QWidget;
 

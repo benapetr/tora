@@ -6,7 +6,13 @@
 #ifndef TOBACKGROUNDLABEL_H
 #define TOBACKGROUNDLABEL_H
 
+#include <QObject>
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QLabel>
+#else
 #include <QtGui/QLabel>
+#endif
 
 class QWidget;
 class QMouseEvent;

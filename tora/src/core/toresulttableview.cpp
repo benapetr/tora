@@ -49,17 +49,17 @@
 #include "core/toglobalsetting.h"
 #include "core/todatabasesetting.h"
 
-#include <QtCore/QSize>
-#include <QtCore/QTimer>
-#include <QtCore/QtDebug>
-#include <QtGui/QClipboard>
-#include <QtGui/QFont>
-#include <QtGui/QFontMetrics>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QMessageBox>
-#include <QtGui/QScrollBar>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QProgressDialog>
+#include <QSize>
+#include <QTimer>
+#include <QtDebug>
+#include <QClipboard>
+#include <QFont>
+#include <QFontMetrics>
+#include <QHBoxLayout>
+#include <QMessageBox>
+#include <QScrollBar>
+#include <QVBoxLayout>
+#include <QProgressDialog>
 
 toResultTableView::toResultTableView(QWidget * parent)
     : QTableView(parent)

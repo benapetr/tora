@@ -38,10 +38,10 @@
 
 #include "core/utils.h"
 
-#include <QtGui/QMessageBox>
-#include <QtCore/QtDebug>
-#include <QtCore/QFileInfo>
-#include <QtCore/QDir>
+#include <QMessageBox>
+#include <QtDebug>
+#include <QFileInfo>
+#include <QDir>
 
 
 toWorksheetEditor::toWorksheetEditor(toWorksheet *worksheet,

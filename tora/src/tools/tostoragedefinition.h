@@ -40,8 +40,14 @@
 
 #include <list>
 
-#include <QtGui/QWidget>
-#include <QtGui/QLabel>
+#include <QWidget>
+#include <QLabel>
+
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
 
 class QCheckBox;
 class Q3GroupBox;
@@ -54,7 +60,7 @@ class toStorageDialog;
 class toStorageDefinition : public QWidget, public Ui::toStorageDefinitionUI
 {
 public:
-    toStorageDefinition(QWidget *parent = 0, const char *name = 0, Qt::WFlags fl = 0);
+    toStorageDefinition(QWidget *parent = 0, const char *name = 0, toWFlags fl = 0);
 
     void forRollback(bool val);
 

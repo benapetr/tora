@@ -241,7 +241,7 @@ void mysqlQuery::checkQuery(void) // Must *not* call while locked
 toQColumnDescriptionList mysqlQuery::describe(QSqlRecord record)
 {
     ColumnDescriptions.clear();
-    for (unsigned int i = 0; i < record.count(); i++)
+    for (int i = 0; i < record.count(); i++)
     {
         toCache::ColumnDescription desc;
         desc.AlignRight = false;

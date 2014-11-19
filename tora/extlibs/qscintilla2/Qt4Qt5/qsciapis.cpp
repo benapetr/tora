@@ -35,9 +35,7 @@
 #include <qmap.h>
 #include <qtextstream.h>
 #include <qthread.h>
-
 #include <QLibraryInfo>
-
 #include "Qsci/qscilexer.h"
 
 
@@ -45,27 +43,27 @@
 // The version number of the prepared API information format.
 const unsigned char PreparedDataFormatVersion = 0;
 
-
 // This class contains prepared API information.
-struct QsciAPIsPrepared
+class QsciAPIsPrepared
 {
-    // The word dictionary is a map of individual words and a list of positions
-    // each occurs in the sorted list of APIs.  A position is a tuple of the
-    // index into the list of APIs and the index into the particular API.
-    QMap<QString, QsciAPIs::WordIndexList> wdict;
+    public:
+        // The word dictionary is a map of individual words and a list of positions
+        // each occurs in the sorted list of APIs.  A position is a tuple of the
+        // index into the list of APIs and the index into the particular API.
+        QMap<QString, QsciAPIs::WordIndexList> wdict;
 
-    // The case dictionary maps the case insensitive words to the form in which
-    // they are to be used.  It is only used if the language is case
-    // insensitive.
-    QMap<QString, QString> cdict;
+        // The case dictionary maps the case insensitive words to the form in which
+        // they are to be used.  It is only used if the language is case
+        // insensitive.
+        QMap<QString, QString> cdict;
 
 
-    // The raw API information.
-    QStringList raw_apis;
+        // The raw API information.
+        QStringList raw_apis;
 
-    QStringList apiWords(int api_idx, const QStringList &wseps,
-                         bool strip_image) const;
-    static QString apiBaseName(const QString &api);
+        QStringList apiWords(int api_idx, const QStringList &wseps,
+                             bool strip_image) const;
+        static QString apiBaseName(const QString &api);
 };
 
 

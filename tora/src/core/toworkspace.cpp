@@ -38,14 +38,14 @@
 #include "core/utils.h"
 #include "ts_log/ts_log_utils.h"
 
-#include <QtGui/QTabBar>
-#include <QtGui/QStackedWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QLabel>
-#include <QtCore/QSignalMapper>
-#include <QtCore/QVariant>
-#include <QtGui/QPixmap>
-#include <QtGui/QIcon>
+#include <QTabBar>
+#include <QStackedWidget>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QSignalMapper>
+#include <QVariant>
+#include <QPixmap>
+#include <QIcon>
 
 toWorkSpace::toWorkSpace(QWidget *parent)
     : QWidget(parent)

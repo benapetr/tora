@@ -36,13 +36,13 @@
 
 #include "icons/largelogo.xpm"
 
-#include <QtGui/QApplication>
-#include <QtGui/QPixmap>
-#include <QtGui/QLabel>
-#include <QtGui/QDesktopWidget>
-#include <QtGui/QProgressBar>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPalette>
+#include <QApplication>
+#include <QPixmap>
+#include <QLabel>
+#include <QDesktopWidget>
+#include <QProgressBar>
+#include <QVBoxLayout>
+#include <QPalette>
 
 toSplash::toSplash(QWidget *parent)
     : QWidget(parent)

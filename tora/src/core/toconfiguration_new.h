@@ -11,7 +11,13 @@
 #include <QtCore/QMap>
 #include <QtCore/QSettings>
 #include <QtCore/QVariant>
+#if QT_VERSION >= 0x050000
+// qt_5
+#include <QApplication>
+#else
+// qt_4
 #include <QtGui/QApplication>
+#endif
 
 namespace ToConfiguration {
 	class ConfigContext;

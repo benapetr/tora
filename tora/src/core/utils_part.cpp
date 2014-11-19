@@ -38,10 +38,10 @@
 #include "core/tomainwindow.h"
 #include "core/toeditorsetting.h"
 
-#include <QtCore/QDir>
-#include <QtCore/QString>
-#include <QtCore/QTextCodec>
-#include <QtGui/QFileDialog>
+#include <QDir>
+#include <QString>
+#include <QTextCodec>
+#include <QFileDialog>
 
 // A little magic to get lrefresh to work and get a check on qApp
 #undef QT_TRANSLATE_NOOP
@@ -166,7 +166,7 @@ QTextCodec * toGetCodec(void)
     if (codecConf == "Default")
         return QTextCodec::codecForLocale();
     else
-        return QTextCodec::codecForName(codecConf.toAscii());
+        return QTextCodec::codecForName(codecConf.toUtf8());
 } // toGetCodec
 
 QString toExpandFile(const QString &file)
@@ -285,7 +285,7 @@ bool toWriteFile(const QString &filename, const QByteArray &data)
             QT_TRANSLATE_NOOP("toWriteFile", "File error"),
             QT_TRANSLATE_NOOP(
                 "toWriteFile",
-                QString("Couldn't open %1 for writing").arg(filename).toAscii().constData()));
+                QString("Couldn't open %1 for writing").arg(filename).toUtf8().constData()));
         return false;
     }
     QTextCodec *codec = toGetCodec();

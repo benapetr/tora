@@ -35,7 +35,7 @@
 #ifndef TORESULTCOLS_H
 #define TORESULTCOLS_H
 
-
+#include "core/utils.h"
 #include "core/toconnection.h"
 #include "core/toresulttableview.h"
 
@@ -75,9 +75,9 @@ public:
      * @param name Name of widget.
      * @param f Widget flags.
      */
-    toResultCols(QWidget *parent, const char *name = NULL, Qt::WFlags f = 0);
+    toResultCols(QWidget *parent, const char *name = NULL, toWFlags f = 0);
 
-	toResultCols(toSQL const& sql, QWidget *parent, const char *name = NULL, Qt::WFlags f = 0);
+	toResultCols(toSQL const& sql, QWidget *parent, const char *name = NULL, toWFlags f = 0);
 
     /**
      * Reimplemented abstract method

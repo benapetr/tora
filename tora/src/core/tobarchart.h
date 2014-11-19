@@ -36,6 +36,7 @@
 #define TOBARCHART_H
 
 #include "core/tolinechart.h"
+#include "core/utils.h"
 
 /** A widget that displays a barchart. Each line is added onto the next one.
  */
@@ -52,7 +53,7 @@ public:
      * @param name Name of widget.
      * @param f Widget flags.
      */
-    toBarChart(QWidget *parent = NULL, const char *name = NULL, Qt::WFlags f = 0);
+    toBarChart(QWidget *parent = NULL, const char *name = NULL, toWFlags f = 0);
 
     /** Create a new barchart by copying all the data from another barchart.
      * @param chart Chart to copy data from.
@@ -60,7 +61,7 @@ public:
      * @param name Name of widget.
      * @param f Widget flags.
      */
-    toBarChart(toBarChart *chart, QWidget *parent = NULL, const char *name = NULL, Qt::WFlags f = 0);
+    toBarChart(toBarChart *chart, QWidget *parent = NULL, const char *name = NULL, toWFlags f = 0);
 
 #ifdef TORA3_CHART
     /** Open chart in new window.

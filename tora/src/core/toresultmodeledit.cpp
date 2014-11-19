@@ -49,7 +49,7 @@ toResultModelEdit::toResultModelEdit(toEventQuery *query,
     : toResultModel(query, parent, read)
     , PriKeys(priKeys)
 {
-    setSupportedDragActions(Qt::CopyAction | Qt::MoveAction);
+    //setSupportedDragActions(Qt::CopyAction | Qt::MoveAction);
 }
 
 toResultModelEdit::~toResultModelEdit()
@@ -98,7 +98,6 @@ int toResultModelEdit::addRow(QModelIndex ind, bool duplicate)
     recordAdd(row);
     return newRowPos;
 } // addRow
-
 
 void toResultModelEdit::deleteRow(QModelIndex index)
 {

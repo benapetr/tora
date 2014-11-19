@@ -36,13 +36,13 @@
 #define TOPREFERENCES_H
 
 
+#include "core/utils.h"
 #include "core/totool.h"
 
-#include <QtCore/QVariant>
-#include <QtGui/QDialog>
+#include <QVariant>
+#include <QDialog>
 
 #include <map>
-
 
 #include "ui_topreferencesui.h"
 
@@ -64,7 +64,7 @@ public:
     toPreferences(QWidget* parent = 0,
                   const char* name = 0,
                   bool modal = false,
-                  Qt::WFlags fl = 0);
+                  toWFlags fl = 0);
 
 
     static void displayPreferences(QWidget *parent);

@@ -43,12 +43,12 @@
 #include "core/toconfiguration_new.h"
 #include "core/toeditorsetting.h"
 
-#include <QtCore/QSettings>
-#include <QtGui/QComboBox>
-#include <QtGui/QLabel>
-#include <QtGui/QSplitter>
-#include <QtGui/QToolBar>
-#include <QtGui/QVBoxLayout>
+#include <QSettings>
+#include <QComboBox>
+#include <QLabel>
+#include <QSplitter>
+#include <QToolBar>
+#include <QVBoxLayout>
 
 class toWaitEventsItem : public toResultViewItem
 {

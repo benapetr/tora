@@ -58,7 +58,7 @@ public:
 
     virtual QString name() const
     {
-        return QString::fromAscii("Teradata");
+        return QString("Teradata");
     };
 
     /** Return list of possible client locations
@@ -94,11 +94,11 @@ QSet<QString> const toTeradataFinder::m_paths = QSet<QString>()
 
 QList<QString> const toTeradataFinder::m_libname = QList<QString>()
 #if defined(Q_OS_LINUX)
-        << QString::fromAscii("libcliv2.so")
+        << QString("libcliv2.so")
 #elif defined(Q_OS_WIN32)
-        << QString::fromAscii("wincli32.dll")
+        << QString("wincli32.dll")
 #elif defined(Q_OS_WIN64)
-        << QString::fromAscii("wincli64.dll")
+        << QString("wincli64.dll")
 #endif
         ;
 

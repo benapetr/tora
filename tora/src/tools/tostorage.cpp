@@ -43,10 +43,10 @@
 #include "core/toglobalevent.h"
 #include "core/toconfiguration_new.h"
 
-#include <QtGui/QTableView>
-#include <QtGui/QToolBar>
-#include <QtGui/QFileDialog>
-#include <QtGui/QSortFilterProxyModel>
+#include <QTableView>
+#include <QToolBar>
+#include <QFileDialog>
+#include <QSortFilterProxyModel>
 
 #include "icons/addfile.xpm"
 #include "icons/addtablespace.xpm"
@@ -139,7 +139,7 @@ private:
     static ToConfiguration::Storage s_storageConf;
 };
 
-toDropTablespace::toDropTablespace(QWidget* parent, const char* name, Qt::WFlags fl)
+toDropTablespace::toDropTablespace(QWidget* parent, const char* name, toWFlags fl)
     : QWidget(parent, fl)
 {
     setupUi(this);
@@ -167,7 +167,7 @@ std::list<QString> toDropTablespace::sql()
 
 
 
-toStorageTablespace::toStorageTablespace(QWidget* parent, const char* name, Qt::WFlags fl)
+toStorageTablespace::toStorageTablespace(QWidget* parent, const char* name, toWFlags fl)
     : QWidget(parent, fl)
 {
     setupUi(this);
@@ -283,7 +283,7 @@ std::list<QString> toStorageTablespace::sql()
     return ret;
 }
 
-toStorageDatafile::toStorageDatafile(bool temp, bool dispName, QWidget* parent, const char* name, Qt::WFlags fl)
+toStorageDatafile::toStorageDatafile(bool temp, bool dispName, QWidget* parent, const char* name, toWFlags fl)
     : QWidget(parent, fl),
       Tempfile(temp)
 {
@@ -336,8 +336,9 @@ std::list<QString> toStorageDatafile::sql(void)
             str.append(NextSize->sizeString());
             str.append(QString::fromLatin1(" MAXSIZE "));
             if (UnlimitedMax->isChecked())
+            {
                 str.append(QString::fromLatin1("UNLIMITED"));
-            else
+            } else
             {
                 str.append(MaximumSize->sizeString());
             }
@@ -647,7 +648,7 @@ toStorageDialog::toStorageDialog(toConnection &conn, const QString &tablespace,
         Datafile->FilenameOrig = filename;
         Datafile->Filename->setText(filename);
         Datafile->InitialSize->setValue(Datafile->InitialSizeOrig = Utils::toShift(result).toInt());
-        if (!(Utils::toShift(result) == QString::fromLatin1("NO")))
+        if (!(QString(Utils::toShift(result)) == QString("NO")))
         {
             Datafile->AutoExtend->setChecked(true);
             Datafile->NextSize->setValue(Datafile->NextSizeOrig = Utils::toShift(result).toInt());
@@ -1422,10 +1423,12 @@ toStorageObjectModel::~toStorageObjectModel()
 
 void toStorageObjectModel::setValues(std::list<toStorageExtent::extentTotal> const& values)
 {
+    beginResetModel();
     m_values.clear();
     for (std::list<toStorageExtent::extentTotal>::const_iterator i = values.begin(); i != values.end(); ++i)
         m_values.append((*i));
-    reset();
+    endResetModel();
+    //reset();
 }
 
 int toStorageObjectModel::rowCount(const QModelIndex & parent) const

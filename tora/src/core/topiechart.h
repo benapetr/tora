@@ -35,10 +35,10 @@
 #ifndef TOPIECHART_H
 #define TOPIECHART_H
 
-
-#include <QtGui/QWidget>
-#include <QtCore/QObject>
-#include <QtCore/QRect>
+#include "core/utils.h"
+#include <QWidget>
+#include <QObject>
+#include <QRect>
 #include <list>
 
 class QMenu;
@@ -78,7 +78,7 @@ public:
      */
     toPieChart(QWidget *parent = NULL,
                const char *name = NULL,
-               Qt::WFlags f = 0);
+               toWFlags f = 0);
 
     virtual ~toPieChart();
 
@@ -91,7 +91,7 @@ public:
     toPieChart(toPieChart *pie,
                QWidget *parent = NULL,
                const char *name = NULL,
-               Qt::WFlags f = 0);
+               toWFlags f = 0);
 
     /** Set the postfix text to append the current values when they
      * are displayed in the pie.

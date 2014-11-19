@@ -42,10 +42,10 @@
 
 #include <Qsci/qsciscintilla.h>
 
-#include <QtCore/QFileSystemWatcher>
-#include <QtCore/QtDebug>
-#include <QtCore/QDir>
-#include <QtGui/QVBoxLayout>
+#include <QFileSystemWatcher>
+#include <QtDebug>
+#include <QDir>
+#include <QVBoxLayout>
 
 toBaseEditor::toBaseEditor(toScintilla *editor, QWidget *parent)
     : QWidget(parent)

@@ -78,6 +78,8 @@ public:
 
     virtual ~toResultModel();
 
+    Qt::DropActions supportedDropActions();
+
     // ------------------------------ overrides ItemModel parent
 
     /**

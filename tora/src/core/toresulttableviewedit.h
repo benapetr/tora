@@ -42,13 +42,13 @@
 #include "core/toresult.h"
 #include "core/toconnection.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QAbstractTableModel>
-#include <QtGui/QTableView>
-#include <QtCore/QModelIndex>
-#include <QtCore/QList>
-#include <QtGui/QHeaderView>
-#include <QtGui/QMenu>
+#include <QObject>
+#include <QAbstractTableModel>
+#include <QTableView>
+#include <QModelIndex>
+#include <QList>
+#include <QHeaderView>
+#include <QMenu>
 
 class toResultModel;
 class toResultModelEdit;

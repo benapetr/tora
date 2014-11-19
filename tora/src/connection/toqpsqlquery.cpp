@@ -229,7 +229,7 @@ void psqlQuery::checkQuery(void) // Must *not* call while locked
 toQColumnDescriptionList psqlQuery::describe(QSqlRecord record)
 {
     ColumnDescriptions.clear();
-    for (unsigned int i = 0; i < record.count(); i++)
+    for (int i = 0; i < record.count(); i++)
     {
         toCache::ColumnDescription desc;
         desc.Name = record.fieldName(i);

@@ -41,10 +41,10 @@
 #include "core/tosql.h"
 #include "core/toconfenum.h"
 
-#include <QtGui/QCloseEvent>
-#include <QtGui/QAction>
-#include <QtGui/QMenu>
-#include <QtGui/QToolBar>
+#include <QCloseEvent>
+#include <QAction>
+#include <QMenu>
+#include <QToolBar>
 
 class QComboBox;
 class toConnection;

@@ -47,8 +47,8 @@
 
 #include <list>
 
-#include <QtGui/QDialog>
-#include <QtGui/QLabel>
+#include <QDialog>
+#include <QLabel>
 
 class QCheckBox;
 class QLabel;
@@ -66,6 +66,12 @@ class toResultView;
 class toStorageDefinition;
 class toStorageDialog;
 class QTableView;
+
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
 
 namespace ToConfiguration {
 	class Storage : public ConfigContext
@@ -94,7 +100,7 @@ class toStorageTablespace : public QWidget, public Ui::toStorageTablespaceUI
     bool PermanentOrig;
 
 public:
-    toStorageTablespace(QWidget *parent = 0, const char *name = 0, Qt::WFlags fl = 0);
+    toStorageTablespace(QWidget *parent = 0, const char *name = 0, toWFlags fl = 0);
 
     std::list<QString> sql(void);
     bool allowStorage(void);
@@ -115,7 +121,7 @@ class toDropTablespace : public QWidget, public Ui::toDropTablespaceUI
 {
     Q_OBJECT
 public:
-    toDropTablespace(QWidget *parent = 0, const char *name = 0, Qt::WFlags fl = 0);
+    toDropTablespace(QWidget *parent = 0, const char *name = 0, toWFlags fl = 0);
     std::list<QString> sql(void);
 signals:
     void validContent(bool);
@@ -134,7 +140,7 @@ class toStorageDatafile : public QWidget, public Ui::toStorageDatafileUI
 
 public:
     toStorageDatafile(bool tempFile, bool dispName,
-                      QWidget *parent = 0, const char *name = 0, Qt::WFlags fl = 0);
+                      QWidget *parent = 0, const char *name = 0, toWFlags fl = 0);
 
     QString getName(void);
     std::list<QString> sql();
