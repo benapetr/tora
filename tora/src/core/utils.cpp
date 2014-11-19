@@ -730,7 +730,6 @@ void toReadableColumn(QString &name)
     }
 }
 
-
 bool toCheckKeyEvent(QKeyEvent *event, const QKeySequence &key)
 {
     int state = 0;

@@ -35,7 +35,6 @@
 #ifndef TORESULTVIEW_H
 #define TORESULTVIEW_H
 
-
 #include "core/toeditwidget.h"
 #include "core/toqvalue.h"
 #include "core/toresult.h"

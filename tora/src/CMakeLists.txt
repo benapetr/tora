@@ -729,7 +729,9 @@ IF(WIN32)
   IF (MSVC AND NOT TORA_DEBUG)
     # this is a must to switch off subsystem:console (console window poping up)
     # WinMain wrapper from QT_QTMAIN_LIBRARY is used and liner must be modified
-    LINK_LIBRARIES(${QT_QTMAIN_LIBRARY})
+    IF (NOT QT5_BUILD)
+        LINK_LIBRARIES(${QT_QTMAIN_LIBRARY})
+    ENDIF ()
     SET (GUI_TYPE WIN32)
   ENDIF ()
 ENDIF(WIN32)
@@ -792,6 +794,10 @@ ADD_EXECUTABLE(${EXE_NAME} ${GUI_TYPE}
   ${APPLE_BUNDLE_SOURCES}
   )
 TARGET_LINK_LIBRARIES(${EXE_NAME} ${TORA_LIBS})
+IF (QT5_BUILD)
+	TARGET_LINK_LIBRARIES(${EXE_NAME} ${QT_LIBRARIES})
+ENDIF()
+
 SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES ENABLE_EXPORTS ON)
 ADD_DEPENDENCIES(${EXE_NAME} revisiontag) # explicitly say that the executable depends on the svnheader
 IF(PCH_DEFINED)

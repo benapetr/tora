@@ -35,16 +35,11 @@
 #ifndef TODATABASESETTING_H
 #define TODATABASESETTING_H
 
+#include "core/utils.h"
 #include "core/totool.h"
 #include "core/toconfenum.h"
 
 #include "ui_todatabasesettingui.h"
-
-#if QT_VERSION >= 0x050000
-typedef Qt::WindowFlags toWFlags;
-#else
-typedef Qt::WFlags toWFlags;
-#endif
 
 namespace ToConfiguration {
 	class Database : public ConfigContext

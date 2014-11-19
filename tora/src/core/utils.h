@@ -38,7 +38,6 @@
 #include "core/tora_export.h"
 
 #include <QObject>
-#if QT_VERSION >= 0x050000
 #include <QAtomicInt>
 #include <QString>
 #include <QThread>
@@ -46,14 +45,10 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QMainWindow>
+#if QT_VERSION >= 0x050000
+#define TO_ESCAPE(string) string.toHtmlEscaped()
 #else
-#include <QtCore/QAtomicInt>
-#include <QtCore/QString>
-#include <QtCore/QThread>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
-#include <QtGui/QMessageBox>
-#include <QtGui/QMainWindow>
+#define TO_ESCAPE(string) Qt::escape(string)
 #endif
 
 #include <map>
@@ -70,6 +65,12 @@
 #define TOFileDialog QFileDialog
 #define TOMessageBox QMessageBox
 #define TODock QWidget
+
+#if QT_VERSION >= 0x050000
+typedef Qt::WindowFlags toWFlags;
+#else
+typedef Qt::WFlags toWFlags;
+#endif
 
 class QComboBox;
 class toTimer;

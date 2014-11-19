@@ -35,15 +35,9 @@
 #ifndef TORESULTCOLS_H
 #define TORESULTCOLS_H
 
-
+#include "core/utils.h"
 #include "core/toconnection.h"
 #include "core/toresulttableview.h"
-
-#if QT_VERSION >= 0x050000
-typedef Qt::WindowFlags toWFlags;
-#else
-typedef Qt::WFlags toWFlags;
-#endif
 
 class QCheckBox;
 class QLabel;

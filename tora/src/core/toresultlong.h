@@ -45,12 +45,6 @@ class toResultStats;
 class toResultTip;
 class toResultLong;
 
-#if QT_VERSION >= 0x050000
-typedef Qt::WindowFlags toWFlags;
-#else
-typedef Qt::WFlags toWFlags;
-#endif
-
 /** A widget which contains the result of a query run in the background.
  */
 class toResultLong : public toResultView

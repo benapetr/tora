@@ -35,20 +35,13 @@
 #ifndef TOPIECHART_H
 #define TOPIECHART_H
 
-
+#include "core/utils.h"
 #include <QWidget>
 #include <QObject>
 #include <QRect>
 #include <list>
 
 class QMenu;
-
-#if QT_VERSION >= 0x050000
-typedef Qt::WindowFlags toWFlags;
-#else
-typedef Qt::WFlags toWFlags;
-#endif
-
 class toLineChart;
 class toPieTip;
 

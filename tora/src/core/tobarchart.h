@@ -36,15 +36,11 @@
 #define TOBARCHART_H
 
 #include "core/tolinechart.h"
+#include "core/utils.h"
 
 /** A widget that displays a barchart. Each line is added onto the next one.
  */
 
-#if QT_VERSION >= 0x050000
-typedef Qt::WindowFlags toWFlags;
-#else
-typedef Qt::WFlags toWFlags;
-#endif
 class toBarChart : public toLineChart
 {
     Q_OBJECT

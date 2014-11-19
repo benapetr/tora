@@ -36,19 +36,13 @@
 #define TOPREFERENCES_H
 
 
+#include "core/utils.h"
 #include "core/totool.h"
 
 #include <QVariant>
 #include <QDialog>
 
 #include <map>
-
-#if QT_VERSION >= 0x050000
-typedef Qt::WindowFlags toWFlags;
-#else
-typedef Qt::WFlags toWFlags;
-#endif
-
 
 #include "ui_topreferencesui.h"
 

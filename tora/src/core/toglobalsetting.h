@@ -42,12 +42,6 @@
 #include "ui_totoolsettingui.h"
 #include "ui_connectioncolorsdialogui.h"
 
-#if QT_VERSION >= 0x050000
-typedef Qt::WindowFlags toWFlags;
-#else
-typedef Qt::WFlags toWFlags;
-#endif
-
 typedef QMap<QString, QString> ConnectionColors;
 
 class ConnectionColorsDialog : public QDialog, public Ui::ConnectionColorsDialog

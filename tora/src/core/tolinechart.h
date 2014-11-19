@@ -35,13 +35,9 @@
 #ifndef TOLINECHART_H
 #define TOLINECHART_H
 
-#include <QtCore/QString>
+#include "core/utils.h"
 
-#if QT_VERSION >= 0x050000
-typedef Qt::WindowFlags toWFlags;
-#else
-typedef Qt::WFlags toWFlags;
-#endif
+#include <QtCore/QString>
 
 #if QT_VERSION >= 0x050000
 // qt_5

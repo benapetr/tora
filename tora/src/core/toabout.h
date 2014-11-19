@@ -36,12 +36,7 @@
 #define TOABOUT_H
 
 #include "ui_toaboutui.h"
-
-#if QT_VERSION >= 0x050000
-typedef Qt::WindowFlags toWFlags;
-#else
-typedef Qt::WFlags toWFlags;
-#endif
+#include "core/utils.h"
 
 class toAbout : public QDialog, public Ui::toAboutUI
 {
