@@ -42,7 +42,13 @@
 #include "core/toconf.h"
 
 #include <QClipboard>
+#if QT_VERSION >= 0x050000
+#include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
+#else
+#include <qprinter.h>
+#include <QtGui/QPrintDialog>
+#endif
 #include <QDomDocument>
 #include <QShortcut>
 #include <QMimeData>
