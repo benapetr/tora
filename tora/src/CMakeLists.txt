@@ -731,8 +731,8 @@ IF(WIN32)
     # WinMain wrapper from QT_QTMAIN_LIBRARY is used and liner must be modified
     IF (NOT QT5_BUILD)
         LINK_LIBRARIES(${QT_QTMAIN_LIBRARY})
+        SET (GUI_TYPE WIN32)
     ENDIF ()
-    SET (GUI_TYPE WIN32)
   ENDIF ()
 ENDIF(WIN32)
 
